@@ -8,12 +8,14 @@ from keras.callbacks import TensorBoard
 import numpy as np
 import tables
 import csv
-from datetime import date
+from datetime import datetime
 
 
 ms='/media/taufiq/Data/Model/Heart_Sound/Physionet/Potes_Paper/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-feat = tables.open_file(fs+'fold1.mat')
+foldname='fold1'
+
+feat = tables.open_file(fs+foldname+'.mat')
 x_train = feat.root.trainX[:]
 y_train = feat.root.trainY[0,:]
 x_val = feat.root.valX[:]
@@ -83,7 +85,7 @@ batch_size=8
 epoch=200
 cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
-run_idx=2
+
 
 input1=Input(shape=(2500,1))
 input2=Input(shape=(2500,1))
@@ -130,7 +132,7 @@ adam = Adam(lr=lr)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
 #model=load_model(ms+'potes_train_all')
-log_name='logs' + str(date.today()) + '_' + str(run_idx)
+log_name='logs' + ' '+ foldname+ ' ' + str(datetime.now()) + '_'
 tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
 
 model.fit([x1,x2,x3,x4], ytrain,
