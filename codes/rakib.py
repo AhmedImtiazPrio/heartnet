@@ -13,7 +13,7 @@ from datetime import date
 
 ms='/media/taufiq/Data/Model/Heart_Sound/Physionet/Potes_Paper/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-feat = tables.open_file(fs+'fold0.mat')
+feat = tables.open_file(fs+'fold1.mat')
 x_train = feat.root.trainX[:]
 y_train = feat.root.trainY[0,:]
 x_val = feat.root.valX[:]
@@ -83,7 +83,7 @@ batch_size=8
 epoch=200
 cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
-run_idx=1
+run_idx=2
 
 input1=Input(shape=(2500,1))
 input2=Input(shape=(2500,1))
