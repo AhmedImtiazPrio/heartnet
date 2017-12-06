@@ -13,7 +13,7 @@ from datetime import datetime
 
 ms='/media/taufiq/Data/Model/Heart_Sound/Physionet/Potes_Paper/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold1'
+foldname='fold2'
 
 feat = tables.open_file(fs+foldname+'.mat')
 x_train = feat.root.trainX[:]
@@ -132,7 +132,7 @@ adam = Adam(lr=lr)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
 #model=load_model(ms+'potes_train_all')
-log_name='logs' + ' '+ foldname+ ' ' + str(datetime.now()) + '_'
+log_name=foldname+ ' ' + str(datetime.now())
 tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
 
 model.fit([x1,x2,x3,x4], ytrain,
