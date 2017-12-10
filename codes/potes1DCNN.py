@@ -83,7 +83,7 @@ if __name__ == '__main__':
 	
 	
 	model_dir='/media/taufiq/Data/hear_sound/models/'
-	fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
+	fold_dir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
 	log_name=foldname+ ' ' + str(datetime.now())
 	log_dir= './logs/' 
 	checkpoint_name=model_dir+log_name+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
@@ -100,71 +100,27 @@ if __name__ == '__main__':
 	patience=4 #for reduceLR
 	cooldown=0 #for reduceLR
 	
-	feat = tables.open_file(fs+foldname+'.mat')
+	############## Importing data
+	
+	feat = tables.open_file(fold_dir+foldname+'.mat')
 	x_train = feat.root.trainX[:]
 	y_train = feat.root.trainY[0,:]
 	x_val = feat.root.valX[:]
 	y_val = feat.root.valY[0,:]
+	
 	############## Relabeling ################
+	
 	for i in range(0,y_train.shape[0]):
 		if y_train[i]==-1:
 			y_train[i]=0		## Label 0 for normal 1 for abnormal
 	for i in range(0,y_val.shape[0]):
 		if y_val[i]==-1:
 			y_val[i]=0
-	##########################################
-	print(x_train.shape)
+			
+	################### Reshaping ############
 	
-	bands=x_train.shape[0]
-	cols=x_train.shape[1]
-	files=x_train.shape[2]
+	x_train,y_train,x_val,y_val=reshape_folds(x_train,x_val,y_train,y_val)
 	
-	# Reshape to channels_last
-	ytrain=np.zeros((files,1))
-	x1=np.zeros((files,cols,1))
-	x2=np.zeros((files,cols,1))
-	x3=np.zeros((files,cols,1))
-	x4=np.zeros((files,cols,1))
-	
-	for i in range (0,files):
-	    ytrain[i,0]=y_train[i]
-	    
-	for i in range (0,files):
-	    for j in range (0,cols):
-	        x1[i,j,0]=x_train[0,j,i]
-	        x2[i,j,0]=x_train[1,j,i]
-	        x3[i,j,0]=x_train[2,j,i]
-	        x4[i,j,0]=x_train[3,j,i]       
-	print(x1.shape)
-	#########################################
-	print(x_val.shape)
-	
-	bands=x_val.shape[0]
-	cols=x_val.shape[1]
-	files=x_val.shape[2]
-	
-	# Reshape to channels_last
-	yval=np.zeros((files,1))
-	v1=np.zeros((files,cols,1))
-	v2=np.zeros((files,cols,1))
-	v3=np.zeros((files,cols,1))
-	v4=np.zeros((files,cols,1))
-	
-	for i in range (0,files):
-	    yval[i,0]=y_val[i]
-	    
-	for i in range (0,files):
-	    for j in range (0,cols):
-	        v1[i,j,0]=x_val[0,j,i]
-	        v2[i,j,0]=x_val[1,j,i]
-	        v3[i,j,0]=x_val[2,j,i]
-	        v4[i,j,0]=x_val[3,j,i]       
-	print(v1.shape)
-	
-	
-	
-	
-
 def compute_weight(Y,classes):
 		num_samples=len(Y)
 		n_classes=len(classes)
@@ -172,3 +128,35 @@ def compute_weight(Y,classes):
 		class_weights={i:(num_samples/(n_classes*num_bin[i])) for i in range(6)}
 		return class_weights
 
+def reshape_folds(x_train,x_val,y_train,y_val)
+	
+	x1=np.transpose(x_train[0,:,:])
+	x2=np.transpose(x_train[1,:,:])
+	x3=np.transpose(x_train[2,:,:])
+	x4=np.transpose(x_train[3,:,:])
+	
+	x1=np.reshape(x1,[x1.shape[0],x1.shape[1],1])
+	x2=np.reshape(x2,[x2.shape[0],x2.shape[1],1])
+	x3=np.reshape(x3,[x3.shape[0],x3.shape[1],1])
+	x4=np.reshape(x4,[x4.shape[0],x4.shape[1],1])
+	
+	y_train=np.reshape(y_train,[y_train.shape[0],1])
+	
+	print x1.shape
+	print y_train.shape
+
+	v1=np.transpose(x_val[0,:,:])
+	v2=np.transpose(x_val[1,:,:])
+	v3=np.transpose(x_val[2,:,:])
+	v4=np.transpose(x_val[3,:,:])
+	
+	v1=np.reshape(v1,[v1.shape[0],v1.shape[1],1])
+	v2=np.reshape(v2,[v2.shape[0],v2.shape[1],1])
+	v3=np.reshape(v3,[v3.shape[0],v3.shape[1],1])
+	v4=np.reshape(v4,[v4.shape[0],v4.shape[1],1])
+	
+	y_val=np.reshape(y_val,[y_val.shape[0],1])
+	
+	print v1.shape
+	print y_val.shape
+	return [x1,x2,x3,x4],y_train,[v1,v2,v3,v4],y_val
