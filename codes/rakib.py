@@ -9,11 +9,15 @@ import numpy as np
 import tables
 import csv
 from datetime import datetime
+import os
 
 
 ms='/media/taufiq/Data/Model/Heart_Sound/Physionet/Potes_Paper/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold2'
+foldname='fold0'
+
+log_name=foldname+ ' ' + str(datetime.now())
+log_dir= './logs/' 
 
 feat = tables.open_file(fs+foldname+'.mat')
 x_train = feat.root.trainX[:]
@@ -76,8 +80,14 @@ for i in range (0,files):
         v4[i,j,0]=x_val[3,j,i]       
 print(v1.shape)
 ##########################################
-
-
+#Creating metadata file for tensorboard
+names = [ 'Normal', 'Abnormal' ]
+metadata_file=open(os.path.join(log_dir,'metadata.tsv'),'w')
+metadata_file.write('Class\n')
+for i in range(ytrain.shape[0]):
+	metadata_file.write('%s\n' % (names[int(ytrain[i])]))
+metadata_file.close()
+###########################################
 
 # Model
 lr=0.0007
@@ -87,10 +97,10 @@ cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
 
 
-input1=Input(shape=(2500,1))
-input2=Input(shape=(2500,1))
-input3=Input(shape=(2500,1))
-input4=Input(shape=(2500,1))
+input1=Input(shape=(2500,1),name='input1')
+input2=Input(shape=(2500,1),name='input2')
+input3=Input(shape=(2500,1),name='input3')
+input4=Input(shape=(2500,1),name='input4')
 
 conv1=Conv1D(8, 5,activation='relu')(input1)
 conv1=MaxPooling1D(pool_size=2)(conv1)
@@ -132,8 +142,11 @@ adam = Adam(lr=lr)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
 #model=load_model(ms+'potes_train_all')
+watchlist=['input1','input2','input3','input4']
 log_name=foldname+ ' ' + str(datetime.now())
-tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
+tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True,
+ embeddings_metadata=os.path.join(log_dir,'metadata.tsv'))
+
 
 model.fit([x1,x2,x3,x4], ytrain,
  epochs=epoch,
@@ -143,7 +156,8 @@ model.fit([x1,x2,x3,x4], ytrain,
  batch_size=batch_size,
  callbacks=[tensbd]
  )
- 
+
+
 
 #model.save(ms+'potes_train_all')
 
