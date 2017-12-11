@@ -7,7 +7,8 @@ from keras.regularizers import l2
 from keras.constraints import max_norm
 from keras.optimizers import Adam, Nadam, Adamax
 from scipy.io import savemat, loadmat
-from keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 import numpy as np
 import tables
 import csv
@@ -15,6 +16,7 @@ from datetime import datetime
 import os
 import argparse
 import matplotlib.pyplot as plt
+from keras import backend as K
 
 	
 def compute_weight(Y,classes):
@@ -57,6 +59,18 @@ def reshape_folds(x_train,x_val,y_train,y_val):
 	print y_val.shape
 	return [x1,x2,x3,x4],y_train,[v1,v2,v3,v4],y_val
 
+class show_lr(Callback):
+		def on_epoch_begin(self, epoch, logs):
+			print('Learning rate:')
+			print(float(K.get_value(self.model.optimizer.lr)))
+
+def lr_schedule(epoch):
+	if epoch<=5:
+		lr_rate=1e-3
+	else:
+		lr_rate=1e-4-epoch*1e-8
+	return lr_rate
+
 ########## Parser for arguments (foldname, random_seed, load_path, epochs,
 ###############################  batch_size)
 parser = argparse.ArgumentParser(description='Specify fold to process')
@@ -72,7 +86,9 @@ parser.add_argument("--epochs",type=int,
 parser.add_argument("--batch_size",type=int,
 					help="number of minibatches to take during each backwardpass preferably multiple of 2")
 parser.add_argument("--verbose",type=int,choices=[1,2],
-help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
+	help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
+parser.add_argument("--classweights",type=bool,
+	help="if True, class weights are added according to the ratio of the two classes present in the training data")
 
 args = parser.parse_args()
 print "{} selected".format(args.fold)
@@ -94,6 +110,7 @@ if args.loadmodel: # If a previously trained model is loaded for retraining
 else:
 	print "no model specified, using initializer to initialize weights"
 	initial_epoch=0
+	load_path=False
 
 if args.epochs:	#	if number of training epochs is specified
 	print "Training for {} epochs".format(args.epochs)
@@ -110,10 +127,15 @@ else:
 	print "Training with {} minibatches".format(batch_size)
 
 if args.verbose:
-	verbose=verbose
+	verbose=args.verbose
+	print "Verbosity level {}".format(verbose)
 else:
 	verbose=2
-	
+if args.classweights:
+	addweights=True
+else:
+	addweights=False
+
 #########################################################
 if __name__ == '__main__':
 	
@@ -127,11 +149,13 @@ if __name__ == '__main__':
 	verbose=verbose
 	
 	
-	model_dir='/media/taufiq/Data/hear_sound/models/'
+	model_dir='/media/taufiq/Data/heart_sound/models/'
 	fold_dir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
 	log_name=foldname+ ' ' + str(datetime.now())
-	log_dir= './logs/' 
-	checkpoint_name=model_dir+log_name+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
+	log_dir= './logs/'
+	if not os.path.exists(model_dir+log_name):
+		os.makedirs(model_dir+log_name)
+	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	
 	eps= 1.1e-5
 	bias=False
@@ -149,26 +173,26 @@ if __name__ == '__main__':
 	patience=4 #for reduceLR
 	cooldown=0 #for reduceLR
 	
-	############## Importing data ############
+	#~ ############## Importing data ############
 	
-	feat = tables.open_file(fold_dir+foldname+'.mat')
-	x_train = feat.root.trainX[:]
-	y_train = feat.root.trainY[0,:]
-	x_val = feat.root.valX[:]
-	y_val = feat.root.valY[0,:]
+	#~ feat = tables.open_file(fold_dir+foldname+'.mat')
+	#~ x_train = feat.root.trainX[:]
+	#~ y_train = feat.root.trainY[0,:]
+	#~ x_val = feat.root.valX[:]
+	#~ y_val = feat.root.valY[0,:]
 	
-	############## Relabeling ################
+	#~ ############## Relabeling ################
 	
-	for i in range(0,y_train.shape[0]):
-		if y_train[i]==-1:
-			y_train[i]=0		## Label 0 for normal 1 for abnormal
-	for i in range(0,y_val.shape[0]):
-		if y_val[i]==-1:
-			y_val[i]=0
+	#~ for i in range(0,y_train.shape[0]):
+		#~ if y_train[i]==-1:
+			#~ y_train[i]=0		## Label 0 for normal 1 for abnormal
+	#~ for i in range(0,y_val.shape[0]):
+		#~ if y_val[i]==-1:
+			#~ y_val[i]=0
 			
-	################### Reshaping ############
+	#~ ################### Reshaping ############
 	
-	x_train,y_train,x_val,y_val=reshape_folds(x_train,x_val,y_train,y_val)
+	#~ x_train,y_train,x_val,y_val=reshape_folds(x_train,x_val,y_train,y_val)
 	
 	############## Create a model ############
 	
@@ -264,10 +288,10 @@ if __name__ == '__main__':
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
 	t4 = Flatten()(t4)		
-	print t4
+	print K.shape(t4)
 	 
 	merged = Concatenate(axis=1)([t1,t2,t3,t4])
-	print merged
+	print K.shape(merged)
 	
 	merged = Dense(20,
 		activation=activation_function,
@@ -275,12 +299,32 @@ if __name__ == '__main__':
 		use_bias=bias,
 		kernel_constraint=max_norm(maxnorm),
 		kernel_regularizer=l2(l2_reg))(merged)
-	merged = BatchNormalization(epsilon=eps,axis=-1)
+	merged = BatchNormalization(epsilon=eps,axis=-1) (merged)
 	merged=Dropout(rate=dropout_rate,seed=random_seed)(merged)	
 	merged=Dense(1,activation='sigmoid')(merged)
 	
 	model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
+	if load_path:	# If path for loading model was specified
+		model.load_weights(filepath=load_path,by_name=False)
+	
+	
 	adam = Adam(lr=lr,decay=lr_decay)
 	model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
-			
+
+	####### Define Callbacks ######
+	
+	modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
+		monitor='val_acc',save_best_only=False,mode='max')
+	tensbd = TensorBoard(log_dir='./logs/'+log_name,
+		batch_size=batch_size,write_images=True)
+	
+	#Learning rate callbacks
+	lr_print	= show_lr()
+	reduce_lr 	= ReduceLROnPlateau(monitor='val_loss',
+		factor=lr_reduce_factor,patience=patience,
+		min_lr=0.00001,verbose=1,cooldown=cooldown)
+	dynamiclr 	= LearningRateScheduler(lr_schedule)
+	
+	
+	
 

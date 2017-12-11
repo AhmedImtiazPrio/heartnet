@@ -14,7 +14,7 @@ from datetime import datetime
 import os
 
 
-ms='/media/taufiq/Data/Model/Heart_Sound/Physionet/Potes_Paper/'
+ms='/media/taufiq/Data/heart_sound/models/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
 foldname='fold0'
 
@@ -83,60 +83,60 @@ for i in range (0,files):
 print(v1.shape)
 ##########################################
 #Creating metadata file for tensorboard
-names = [ 'Normal', 'Abnormal' ]
-metadata_file=open(os.path.join(log_dir,'metadata.tsv'),'w')
-metadata_file.write('Class\n')
-for i in range(ytrain.shape[0]):
-	metadata_file.write('%s\n' % (names[int(ytrain[i])]))
-metadata_file.close()
+#~ names = [ 'Normal', 'Abnormal' ]
+#~ metadata_file=open(os.path.join(log_dir,'metadata.tsv'),'w')
+#~ metadata_file.write('Class\n')
+#~ for i in range(ytrain.shape[0]):
+	#~ metadata_file.write('%s\n' % (names[int(ytrain[i])]))
+#~ metadata_file.close()
 ###########################################
 
 # Model
 lr=0.0007
 batch_size=8
-epoch=200
+epoch=50
 cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
-random_seed=0
-maxnorm=4.
+random_seed=4
+#~ maxnorm=10000.
 
 input1=Input(shape=(2500,1),name='input1')
 input2=Input(shape=(2500,1),name='input2')
 input3=Input(shape=(2500,1),name='input3')
 input4=Input(shape=(2500,1),name='input4')
 
-conv1=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input1)
+conv1=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(input1)
 conv1=MaxPooling1D(pool_size=2)(conv1)
-conv1=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv1)
+conv1=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(conv1)
 conv1=MaxPooling1D(pool_size=2)(conv1)
-conv1=Dropout(0.25,seed=random_seed)(conv1)
+#~ conv1=Dropout(0.25,seed=random_seed)(conv1)
 conv1=Flatten()(conv1)
 
-conv2=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input2)
+conv2=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(input2)
 conv2=MaxPooling1D(pool_size=2)(conv2)
-conv2=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv2)
+conv2=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(conv2)
 conv2=MaxPooling1D(pool_size=2)(conv2)
-conv2=Dropout(0.25,seed=random_seed)(conv2)
+#~ conv2=Dropout(0.25,seed=random_seed)(conv2)
 conv2=Flatten()(conv2)
 
-conv3=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input3)
+conv3=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(input3)
 conv3=MaxPooling1D(pool_size=2)(conv3)
-conv3=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv3)
+conv3=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(conv3)
 conv3=MaxPooling1D(pool_size=2)(conv3)
-conv3=Dropout(0.25,seed=random_seed)(conv3)
+#~ conv3=Dropout(0.25,seed=random_seed)(conv3)
 conv3= Flatten()(conv3)
 
-conv4=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input4)
+conv4=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(input4)
 conv4=MaxPooling1D(pool_size=2)(conv4)
-conv4=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv4)
+conv4=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed))(conv4)
 conv4=MaxPooling1D(pool_size=2)(conv4)
-conv4=Dropout(0.25,seed=random_seed)(conv4)
+#~ conv4=Dropout(0.25,seed=random_seed)(conv4)
 conv4=Flatten()(conv4)
  
 merged = Concatenate( axis=1)([conv1,conv2,conv3,conv4])
 
-merged=Dense(20,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_regularizer=l2(l2_reg))(merged)
-merged=Dropout(0.5)(merged)	
+merged=Dense(20,activation='relu')(merged)
+#~ merged=Dropout(0.5)(merged)	
 merged=Dense(1,activation='sigmoid')(merged)	
 
 model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
@@ -147,8 +147,7 @@ model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 #model=load_model(ms+'potes_train_all')
 watchlist=['input1','input2','input3','input4']
 log_name=foldname+ ' ' + str(datetime.now())
-tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True,
- embeddings_metadata=os.path.join(log_dir,'metadata.tsv'))
+tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
 
 
 model.fit([x1,x2,x3,x4], ytrain,
@@ -162,7 +161,7 @@ model.fit([x1,x2,x3,x4], ytrain,
 
 
 
-#model.save(ms+'potes_train_all')
+model.save(ms+logname)
 
 
 #y_predict=model.predict([v1,v2,v3,v4],batch_size=batch)
