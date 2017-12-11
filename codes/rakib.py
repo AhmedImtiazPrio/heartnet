@@ -1,6 +1,8 @@
 from keras.layers import Input, Conv1D,MaxPooling1D, Dense,Dropout, Flatten
 from keras.layers.merge import Concatenate
 from keras.models import Model,load_model,Sequential
+from keras import initializers
+from keras.constraints import max_norm
 from keras.regularizers import l2
 from keras.optimizers import Adam
 from scipy.io import savemat, loadmat
@@ -95,44 +97,45 @@ batch_size=8
 epoch=200
 cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
-
+random_seed=0
+maxnorm=4.
 
 input1=Input(shape=(2500,1),name='input1')
 input2=Input(shape=(2500,1),name='input2')
 input3=Input(shape=(2500,1),name='input3')
 input4=Input(shape=(2500,1),name='input4')
 
-conv1=Conv1D(8, 5,activation='relu')(input1)
+conv1=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input1)
 conv1=MaxPooling1D(pool_size=2)(conv1)
-conv1=Conv1D(4, 5,activation='relu')(conv1)
+conv1=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv1)
 conv1=MaxPooling1D(pool_size=2)(conv1)
-conv3=Dropout(0.25)(conv1)
+conv1=Dropout(0.25,seed=random_seed)(conv1)
 conv1=Flatten()(conv1)
 
-conv2=Conv1D(8, 5,activation='relu')(input2)
+conv2=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input2)
 conv2=MaxPooling1D(pool_size=2)(conv2)
-conv2=Conv1D(4, 5,activation='relu')(conv2)
+conv2=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv2)
 conv2=MaxPooling1D(pool_size=2)(conv2)
-conv3=Dropout(0.25)(conv2)
+conv2=Dropout(0.25,seed=random_seed)(conv2)
 conv2=Flatten()(conv2)
 
-conv3=Conv1D(8, 5,activation='relu')(input3)
+conv3=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input3)
 conv3=MaxPooling1D(pool_size=2)(conv3)
-conv3=Conv1D(4, 5,activation='relu')(conv3)
+conv3=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv3)
 conv3=MaxPooling1D(pool_size=2)(conv3)
-conv3=Dropout(0.25)(conv3)
+conv3=Dropout(0.25,seed=random_seed)(conv3)
 conv3= Flatten()(conv3)
 
-conv4=Conv1D(8, 5,activation='relu')(input4)
+conv4=Conv1D(8, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(input4)
 conv4=MaxPooling1D(pool_size=2)(conv4)
-conv4=Conv1D(4, 5,activation='relu')(conv4)
+conv4=Conv1D(4, 5,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_constraint=max_norm(maxnorm))(conv4)
 conv4=MaxPooling1D(pool_size=2)(conv4)
-conv4=Dropout(0.25)(conv4)
+conv4=Dropout(0.25,seed=random_seed)(conv4)
 conv4=Flatten()(conv4)
  
 merged = Concatenate( axis=1)([conv1,conv2,conv3,conv4])
 
-merged=Dense(20,activation='relu',activity_regularizer=l2(l2_reg))(merged)
+merged=Dense(20,activation='relu',kernel_initializer=initializers.he_normal(seed=random_seed),kernel_regularizer=l2(l2_reg))(merged)
 merged=Dropout(0.5)(merged)	
 merged=Dense(1,activation='sigmoid')(merged)	
 
