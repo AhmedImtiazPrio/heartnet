@@ -29,18 +29,21 @@ else
 end
 
 %% Start creating folds
-for i=0:fold,
+for i=1:fold,
     trainX=[];
     trainY=[];
     valX=[];
     valY=[];
+    filestrain=[];
+    filesvalid=[];
     
     %% Partition training data
     loadfile=[fold_path 'train' num2str(i) '.txt'];
     train=sort(strcat(importlist(loadfile),'.wav'));
     for idx=1:length(train)
         trainX = [trainX;data(filenames==train(idx),:,:)];
-        trainY = [trainY;labels(filenames==train(idx),:)]; 
+        trainY = [trainY;labels(filenames==train(idx),:)];
+        filestrain = [filestrain; filenames(filenames==train(idx))];
     end
     %% Partition validation data
     loadfile=[fold_path 'validation' num2str(i) '.txt'];
@@ -48,6 +51,7 @@ for i=0:fold,
     for idx=1:length(val)
         valX = [valX;data(filenames==val(idx),:,:)];
         valY = [valY;labels(filenames==val(idx),:)]; 
+        filesvalid = [filesvalid; filenames(filenames==val(idx))];
     end  
     
     save_name = ['fold' num2str(i) '.mat'];

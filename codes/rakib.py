@@ -6,7 +6,7 @@ from keras.constraints import max_norm
 from keras.regularizers import l2
 from keras.optimizers import Adam
 from scipy.io import savemat, loadmat
-from keras.callbacks import TensorBoard
+from keras.callbacks import TensorBoard, ModelCheckpoint
 import numpy as np
 import tables
 import csv
@@ -16,7 +16,7 @@ import os
 
 ms='/media/taufiq/Data/heart_sound/models/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold0'
+foldname='fold3'
 
 log_name=foldname+ ' ' + str(datetime.now())
 log_dir= './logs/' 
@@ -94,7 +94,7 @@ print(v1.shape)
 # Model
 lr=0.0007
 batch_size=8
-epoch=50
+epoch=200
 cnn_thresh=0.4
 l2_reg=0.01 # Not specified in paper
 random_seed=4
@@ -144,11 +144,12 @@ model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
 adam = Adam(lr=lr)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
-#model=load_model(ms+'potes_train_all')
+#~ model=load_model(ms+"fold1 2017-12-11 22:18:56.115124.hdf5")
 watchlist=['input1','input2','input3','input4']
 log_name=foldname+ ' ' + str(datetime.now())
 tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
-
+modelcheckpnt = ModelCheckpoint(filepath=ms+log_name+"{val_acc:.4f}.hdf5",
+		monitor='val_acc',save_best_only=True,mode='max')
 
 model.fit([x1,x2,x3,x4], ytrain,
  epochs=epoch,
@@ -156,12 +157,10 @@ model.fit([x1,x2,x3,x4], ytrain,
  verbose=1,
  validation_data=([v1,v2,v3,v4],yval),
  batch_size=batch_size,
- callbacks=[tensbd]
+ callbacks=[tensbd,modelcheckpnt]
  )
 
-
-
-model.save(ms+logname)
+#~ model.save(ms+log_name+".hdf5")
 
 
 #y_predict=model.predict([v1,v2,v3,v4],batch_size=batch)
