@@ -16,7 +16,7 @@ import os
 
 ms='/media/taufiq/Data/heart_sound/models/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold3'
+foldname='fold0'
 
 log_name=foldname+ ' ' + str(datetime.now())
 log_dir= './logs/' 

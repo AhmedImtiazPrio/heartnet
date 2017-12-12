@@ -29,13 +29,17 @@ else
 end
 
 %% Start creating folds
-for i=1:fold,
+for i=0:fold,
     trainX=[];
     trainY=[];
     valX=[];
     valY=[];
     filestrain=[];
-    filesvalid=[];
+    filesval=[];
+    cc_train=[];
+    cc_val=[];
+    train_parts=[];
+    val_parts=[];
     
     %% Partition training data
     loadfile=[fold_path 'train' num2str(i) '.txt'];
@@ -44,6 +48,8 @@ for i=1:fold,
         trainX = [trainX;data(filenames==train(idx),:,:)];
         trainY = [trainY;labels(filenames==train(idx),:)];
         filestrain = [filestrain; filenames(filenames==train(idx))];
+          cc_train  = [cc_train;cc_idx(filenames==train(idx))];
+          train_parts = [train_parts;sum(filenames==train(idx))];
     end
     %% Partition validation data
     loadfile=[fold_path 'validation' num2str(i) '.txt'];
@@ -51,10 +57,13 @@ for i=1:fold,
     for idx=1:length(val)
         valX = [valX;data(filenames==val(idx),:,:)];
         valY = [valY;labels(filenames==val(idx),:)]; 
-        filesvalid = [filesvalid; filenames(filenames==val(idx))];
+        filesval = [filesval; filenames(filenames==val(idx))];
+          cc_val  = [cc_val;cc_idx(filenames==val(idx))];
+          val_parts = [val_parts;sum(filenames==val(idx))];
     end  
     
     save_name = ['fold' num2str(i) '.mat'];
     disp(['saving' ' ' save_name])
+%     clearvars -except cc_train train_parts cc_val val_parts
     save([fold_save save_name], 'trainX', 'trainY', 'valX', 'valY');
 end
