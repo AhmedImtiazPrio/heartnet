@@ -6,32 +6,38 @@ from keras.constraints import max_norm
 from keras.regularizers import l2
 from keras.optimizers import Adam
 from scipy.io import savemat, loadmat
-from keras.callbacks import TensorBoard, ModelCheckpoint, Callback
+from keras.callbacks import TensorBoard, ModelCheckpoint
 import numpy as np
 import tables
 import csv
 from datetime import datetime
 import os
+import h5py
 
+from sklearn.metrics import confusion_matrix
 
-class printlogs(Callback):
-	def on_epoch_end(self,epoch,logs):
-		print epoch
-		print logs
-		
-
+load_name="fold3 2017-12-12 09:02:20.7259050.8303.hdf5"
 ms='/media/taufiq/Data/heart_sound/models/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold0'
+foldname='fold3'
 
 log_name=foldname+ ' ' + str(datetime.now())
 log_dir= './logs/' 
+
+
 
 feat = tables.open_file(fs+foldname+'.mat')
 x_train = feat.root.trainX[:]
 y_train = feat.root.trainY[0,:]
 x_val = feat.root.valX[:]
 y_val = feat.root.valY[0,:]
+train_parts = feat.root.train_parts[:]
+val_parts = feat.root.val_parts[0,:]
+#~ print val_parts
+#~ print val_parts.shape
+#~ print train_parts[:,0]
+#~ print val_parts[:,23]
+
 ############## Relabeling ################
 for i in range(0,y_train.shape[0]):
 	if y_train[i]==-1:
@@ -40,7 +46,7 @@ for i in range(0,y_val.shape[0]):
 	if y_val[i]==-1:
 		y_val[i]=0
 ##########################################
-print(x_train.shape)
+#~ print(x_train.shape)
 
 bands=x_train.shape[0]
 cols=x_train.shape[1]
@@ -62,9 +68,9 @@ for i in range (0,files):
         x2[i,j,0]=x_train[1,j,i]
         x3[i,j,0]=x_train[2,j,i]
         x4[i,j,0]=x_train[3,j,i]       
-print(x1.shape)
+#~ print(x1.shape)
 #########################################
-print(x_val.shape)
+#~ print(x_val.shape)
 
 bands=x_val.shape[0]
 cols=x_val.shape[1]
@@ -86,7 +92,7 @@ for i in range (0,files):
         v2[i,j,0]=x_val[1,j,i]
         v3[i,j,0]=x_val[2,j,i]
         v4[i,j,0]=x_val[3,j,i]       
-print(v1.shape)
+#~ print(v1.shape)
 ##########################################
 #Creating metadata file for tensorboard
 #~ names = [ 'Normal', 'Abnormal' ]
@@ -150,27 +156,54 @@ model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
 adam = Adam(lr=lr)
 model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
-#~ model=load_model(ms+"fold1 2017-12-11 22:18:56.115124.hdf5")
-watchlist=['input1','input2','input3','input4']
-log_name=foldname+ ' ' + str(datetime.now())
-tensbd=TensorBoard(log_dir='./logs/'+log_name,batch_size=batch_size,write_images=True)
-modelcheckpnt = ModelCheckpoint(filepath=ms+log_name+"{val_acc:.4f}.hdf5",
-		monitor='val_acc',save_best_only=True,mode='max')
+model=load_model(ms+load_name)
 
-model.fit([x1,x2,x3,x4], ytrain,
- epochs=epoch,
- shuffle=True,
- verbose=2,
- validation_data=([v1,v2,v3,v4],yval),
- batch_size=batch_size,
- callbacks=[tensbd,modelcheckpnt,printlogs()]
- )
+#~ y_predict_train=model.predict([x1,x2,x3,x4],batch_size=batch_size)
+y_predict_val=model.predict([v1,v2,v3,v4],batch_size=batch_size)
 
-#~ model.save(ms+log_name+".hdf5")
+############# Finding labesls of individual recordings #########
+res_thresh=0.5
+y_true = []
+y_pred=[]
+start_idx = 0
+for s in val_parts:
+	#~ print "{} star idx".format(start_idx)
+	#~ print "{} end idx".format(start_idx+int(s)-1)
+	#~ print "chole?"
+	 
+	temp_ = np.mean(y_val[start_idx:start_idx+int(s)-1])
+	temp = np.mean(y_predict_val[start_idx:start_idx+int(s)-1,:])
+	if temp>res_thresh:
+		y_pred.append(1)
+	else:
+		y_pred.append(0)
+	if temp_>res_thresh:
+		y_true.append(1)
+	else:
+		y_true.append(0)
 
+	start_idx = start_idx + int(s)
 
-#y_predict=model.predict([v1,v2,v3,v4],batch_size=batch)
-#print(partx.shape)
+y_pred = np.array(y_pred)
+print y_pred
+
+y_true = np.array(y_true)
+print y_true
+
+########### Calculate Sensitivity and Specificity
+
+TN, FP, FN, TP = confusion_matrix(y_true, y_pred).ravel()
+TN = float(TN)
+TP = float(TP)
+FP = float(FP)
+FN = float(FN)
+
+sensitivity = TP/(TP+FN)
+specificity = TN/(TN+FP)
+Macc = (sensitivity+specificity)/2
+
+print "Sensitivity {}, Specificity {} and Macc {}".format(sensitivity,specificity,Macc)
+
 
 #tot=partx.shape[1]
 #k=0

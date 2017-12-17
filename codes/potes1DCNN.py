@@ -17,8 +17,50 @@ import os
 import argparse
 import matplotlib.pyplot as plt
 from keras import backend as K
+from keras.utils import plot_model
+from sklearn.metrics import confusion_matrix
 
+class log_macc(Callback):
 	
+	def __init__(self,x_val,y_val,val_parts):
+		self.x_val=x_val
+		self.y_val=y_val
+		self.val_parts=val_parts
+	
+	def on_epoch_end(self,epoch,logs):
+		if logs is not None:
+			y_pred = self.model.predict(self.x_val,verbose=0)
+			
+			true = []
+			pred=[]
+			start_idx = 0
+			for s in self.val_parts:	
+				 
+				temp_ = np.mean(self.y_val[start_idx:start_idx+int(s)-1])
+				temp = np.mean(y_pred[start_idx:start_idx+int(s)-1,:])
+				if temp>res_thresh:
+					pred.append(1)
+				else:
+					pred.append(0)
+				if temp_>res_thresh:
+					true.append(1)
+				else:
+					true.append(0)
+			
+				start_idx = start_idx + int(s)		
+				
+			TN, FP, FN, TP = confusion_matrix(true, pred).ravel()
+			TN = float(TN)
+			TP = float(TP)
+			FP = float(FP)
+			FN = float(FN)
+			sensitivity = TP/(TP+FN)
+			specificity = TN/(TN+FP)
+			Macc = (sensitivity+specificity)/2
+			logs['val_sensitivity']=sensitivity
+			logs['val_specificity']=specificity
+			logs['val_macc'] = Macc
+
 def compute_weight(Y,classes):
 		num_samples=len(Y)
 		n_classes=len(classes)
@@ -71,8 +113,8 @@ def lr_schedule(epoch):
 		lr_rate=1e-4-epoch*1e-8
 	return lr_rate
 
-########## Parser for arguments (foldname, random_seed, load_path, epochs,
-###############################  batch_size)
+########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
+
 parser = argparse.ArgumentParser(description='Specify fold to process')
 parser.add_argument("fold",
 					help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
@@ -173,6 +215,8 @@ if __name__ == '__main__':
 	patience=4 #for reduceLR
 	cooldown=0 #for reduceLR
 	
+	res_thresh=0.5 # threshold for turning probability values into decisions
+	
 	#~ ############## Importing data ############
 	
 	#~ feat = tables.open_file(fold_dir+foldname+'.mat')
@@ -180,6 +224,8 @@ if __name__ == '__main__':
 	#~ y_train = feat.root.trainY[0,:]
 	#~ x_val = feat.root.valX[:]
 	#~ y_val = feat.root.valY[0,:]
+	#~ train_parts = feat.root.train_parts[:]
+	#~ val_parts = feat.root.val_parts[0,:]	
 	
 	#~ ############## Relabeling ################
 	
@@ -304,26 +350,66 @@ if __name__ == '__main__':
 	merged=Dense(1,activation='sigmoid')(merged)
 	
 	model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
+	
 	if load_path:	# If path for loading model was specified
 		model.load_weights(filepath=load_path,by_name=False)
 	
 	
 	adam = Adam(lr=lr,decay=lr_decay)
 	model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
-
+	plot_model(model, to_file='model.png',show_shapes=True)
+	
+	
 	####### Define Callbacks ######
 	
 	modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
 		monitor='val_acc',save_best_only=False,mode='max')
 	tensbd = TensorBoard(log_dir='./logs/'+log_name,
 		batch_size=batch_size,write_images=True)
+	#show_lr()
+	#log_macc()
+	
 	
 	#Learning rate callbacks
-	lr_print	= show_lr()
+	
 	reduce_lr 	= ReduceLROnPlateau(monitor='val_loss',
 		factor=lr_reduce_factor,patience=patience,
 		min_lr=0.00001,verbose=1,cooldown=cooldown)
 	dynamiclr 	= LearningRateScheduler(lr_schedule)
+	
+	
+	######### Run forest run!! ##########
+	
+	if addweights:		## if input arg classweights was specified True
+		
+		class_weight=compute_weight(y_train,np.unique(y_train))
+		
+		model.fit(x_train,y_train,
+					batch_size=batch_size,
+					epochs=epochs,
+					shuffle=True,
+					verbose=verbose,
+					seed=random_seed,
+					validation_data=(x_val,y_val),
+					callbacks=[modelcheckpnt,tensbd,show_lr(),log_macc()],
+					initial_epoch=initial_epoch,
+					class_weight=class_weight)
+
+	else:
+		
+		model.fit(x_train,y_train,
+					batch_size=batch_size,
+					epochs=epochs,
+					shuffle=True,
+					verbose=verbose,
+					seed=random_seed,
+					validation_data=(x_val,y_val),
+					callbacks=[modelcheckpnt,tensbd,show_lr(),log_macc()],
+					initial_epoch=initial_epoch)
+
+		
+	
+	
 	
 	
 	
