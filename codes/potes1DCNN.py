@@ -22,27 +22,41 @@ from sklearn.metrics import confusion_matrix
 
 class log_macc(Callback):
 	
-	def __init__(self,x_val,y_val,val_parts):
+	def __init__(self,x_val,y_val,val_parts,res_thresh,log_name):
 		self.x_val=x_val
 		self.y_val=y_val
 		self.val_parts=val_parts
+		self.res_thresh=res_thresh
+		self.log_dir='./logs/'+log_name
+		
+		global tf
+		import tensorflow as tf
+		
+		self.writer = tf.summary.FileWriter(self.log_dir)	
 	
 	def on_epoch_end(self,epoch,logs):
 		if logs is not None:
 			y_pred = self.model.predict(self.x_val,verbose=0)
 			
+			print np.isnan(y_pred)
+						
 			true = []
 			pred=[]
 			start_idx = 0
 			for s in self.val_parts:	
-				 
+				
+				if not s:		## for a particular recording there was no cardiac cycle
+					continue 
+				#~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
+								
 				temp_ = np.mean(self.y_val[start_idx:start_idx+int(s)-1])
 				temp = np.mean(y_pred[start_idx:start_idx+int(s)-1,:])
-				if temp>res_thresh:
+				
+				if temp>self.res_thresh:
 					pred.append(1)
 				else:
 					pred.append(0)
-				if temp_>res_thresh:
+				if temp_>self.res_thresh:
 					true.append(1)
 				else:
 					true.append(0)
@@ -57,9 +71,23 @@ class log_macc(Callback):
 			sensitivity = TP/(TP+FN)
 			specificity = TN/(TN+FP)
 			Macc = (sensitivity+specificity)/2
-			logs['val_sensitivity']=sensitivity
-			logs['val_specificity']=specificity
-			logs['val_macc'] = Macc
+			#~ logs['val_sensitivity']=sensitivity
+			#~ logs['val_specificity']=specificity
+			#~ logs['val_macc'] = Macc
+			#~ print logs
+			
+			summary = tf.Summary()
+			summary_value = summary.value.add()
+			summary_value.simple_value = Macc
+			summary_value.tag = 'Macc'
+			self.writer.add_summary(summary,epoch)
+			self.writer.flush()
+			
+	def on_train_end(self, _):
+		self.writer.close()
+
+
+
 
 def compute_weight(Y,classes):
 		num_samples=len(Y)
@@ -214,31 +242,30 @@ if __name__ == '__main__':
 	lr_reduce_factor=0.5
 	patience=4 #for reduceLR
 	cooldown=0 #for reduceLR
-	
 	res_thresh=0.5 # threshold for turning probability values into decisions
 	
-	#~ ############## Importing data ############
+	############## Importing data ############
 	
-	#~ feat = tables.open_file(fold_dir+foldname+'.mat')
-	#~ x_train = feat.root.trainX[:]
-	#~ y_train = feat.root.trainY[0,:]
-	#~ x_val = feat.root.valX[:]
-	#~ y_val = feat.root.valY[0,:]
-	#~ train_parts = feat.root.train_parts[:]
-	#~ val_parts = feat.root.val_parts[0,:]	
+	feat = tables.open_file(fold_dir+foldname+'.mat')
+	x_train = feat.root.trainX[:]
+	y_train = feat.root.trainY[0,:]
+	x_val = feat.root.valX[:]
+	y_val = feat.root.valY[0,:]
+	train_parts = feat.root.train_parts[:]
+	val_parts = feat.root.val_parts[0,:]	
 	
-	#~ ############## Relabeling ################
+	############## Relabeling ################
 	
-	#~ for i in range(0,y_train.shape[0]):
-		#~ if y_train[i]==-1:
-			#~ y_train[i]=0		## Label 0 for normal 1 for abnormal
-	#~ for i in range(0,y_val.shape[0]):
-		#~ if y_val[i]==-1:
-			#~ y_val[i]=0
+	for i in range(0,y_train.shape[0]):
+		if y_train[i]==-1:
+			y_train[i]=0		## Label 0 for normal 1 for abnormal
+	for i in range(0,y_val.shape[0]):
+		if y_val[i]==-1:
+			y_val[i]=0
 			
-	#~ ################### Reshaping ############
+	################### Reshaping ############
 	
-	#~ x_train,y_train,x_val,y_val=reshape_folds(x_train,x_val,y_train,y_val)
+	x_train,y_train,x_val,y_val=reshape_folds(x_train,x_val,y_train,y_val)
 	
 	############## Create a model ############
 	
@@ -334,10 +361,8 @@ if __name__ == '__main__':
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
 	t4 = Flatten()(t4)		
-	print K.shape(t4)
 	 
 	merged = Concatenate(axis=1)([t1,t2,t3,t4])
-	print K.shape(merged)
 	
 	merged = Dense(20,
 		activation=activation_function,
@@ -389,9 +414,9 @@ if __name__ == '__main__':
 					epochs=epochs,
 					shuffle=True,
 					verbose=verbose,
-					seed=random_seed,
 					validation_data=(x_val,y_val),
-					callbacks=[modelcheckpnt,tensbd,show_lr(),log_macc()],
+					callbacks=[modelcheckpnt,show_lr(),
+						log_macc(x_val,y_val,val_parts,res_thresh,log_name),tensbd],
 					initial_epoch=initial_epoch,
 					class_weight=class_weight)
 
@@ -402,9 +427,9 @@ if __name__ == '__main__':
 					epochs=epochs,
 					shuffle=True,
 					verbose=verbose,
-					seed=random_seed,
 					validation_data=(x_val,y_val),
-					callbacks=[modelcheckpnt,tensbd,show_lr(),log_macc()],
+					callbacks=[modelcheckpnt,show_lr(),
+						log_macc(x_val,y_val,val_parts,res_thresh,log_name),tensbd],
 					initial_epoch=initial_epoch)
 
 		
