@@ -213,8 +213,8 @@ if __name__ == '__main__':
 	bias=False
 	l2_reg=0.01
 	kernel_size=5
-	maxnorm=4.
-	dropout_rate=0.05
+	maxnorm=1000000.
+	dropout_rate=0.
 	padding='valid'
 	activation_function='relu'
 	subsam=2
