@@ -69,7 +69,15 @@ class log_macc(Callback):
 			logs['val_sensitivity']=np.array(sensitivity)
 			logs['val_specificity']=np.array(specificity)
 			logs['val_macc'] = np.array(Macc)
-			logs['lr']=np.array(float(K.get_value(self.model.optimizer.lr)))
+			
+			#### Learning Rate for Adam ###
+			
+			lr = self.model.optimizer.lr
+			if self.model.optimizer.initial_decay > 0:
+				lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,K.dtype(self.model.optimizer.decay))))
+			t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
+			lr_t = lr * (K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) /(1. - K.pow(self.model.optimizer.beta_1, t)))
+			logs['lr'] = np.array(float(K.get_value(lr_t)))
 				
 def compute_weight(Y,classes):
 		num_samples=len(Y)
@@ -172,7 +180,7 @@ else:
 	print "Training for {} epochs".format(epochs)
 
 if args.batch_size:	#	if batch_size is specified
-	print "Training with {} minibatches".format(args.batch_size)
+	print "Training with {} samples per minibatch".format(args.batch_size)
 	batch_size=args.batch_size
 else:
 	batch_size=64
@@ -411,7 +419,7 @@ if __name__ == '__main__':
 					shuffle=True,
 					verbose=verbose,
 					validation_data=(x_val,y_val),
-					callbacks=[modelcheckpnt,show_lr(),
+					callbacks=[modelcheckpnt,
 						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
 					initial_epoch=initial_epoch)
 
