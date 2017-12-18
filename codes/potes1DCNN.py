@@ -175,7 +175,7 @@ if args.batch_size:	#	if batch_size is specified
 	print "Training with {} minibatches".format(args.batch_size)
 	batch_size=args.batch_size
 else:
-	batch_size=8
+	batch_size=64
 	print "Training with {} minibatches".format(batch_size)
 
 if args.verbose:
