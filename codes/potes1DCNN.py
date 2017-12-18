@@ -22,30 +22,23 @@ from sklearn.metrics import confusion_matrix
 
 class log_macc(Callback):
 	
-	def __init__(self,x_val,y_val,val_parts,res_thresh,log_name):
+	def __init__(self,x_val,y_val,val_parts,res_thresh):
 		self.x_val=x_val
 		self.y_val=y_val
 		self.val_parts=val_parts
 		self.res_thresh=res_thresh
-		self.log_dir='./logs/'+log_name
-		
-		global tf
-		import tensorflow as tf
-		
-		self.writer = tf.summary.FileWriter(self.log_dir)	
+	
 	
 	def on_epoch_end(self,epoch,logs):
 		if logs is not None:
 			y_pred = self.model.predict(self.x_val,verbose=0)
-			
-			print np.isnan(y_pred)
-						
+									
 			true = []
 			pred=[]
 			start_idx = 0
 			for s in self.val_parts:	
 				
-				if not s:		## for a particular recording there was no cardiac cycle
+				if not s:		## for e00032 in validation0 there was no cardiac cycle
 					continue 
 				#~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
 								
@@ -71,24 +64,11 @@ class log_macc(Callback):
 			sensitivity = TP/(TP+FN)
 			specificity = TN/(TN+FP)
 			Macc = (sensitivity+specificity)/2
-			#~ logs['val_sensitivity']=sensitivity
-			#~ logs['val_specificity']=specificity
-			#~ logs['val_macc'] = Macc
-			#~ print logs
-			
-			summary = tf.Summary()
-			summary_value = summary.value.add()
-			summary_value.simple_value = Macc
-			summary_value.tag = 'Macc'
-			self.writer.add_summary(summary,epoch)
-			self.writer.flush()
-			
-	def on_train_end(self, _):
-		self.writer.close()
-
-
-
-
+			logs['val_sensitivity']=np.array(sensitivity)
+			logs['val_specificity']=np.array(specificity)
+			logs['val_macc'] = np.array(Macc)
+			logs['lr']=np.array(float(K.get_value(self.model.optimizer.lr)))
+				
 def compute_weight(Y,classes):
 		num_samples=len(Y)
 		n_classes=len(classes)
@@ -232,7 +212,7 @@ if __name__ == '__main__':
 	l2_reg=0.01
 	kernel_size=5
 	maxnorm=4.
-	dropout_rate=0.25
+	dropout_rate=0.05
 	padding='valid'
 	activation_function='relu'
 	subsam=2
@@ -416,7 +396,7 @@ if __name__ == '__main__':
 					verbose=verbose,
 					validation_data=(x_val,y_val),
 					callbacks=[modelcheckpnt,show_lr(),
-						log_macc(x_val,y_val,val_parts,res_thresh,log_name),tensbd],
+						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
 					initial_epoch=initial_epoch,
 					class_weight=class_weight)
 
@@ -429,7 +409,7 @@ if __name__ == '__main__':
 					verbose=verbose,
 					validation_data=(x_val,y_val),
 					callbacks=[modelcheckpnt,show_lr(),
-						log_macc(x_val,y_val,val_parts,res_thresh,log_name),tensbd],
+						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
 					initial_epoch=initial_epoch)
 
 		

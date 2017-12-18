@@ -16,10 +16,10 @@ import h5py
 
 from sklearn.metrics import confusion_matrix
 
-load_name="fold3 2017-12-12 09:02:20.7259050.8303.hdf5"
+load_name="fold0 2017-12-12 14:31:59.2683890.7234.hdf5"
 ms='/media/taufiq/Data/heart_sound/models/'
 fs='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
-foldname='fold3'
+foldname='fold0'
 
 log_name=foldname+ ' ' + str(datetime.now())
 log_dir= './logs/' 
@@ -170,7 +170,8 @@ for s in val_parts:
 	#~ print "{} star idx".format(start_idx)
 	#~ print "{} end idx".format(start_idx+int(s)-1)
 	#~ print "chole?"
-	 
+	
+	print s 
 	temp_ = np.mean(y_val[start_idx:start_idx+int(s)-1])
 	temp = np.mean(y_predict_val[start_idx:start_idx+int(s)-1,:])
 	if temp>res_thresh:
