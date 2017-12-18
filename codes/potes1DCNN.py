@@ -1,3 +1,11 @@
+import numpy as np
+import tables
+import csv
+from datetime import datetime
+import os
+import argparse
+import matplotlib.pyplot as plt
+
 from keras.layers import Input, Conv1D,MaxPooling1D, Dense,Dropout, Flatten, Activation
 from keras import initializers 
 from keras.layers.normalization import BatchNormalization
@@ -9,15 +17,9 @@ from keras.optimizers import Adam, Nadam, Adamax
 from scipy.io import savemat, loadmat
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
-import numpy as np
-import tables
-import csv
-from datetime import datetime
-import os
-import argparse
-import matplotlib.pyplot as plt
 from keras import backend as K
 from keras.utils import plot_model
+
 from sklearn.metrics import confusion_matrix
 
 class log_macc(Callback):
