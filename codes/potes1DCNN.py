@@ -209,7 +209,7 @@ if __name__ == '__main__':
 		os.makedirs(model_dir+log_name)
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	
-	bn_momentum = 0.99
+	bn_momentum = 0.4
 	eps= 1.1e-5
 	bias=False
 	l2_reg=0.01
