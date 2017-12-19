@@ -221,9 +221,11 @@ if __name__ == '__main__':
 	eps= 1.1e-5
 	bias=False
 	l2_reg=0.
+	l2_reg_dense=0.
 	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.
+	droupout_rate_dense=0.
 	padding='valid'
 	activation_function='relu'
 	subsam=2
@@ -360,9 +362,9 @@ if __name__ == '__main__':
 		kernel_initializer=initializers.he_normal(seed=random_seed),
 		use_bias=bias,
 		kernel_constraint=max_norm(maxnorm),
-		kernel_regularizer=l2(l2_reg))(merged)
+		kernel_regularizer=l2(l2_reg_dense))(merged)
 	#~ merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
-	merged=Dropout(rate=dropout_rate,seed=random_seed)(merged)	
+	merged=Dropout(rate=dropout_rate_dense,seed=random_seed)(merged)	
 	merged=Dense(1,activation='sigmoid')(merged)
 	
 	model = Model(inputs=[input1, input2, input3, input4], outputs=merged)
