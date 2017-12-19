@@ -1,4 +1,8 @@
 import numpy as np
+np.random.seed(1)
+from tensorflow import set_random_seed
+set_random_seed(1)
+
 import tables
 import csv
 from datetime import datetime
