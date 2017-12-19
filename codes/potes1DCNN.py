@@ -221,11 +221,11 @@ if __name__ == '__main__':
 	eps= 1.1e-5
 	bias=False
 	l2_reg=0.
-	l2_reg_dense=0.
+	l2_reg_dense=0.01
 	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.
-	droupout_rate_dense=0.
+	dropout_rate_dense=0.
 	padding='valid'
 	activation_function='relu'
 	subsam=2
