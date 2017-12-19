@@ -217,7 +217,7 @@ if __name__ == '__main__':
 		os.makedirs(model_dir+log_name)
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	
-	bn_momentum = 0
+	bn_momentum = 0.99
 	eps= 1.1e-5
 	bias=False
 	l2_reg=0.
@@ -269,9 +269,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input1)
-	#t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
+	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
 	t1 = Activation(activation_function)(t1)
 	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
@@ -279,9 +279,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t1)
-	#t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
+	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
 	t1 = Activation(activation_function)(t1)
 	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
@@ -291,9 +291,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input2)
-	#t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
+	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
 	t2 = Activation(activation_function)(t2)
 	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
@@ -301,9 +301,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t2)
-	#t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
+	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
 	t2 = Activation(activation_function)(t2)
 	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
@@ -313,9 +313,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input3)
-	#t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
+	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
 	t3 = Activation(activation_function)(t3)
 	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
@@ -323,9 +323,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t3)
-	#t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
+	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
 	t3 = Activation(activation_function)(t3)
 	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
@@ -335,9 +335,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input4)
-	#t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
+	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
 	t4 = Activation(activation_function)(t4)
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
@@ -345,9 +345,9 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				#kernel_constraint=max_norm(maxnorm),
+				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t4)
-	#t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
+	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
 	t4 = Activation(activation_function)(t4)
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
@@ -359,9 +359,9 @@ if __name__ == '__main__':
 		activation=activation_function,
 		kernel_initializer=initializers.he_normal(seed=random_seed),
 		use_bias=bias,
-		#kernel_constraint=max_norm(maxnorm),
+		kernel_constraint=max_norm(maxnorm),
 		kernel_regularizer=l2(l2_reg))(merged)
-	#merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
+	merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
 	merged=Dropout(rate=dropout_rate,seed=random_seed)(merged)	
 	merged=Dense(1,activation='sigmoid')(merged)
 	
