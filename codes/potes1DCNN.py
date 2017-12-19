@@ -220,7 +220,7 @@ if __name__ == '__main__':
 	bn_momentum = 0
 	eps= 1.1e-5
 	bias=False
-	l2_reg=0.01
+	l2_reg=0.
 	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.
