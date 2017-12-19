@@ -1,8 +1,4 @@
 import os
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
-os.environ["CUDA_VISIBLE_DEVICES"] = ""
-
-
 import numpy as np
 np.random.seed(1)
 from tensorflow import set_random_seed
