@@ -269,7 +269,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input1)
 	#t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
 	t1 = Activation(activation_function)(t1)
@@ -279,7 +279,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t1)
 	#t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
 	t1 = Activation(activation_function)(t1)
@@ -291,7 +291,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input2)
 	#t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
 	t2 = Activation(activation_function)(t2)
@@ -301,7 +301,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t2)
 	#t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
 	t2 = Activation(activation_function)(t2)
@@ -313,7 +313,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input3)
 	#t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
 	t3 = Activation(activation_function)(t3)
@@ -323,7 +323,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t3)
 	#t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
 	t3 = Activation(activation_function)(t3)
@@ -335,7 +335,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input4)
 	#t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
 	t4 = Activation(activation_function)(t4)
@@ -345,7 +345,7 @@ if __name__ == '__main__':
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
-				kernel_constraint=max_norm(maxnorm),
+				#kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t4)
 	#t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
 	t4 = Activation(activation_function)(t4)
@@ -359,7 +359,7 @@ if __name__ == '__main__':
 		activation=activation_function,
 		kernel_initializer=initializers.he_normal(seed=random_seed),
 		use_bias=bias,
-		kernel_constraint=max_norm(maxnorm),
+		#kernel_constraint=max_norm(maxnorm),
 		kernel_regularizer=l2(l2_reg))(merged)
 	#merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
 	merged=Dropout(rate=dropout_rate,seed=random_seed)(merged)	
