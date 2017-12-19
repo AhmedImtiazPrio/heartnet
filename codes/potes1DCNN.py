@@ -1,3 +1,8 @@
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
+
 import numpy as np
 np.random.seed(1)
 from tensorflow import set_random_seed
@@ -6,7 +11,7 @@ set_random_seed(1)
 import tables
 import csv
 from datetime import datetime
-import os
+#~ import os
 import argparse
 import matplotlib.pyplot as plt
 
@@ -225,10 +230,10 @@ if __name__ == '__main__':
 	eps= 1.1e-5
 	bias=False
 	l2_reg=0.
-	l2_reg_dense=0.01
+	l2_reg_dense=0.
 	kernel_size=5
 	maxnorm=10000.
-	dropout_rate=0.
+	dropout_rate=0.25
 	dropout_rate_dense=0.
 	padding='valid'
 	activation_function='relu'
