@@ -217,7 +217,7 @@ if __name__ == '__main__':
 	model_dir='/media/taufiq/Data/heart_sound/models/'
 	fold_dir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
 	log_name=foldname+ ' ' + str(datetime.now())
-	log_dir= './logs/'
+	log_dir= '/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/'
 	if not os.path.exists(model_dir+log_name):
 		os.makedirs(model_dir+log_name)
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
@@ -229,7 +229,7 @@ if __name__ == '__main__':
 	l2_reg_dense=0.
 	kernel_size=5
 	maxnorm=10000.
-	dropout_rate=0.25
+	dropout_rate=0.5
 	dropout_rate_dense=0.
 	padding='valid'
 	activation_function='relu'
@@ -387,7 +387,7 @@ if __name__ == '__main__':
 	
 	modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
 		monitor='val_acc',save_best_only=False,mode='max')
-	tensbd = TensorBoard(log_dir='./logs/'+log_name,
+	tensbd = TensorBoard(log_dir=log_dir+log_name,
 		batch_size=batch_size,write_images=True)
 	#show_lr()
 	#log_macc()
