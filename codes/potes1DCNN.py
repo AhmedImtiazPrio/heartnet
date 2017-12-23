@@ -267,10 +267,10 @@ if __name__ == '__main__':
 	
 	############## Create a model ############
 	
-	input1=Input(shape=(2500,1),name='input1')
-	input2=Input(shape=(2500,1),name='input2')
-	input3=Input(shape=(2500,1),name='input3')
-	input4=Input(shape=(2500,1),name='input4')
+	input1=Input(shape=(2500,1))
+	input2=Input(shape=(2500,1))
+	input3=Input(shape=(2500,1))
+	input4=Input(shape=(2500,1))
 	
 	t1 = Conv1D(8, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
