@@ -256,10 +256,10 @@ def lr_schedule(epoch):
 	return lr_rate
 
 
+
 if __name__ == '__main__':
 
 	########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
-	
 	parser = argparse.ArgumentParser(description='Specify fold to process')
 	parser.add_argument("fold",
 						help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
@@ -439,3 +439,10 @@ if __name__ == '__main__':
 					callbacks=[modelcheckpnt,
 						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
 					initial_epoch=initial_epoch)
+
+		
+
+	
+	
+	
+
