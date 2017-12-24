@@ -255,74 +255,76 @@ def lr_schedule(epoch):
 		lr_rate=1e-4-epoch*1e-8
 	return lr_rate
 
-########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
 
-parser = argparse.ArgumentParser(description='Specify fold to process')
-parser.add_argument("fold",
-					help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
-					choices=["fold0","fold1","fold2","fold3"])
-parser.add_argument("--seed",type=int,
-					help="Random seed for the random number generator (defaults to 1)")
-parser.add_argument("--loadmodel",
-					help="load previous model checkpoint for retraining (Enter absolute path)")
-parser.add_argument("--epochs",type=int,
-					help="Number of epochs for training")
-parser.add_argument("--batch_size",type=int,
-					help="number of minibatches to take during each backwardpass preferably multiple of 2")
-parser.add_argument("--verbose",type=int,choices=[1,2],
-	help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
-parser.add_argument("--classweights",type=bool,
-	help="if True, class weights are added according to the ratio of the two classes present in the training data")
-
-args = parser.parse_args()
-print "{} selected".format(args.fold)
-foldname=args.fold
-
-if args.seed:	#	if random seed is specified
-	print "Random seed specified as {}".format(args.seed)
-	random_seed=args.seed
-else:
-	random_seed=1
-
-if args.loadmodel: # If a previously trained model is loaded for retraining
-	load_path=args.loadmodel #### path to model to be loaded
-	
-	idx = load_path.find("weights")
-	initial_epoch=int(load_path[idx+8:idx+8+4])
-	
-	print "{} model loaded\nInitial epoch is {}".format(args.loadmodel,initial_epoch)
-else:
-	print "no model specified, using initializer to initialize weights"
-	initial_epoch=0
-	load_path=False
-
-if args.epochs:	#	if number of training epochs is specified
-	print "Training for {} epochs".format(args.epochs)
-	epochs=args.epochs
-else:
-	epochs=200
-	print "Training for {} epochs".format(epochs)
-
-if args.batch_size:	#	if batch_size is specified
-	print "Training with {} samples per minibatch".format(args.batch_size)
-	batch_size=args.batch_size
-else:
-	batch_size=64
-	print "Training with {} minibatches".format(batch_size)
-
-if args.verbose:
-	verbose=args.verbose
-	print "Verbosity level {}".format(verbose)
-else:
-	verbose=2
-if args.classweights:
-	addweights=True
-else:
-	addweights=False
-
-#########################################################
 if __name__ == '__main__':
+
+	########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
 	
+	parser = argparse.ArgumentParser(description='Specify fold to process')
+	parser.add_argument("fold",
+						help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
+						choices=["fold0","fold1","fold2","fold3"])
+	parser.add_argument("--seed",type=int,
+						help="Random seed for the random number generator (defaults to 1)")
+	parser.add_argument("--loadmodel",
+						help="load previous model checkpoint for retraining (Enter absolute path)")
+	parser.add_argument("--epochs",type=int,
+						help="Number of epochs for training")
+	parser.add_argument("--batch_size",type=int,
+						help="number of minibatches to take during each backwardpass preferably multiple of 2")
+	parser.add_argument("--verbose",type=int,choices=[1,2],
+		help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
+	parser.add_argument("--classweights",type=bool,
+		help="if True, class weights are added according to the ratio of the two classes present in the training data")
+	
+	args = parser.parse_args()
+	print "{} selected".format(args.fold)
+	foldname=args.fold
+	
+	if args.seed:	#	if random seed is specified
+		print "Random seed specified as {}".format(args.seed)
+		random_seed=args.seed
+	else:
+		random_seed=1
+	
+	if args.loadmodel: # If a previously trained model is loaded for retraining
+		load_path=args.loadmodel #### path to model to be loaded
+		
+		idx = load_path.find("weights")
+		initial_epoch=int(load_path[idx+8:idx+8+4])
+		
+		print "{} model loaded\nInitial epoch is {}".format(args.loadmodel,initial_epoch)
+	else:
+		print "no model specified, using initializer to initialize weights"
+		initial_epoch=0
+		load_path=False
+	
+	if args.epochs:	#	if number of training epochs is specified
+		print "Training for {} epochs".format(args.epochs)
+		epochs=args.epochs
+	else:
+		epochs=200
+		print "Training for {} epochs".format(epochs)
+	
+	if args.batch_size:	#	if batch_size is specified
+		print "Training with {} samples per minibatch".format(args.batch_size)
+		batch_size=args.batch_size
+	else:
+		batch_size=64
+		print "Training with {} minibatches".format(batch_size)
+	
+	if args.verbose:
+		verbose=args.verbose
+		print "Verbosity level {}".format(verbose)
+	else:
+		verbose=2
+	if args.classweights:
+		addweights=True
+	else:
+		addweights=False
+
+
+	#########################################################
 	
 	foldname=foldname
 	random_seed=random_seed
@@ -437,10 +439,3 @@ if __name__ == '__main__':
 					callbacks=[modelcheckpnt,
 						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
 					initial_epoch=initial_epoch)
-
-		
-
-	
-	
-	
-
