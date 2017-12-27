@@ -1,5 +1,5 @@
 clear
-fold=3;
+fold=0;
 a=0;
 b=0;
 c=0;
