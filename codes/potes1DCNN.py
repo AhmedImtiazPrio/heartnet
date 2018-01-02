@@ -348,7 +348,7 @@ if __name__ == '__main__':
 	bias=False
 	l2_reg=0.
 	l2_reg_dense=0.
-	kernel_size=16
+	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.5
 	dropout_rate_dense=0.
