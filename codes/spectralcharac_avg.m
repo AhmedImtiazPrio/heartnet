@@ -1,8 +1,9 @@
 %% Spectral characteristics average per dataset
 % figure('units','normalized','outerposition',[0 0 1 1]) %% for loglog plot maximize figure
-% for i=0:5
-clearvars -except i
-folder_idx=4; %index for training folder [0 to 5]
+a=[];
+for i=0:5
+clearvars -except i a
+folder_idx=i; %index for training folder [0 to 5]
 datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
 exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
 labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
@@ -24,7 +25,7 @@ labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second colu
 label_pointer=1; % label saving index
 
 Avg = [];
-for file_idx=1:2
+for file_idx=1:num_files
 %% Importing signals
     if folder_idx==4    % if dataset is training-e
         if sum(cell2mat(strfind(exclude,d(file_idx).name))) % if file is found in exclude list
@@ -51,38 +52,37 @@ for file_idx=1:2
     
 end
 %% Surf Plot
-
-figure('units','normalized','outerposition',[0 0 1 1]) %% maximize figure
-figure_path='/media/taufiq/Data/heart_sound/Presentation/Presentation 2/';
-[X,Y] = meshgrid(F,[1:size(Avg,1)]);
-s=surf(X,Y,Avg,mag2db(Avg))
-s.EdgeColor='flat';
-s.FaceColor='interp';
-shading interp
-view(30,40)
-colormap jet
-colorbar
-
-set(gca,'xscale','log')
-set(gca,'zscale','log')
-xlim([F(1) F(end)])
-ylim([1 size(Avg,1)])
-zlim([10^-4 1000])
-grid on
-xlabel('Frequency (Hz)');
-ylabel('Recording #');
-zlabel('Magnitude');
-title(['training-' 'a'+folder_idx ' ' 'normal']);
-hC = colorbar
-hC.Label.String = 'dB'
-savefig([figure_path 'training-' 'a'+folder_idx 'normalsurf.fig'])
-print([figure_path 'training-' 'a'+folder_idx 'normalsurf'],'-dpng')
+% 
+% figure('units','normalized','outerposition',[0 0 1 1]) %% maximize figure
+% figure_path='/media/taufiq/Data/heart_sound/Presentation/Presentation 2/';
+% [X,Y] = meshgrid(F,[1:size(Avg,1)]);
+% s=surf(X,Y,Avg,mag2db(Avg))
+% s.EdgeColor='flat';
+% s.FaceColor='interp';
+% shading interp
+% view(30,40)
+% colormap jet
+% colorbar
+% 
+% set(gca,'xscale','log')
+% set(gca,'zscale','log')
+% xlim([F(1) F(end)])
+% ylim([1 size(Avg,1)])
+% zlim([10^-4 1000])
+% grid on
+% xlabel('Frequency (Hz)');
+% ylabel('Recording #');
+% zlabel('Magnitude');
+% title(['training-' 'a'+folder_idx ' ' 'normal']);
+% hC = colorbar
+% hC.Label.String = 'dB'
+% savefig([figure_path 'training-' 'a'+folder_idx 'normalsurf.fig'])
+% print([figure_path 'training-' 'a'+folder_idx 'normalsurf'],'-dpng')
 
 %% LogLog Plot
 
 % plot(F,mean(Avg))
 % hold on
-% 
 % end
 % %%
 % set(gca,'xscale','log')
@@ -93,3 +93,5 @@ print([figure_path 'training-' 'a'+folder_idx 'normalsurf'],'-dpng')
 % xlabel('Frequency (Hz)');
 % ylabel('Magnitude (dB)');
 % title(['Freq characteristics per sensor (normal)']);
+a=[a;mean(Avg)];
+end
