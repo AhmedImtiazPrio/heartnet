@@ -1,19 +1,21 @@
 %% Spectral characteristics average per dataset
 % figure('units','normalized','outerposition',[0 0 1 1]) %% for loglog plot maximize figure
 a=[];
-for i=0:5
-clearvars -except i a
-folder_idx=i; %index for training folder [0 to 5]
+for it=0:5
+clearvars -except it a
+folder_idx=it; %index for training folder [0 to 5]
 datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
 exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
 labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
+addpath(genpath('/media/taufiq/Data/heart_sound/Heart_Sound/codes/cristhian.potes-204/'));
 
 d=dir([datapath,'*.wav']);
 num_files=size(d,1);
 
 window = 1; %   in seconds
 overlap = .5 ; %  fraction overlap during STFT
-nFFT = 120*2000;
+nFFT = 120*1000;
+resample_Fs=1000;
 %% Import list of files to be excluded
 
 exclude = importlist(exclude_text);
@@ -33,18 +35,24 @@ for file_idx=1:num_files
         end
     end
     
-    if labels(file_idx)==1
+    if labels(file_idx)==-1
         continue;
     end
     
     fname=[datapath,d(file_idx).name];
     [PCG,Fs] = audioread(fname);
-
+    
+    PCG= resample(PCG,resample_Fs,Fs); 
+    % filter the signal between 25 to 400 Hz
+    PCG = butterworth_low_pass_filter(PCG,2,400,resample_Fs, false);
+    PCG = butterworth_high_pass_filter(PCG,2,25,resample_Fs);
+    % remove spikes
+    PCG = schmidt_spike_removal(PCG,resample_Fs);
     
     
 %% Calculate Spectrogram
 
-    [S,F,T] = spectrogram(PCG,window*Fs,overlap*window*Fs,nFFT,Fs);
+    [S,F,T] = spectrogram(PCG,window*resample_Fs,overlap*window*resample_Fs,nFFT,resample_Fs);
     
     Avg = [Avg; mean(abs(real(S')))];
     
@@ -93,5 +101,5 @@ end
 % xlabel('Frequency (Hz)');
 % ylabel('Magnitude (dB)');
 % title(['Freq characteristics per sensor (normal)']);
-a=[a;mean(Avg)];
+a(it+1,:)=mean(Avg);
 end
