@@ -263,7 +263,7 @@ if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Specify fold to process')
 	parser.add_argument("fold",
 						help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
-						choices=["fold0","fold1","fold2","fold3"])
+						choices=["fold0","fold1","fold2","fold3","fold0aug"])
 	parser.add_argument("--seed",type=int,
 						help="Random seed for the random number generator (defaults to 1)")
 	parser.add_argument("--loadmodel",
