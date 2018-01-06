@@ -99,7 +99,7 @@ end
 % ylim([10^-4 1000])
 % grid on
 % xlabel('Frequency (Hz)');
-% ylabel('Magnitude (dB)');
+% ylabel('Magnitude');
 % title(['Freq characteristics per sensor (normal)']);
 a(it+1,:)=mean(Avg);
 end
