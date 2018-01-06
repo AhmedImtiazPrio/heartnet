@@ -37,6 +37,7 @@ b4 = fir1(N,Wn,'high',hamming(N+1));
 
 %% Feature extraction using Springers Segmentation
 
+load(filter_path);
 load('Springer_B_matrix.mat');
 load('Springer_pi_vector.mat');
 load('Springer_total_obs_distribution.mat');
@@ -79,7 +80,7 @@ for file_idx=1:num_files
     
 %% Run springer's segmentation
 
-    assigned_states = runSpringerSegmentationAlgorithm(PCG_resampled,... 
+    assigned_states = runSpringerSegmentationAlgorithm(PCG_augmented,... 
                     springer_options.audio_Fs,... 
                     Springer_B_matrix, Springer_pi_vector,...
                     Springer_total_obs_distribution, false);
@@ -122,7 +123,7 @@ end
 
 %% Save Data
     sname=[savedir 'training-' 'a'+folder_idx '_augmented_filt37' '.mat'];
-    %save(sname, 'X', 'Y', 'states', 'file_name');
+%     save(sname, 'X', 'Y', 'states', 'file_name');
 
     
 %% function to extract state index
