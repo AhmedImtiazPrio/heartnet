@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import numpy as np
 np.random.seed(1)
@@ -30,14 +31,16 @@ from sklearn.metrics import confusion_matrix
 
 def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dense,
 		eps,kernel_size,l2_reg,l2_reg_dense,load_path,lr,lr_decay,maxnorm,
-		padding,random_seed,subsam):
+		padding,random_seed,subsam,num_filt=(8,4),num_dense=20):
+	
+	num_filt1,num_filt2 = num_filt
 	
 	input1=Input(shape=(2500,1))
 	input2=Input(shape=(2500,1))
 	input3=Input(shape=(2500,1))
 	input4=Input(shape=(2500,1))
 	
-	t1 = Conv1D(8, kernel_size=kernel_size,
+	t1 = Conv1D(num_filt1, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -47,7 +50,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t1 = Activation(activation_function)(t1)
 	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
-	t1 = Conv1D(4, kernel_size=kernel_size,
+	t1 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -59,7 +62,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
 	t1 = Flatten()(t1)
 	
-	t2 = Conv1D(8, kernel_size=kernel_size,
+	t2 = Conv1D(num_filt1, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -69,7 +72,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t2 = Activation(activation_function)(t2)
 	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
-	t2 = Conv1D(4, kernel_size=kernel_size,
+	t2 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -81,7 +84,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
 	t2 = Flatten()(t2)
 	
-	t3 = Conv1D(8, kernel_size=kernel_size,
+	t3 = Conv1D(num_filt1, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -91,7 +94,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t3 = Activation(activation_function)(t3)
 	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
-	t3 = Conv1D(4, kernel_size=kernel_size,
+	t3 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -103,7 +106,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
 	t3 = Flatten()(t3)	
 	
-	t4 = Conv1D(8, kernel_size=kernel_size,
+	t4 = Conv1D(num_filt1, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -113,7 +116,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	t4 = Activation(activation_function)(t4)
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
-	t4 = Conv1D(4, kernel_size=kernel_size,
+	t4 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
 				padding=padding,
 				use_bias=bias,
@@ -127,7 +130,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 	 
 	merged = Concatenate(axis=1)([t1,t2,t3,t4])
 	
-	merged = Dense(20,
+	merged = Dense(num_dense,
 		activation=activation_function,
 		kernel_initializer=initializers.he_normal(seed=random_seed),
 		use_bias=bias,
@@ -225,8 +228,8 @@ def reshape_folds(x_train,x_val,y_train,y_val):
 	
 	y_train=np.reshape(y_train,[y_train.shape[0],1])
 	
-	print x1.shape
-	print y_train.shape
+	print(x1.shape)
+	print(y_train.shape)
 
 	v1=np.transpose(x_val[0,:,:])
 	v2=np.transpose(x_val[1,:,:])
@@ -240,8 +243,8 @@ def reshape_folds(x_train,x_val,y_train,y_val):
 	
 	y_val=np.reshape(y_val,[y_val.shape[0],1])
 	
-	print v1.shape
-	print y_val.shape
+	print(v1.shape)
+	print(y_val.shape)
 	return [x1,x2,x3,x4],y_train,[v1,v2,v3,v4],y_val
 
 class show_lr(Callback):
@@ -279,11 +282,11 @@ if __name__ == '__main__':
 		help="if True, class weights are added according to the ratio of the two classes present in the training data")
 	
 	args = parser.parse_args()
-	print "{} selected".format(args.fold)
+	print("%s selected" % (args.fold))
 	foldname=args.fold
 	
 	if args.seed:	#	if random seed is specified
-		print "Random seed specified as {}".format(args.seed)
+		print ("Random seed specified as %d"% (args.seed))
 		random_seed=args.seed
 	else:
 		random_seed=1
@@ -294,29 +297,29 @@ if __name__ == '__main__':
 		idx = load_path.find("weights")
 		initial_epoch=int(load_path[idx+8:idx+8+4])
 		
-		print "{} model loaded\nInitial epoch is {}".format(args.loadmodel,initial_epoch)
+		print("%s model loaded\nInitial epoch is %d" % (args.loadmodel, initial_epoch))
 	else:
-		print "no model specified, using initializer to initialize weights"
+		print("no model specified, using initializer to initialize weights")
 		initial_epoch=0
 		load_path=False
 	
 	if args.epochs:	#	if number of training epochs is specified
-		print "Training for {} epochs".format(args.epochs)
+		print("Training for %d epochs"%(args.epochs))
 		epochs=args.epochs
 	else:
 		epochs=200
-		print "Training for {} epochs".format(epochs)
-	
+		print("Training for %d epochs"% (epochs))
+			
 	if args.batch_size:	#	if batch_size is specified
-		print "Training with {} samples per minibatch".format(args.batch_size)
+		print("Training with %d samples per minibatch"%(args.batch_size))
 		batch_size=args.batch_size
 	else:
 		batch_size=64
-		print "Training with {} minibatches".format(batch_size)
-	
+		print("Training with %d minibatches"%(batch_size))
+			
 	if args.verbose:
 		verbose=args.verbose
-		print "Verbosity level {}".format(verbose)
+		print("Verbosity level %d"%(verbose))
 	else:
 		verbose=2
 	if args.classweights:
@@ -344,6 +347,9 @@ if __name__ == '__main__':
 		os.makedirs(model_dir+log_name)
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
+	
+	num_filt = (8,16)
+	num_dense = 20
 	
 	bn_momentum = 0.99
 	eps= 1.1e-5
@@ -392,7 +398,7 @@ if __name__ == '__main__':
 	
 	model=heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dense,
 		eps,kernel_size,l2_reg,l2_reg_dense,load_path,lr,lr_decay,maxnorm,
-		padding,random_seed,subsam)
+		padding,random_seed,subsam,num_filt,num_dense)
 	plot_model(model, to_file='model.png',show_shapes=True)
 	
 	####### Define Callbacks ######
@@ -459,12 +465,14 @@ if __name__ == '__main__':
 		 'L2 - filters':l2_reg,'L2- dense':l2_reg_dense,
 		 'Batch Size':batch_size,'Optimizer':'Adam','Learning Rate':lr,
 		 'BN momentum':bn_momentum,
-		 'Best Val Acc Per Cardiac Cycle':df1.loc[[max_idx]]['val_acc'].values[0]*100,
+		 'Best Val Acc Per Cardiac Cycle':np.mean(df2.loc[max_idx-3:max_idx+3]['val_acc'].values)*100,
 		 'Epoch':df1.loc[[max_idx]]['epoch'].values[0],
-		 'Training Acc per cardiac cycle':df1.loc[[max_idx]]['acc'].values[0]*100,
-		 'Specificity':df1.loc[[max_idx]]['val_specificity'].values[0]*100,
-		 'Macc':df1.loc[[max_idx]]['val_macc'].values[0]*100,
-		 'Sensitivity ':df1.loc[[max_idx]]['val_sensitivity'].values[0]*100}
+		 'Training Acc per cardiac cycle':np.mean(df2.loc[max_idx-3:max_idx+3]['acc'].values)*100,
+		 'Specificity':np.mean(df2.loc[max_idx-3:max_idx+3]['val_specificity'].values)*100,
+		 'Macc':np.mean(df2.loc[max_idx-3:max_idx+3]['val_macc'].values)*100,
+		 'Sensitivity':np.mean(df2.loc[max_idx-3:max_idx+3]['val_sensitivity'].values)*100,
+		 'Number of filters':str(num_filt),
+		 'Number of Dense Neurons':num_dense}
 	
 	index,_=df.shape
 	new_entry = pd.DataFrame(new_entry,index=[index])
