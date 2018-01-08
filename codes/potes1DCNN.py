@@ -4,6 +4,7 @@ np.random.seed(1)
 from tensorflow import set_random_seed
 set_random_seed(1)
 
+import pandas as pd
 import tables
 import csv
 from datetime import datetime
@@ -21,7 +22,7 @@ from keras.constraints import max_norm
 from keras.optimizers import Adam, Nadam, Adamax
 from scipy.io import savemat, loadmat
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
-from keras.callbacks import LearningRateScheduler, ModelCheckpoint
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
 
@@ -342,16 +343,17 @@ if __name__ == '__main__':
 	if not os.path.exists(model_dir+log_name):
 		os.makedirs(model_dir+log_name)
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
+	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
 	
 	bn_momentum = 0.99
 	eps= 1.1e-5
 	bias=False
-	l2_reg=0.
+	l2_reg=0.01
 	l2_reg_dense=0.
 	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.5
-	dropout_rate_dense=0.25
+	dropout_rate_dense=0.
 	padding='valid'
 	activation_function='relu'
 	subsam=2
@@ -399,6 +401,8 @@ if __name__ == '__main__':
 		monitor='val_acc',save_best_only=False,mode='max')
 	tensbd = TensorBoard(log_dir=log_dir+log_name,
 		batch_size=batch_size,write_images=True)
+	csv_logger = CSVLogger(log_dir+'/training.csv')
+
 	#show_lr()
 	#log_macc()
 	
@@ -424,7 +428,8 @@ if __name__ == '__main__':
 					verbose=verbose,
 					validation_data=(x_val,y_val),
 					callbacks=[modelcheckpnt,show_lr(),
-						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
+						log_macc(x_val,y_val,val_parts,res_thresh),
+						tensbd,csv_logger],
 					initial_epoch=initial_epoch,
 					class_weight=class_weight)
 
@@ -437,12 +442,34 @@ if __name__ == '__main__':
 					verbose=verbose,
 					validation_data=(x_val,y_val),
 					callbacks=[modelcheckpnt,
-						log_macc(x_val,y_val,val_parts,res_thresh),tensbd],
+						log_macc(x_val,y_val,val_parts,res_thresh),
+						tensbd,csv_logger],
 					initial_epoch=initial_epoch)
 
+	############### log results in csv ###############
 		
-
+	df = pd.read_csv(results_path)
+	df1 = pd.read_csv(log_dir+'/training.csv')
+	max_idx = df1['val_macc'].idxmax()
+	new_entry = {'Filename':log_name,'Weight Initialization':'he_normal',
+		 'Activation':activation_function+'-sigmoid','Class weights':addweights,
+		 'Kernel Size':kernel_size,'Max Norm':maxnorm,
+		 'Dropout -filters':dropout_rate,
+		 'Dropout - dense':dropout_rate_dense,
+		 'L2 - filters':l2_reg,'L2- dense':l2_reg_dense,
+		 'Batch Size':batch_size,'Optimizer':'Adam','Learning Rate':lr,
+		 'BN momentum':bn_momentum,
+		 'Best Val Acc Per Cardiac Cycle':df1.loc[[max_idx]]['val_acc'].values[0]*100,
+		 'Epoch':df1.loc[[max_idx]]['epoch'].values[0],
+		 'Training Acc per cardiac cycle':df1.loc[[max_idx]]['acc'].values[0]*100,
+		 'Specificity':df1.loc[[max_idx]]['val_specificity'].values[0]*100,
+		 'Macc':df1.loc[[max_idx]]['val_macc'].values[0]*100,
+		 'Sensitivity ':df1.loc[[max_idx]]['val_sensitivity'].values[0]*100}
 	
-	
-	
+	index,_=df.shape
+	new_entry = pd.DataFrame(new_entry,index=[index])
+	df2 = pd.concat([df,new_entry],axis=0)
+	df2 = df2.reindex(df.columns,axis=1)
+	df2.to_csv(results_path,index=False)
+	df2.tail()
 
