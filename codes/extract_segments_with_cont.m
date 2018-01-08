@@ -127,7 +127,7 @@ end
 
 %% Save Data
     sname=[savedir 'training-' 'a'+folder_idx '_cont' '.mat'];
-    save(sname, 'X', 'Y', 'states', 'file_name');
+%     save(sname, 'X', 'Y', 'states', 'file_name');
 end
     
 %% function to extract state index

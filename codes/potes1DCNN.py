@@ -348,7 +348,7 @@ if __name__ == '__main__':
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
 	
-	num_filt = (8,8)
+	num_filt = (8,5)
 	num_dense = 20
 	
 	bn_momentum = 0.99
