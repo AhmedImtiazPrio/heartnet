@@ -348,7 +348,7 @@ if __name__ == '__main__':
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
 	
-	num_filt = (8,16)
+	num_filt = (8,8)
 	num_dense = 20
 	
 	bn_momentum = 0.99
@@ -465,12 +465,12 @@ if __name__ == '__main__':
 		 'L2 - filters':l2_reg,'L2- dense':l2_reg_dense,
 		 'Batch Size':batch_size,'Optimizer':'Adam','Learning Rate':lr,
 		 'BN momentum':bn_momentum,
-		 'Best Val Acc Per Cardiac Cycle':np.mean(df2.loc[max_idx-3:max_idx+3]['val_acc'].values)*100,
+		 'Best Val Acc Per Cardiac Cycle':np.mean(df1.loc[max_idx-3:max_idx+3]['val_acc'].values)*100,
 		 'Epoch':df1.loc[[max_idx]]['epoch'].values[0],
-		 'Training Acc per cardiac cycle':np.mean(df2.loc[max_idx-3:max_idx+3]['acc'].values)*100,
-		 'Specificity':np.mean(df2.loc[max_idx-3:max_idx+3]['val_specificity'].values)*100,
-		 'Macc':np.mean(df2.loc[max_idx-3:max_idx+3]['val_macc'].values)*100,
-		 'Sensitivity':np.mean(df2.loc[max_idx-3:max_idx+3]['val_sensitivity'].values)*100,
+		 'Training Acc per cardiac cycle':np.mean(df1.loc[max_idx-3:max_idx+3]['acc'].values)*100,
+		 'Specificity':np.mean(df1.loc[max_idx-3:max_idx+3]['val_specificity'].values)*100,
+		 'Macc':np.mean(df1.loc[max_idx-3:max_idx+3]['val_macc'].values)*100,
+		 'Sensitivity':np.mean(df1.loc[max_idx-3:max_idx+3]['val_sensitivity'].values)*100,
 		 'Number of filters':str(num_filt),
 		 'Number of Dense Neurons':num_dense}
 	

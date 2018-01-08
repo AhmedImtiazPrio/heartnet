@@ -14,7 +14,9 @@ if ~(exist([datapath 'data_all.mat'], 'file') == 2)
     labels=[];
     cc_idx=[];      %cardiac cycle indices
     filenames=[];   %filenames of each segment
-
+    val_parts=[];   %number of cc per recording
+    train_parts=[];  %number of cc per recording
+    
     for folder_idx=0:5
     loadfile=[datapath 'training-' 'a'+folder_idx '.mat'];
     load(loadfile);

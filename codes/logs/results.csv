@@ -1,30 +1,32 @@
 Filename,Weight Initialization,Activation,Class weights,Kernel Size,Max Norm,Dropout -filters,Dropout - dense,L2 - filters,L2- dense,Batch Size,Optimizer,Learning Rate,BN momentum,Number of filters,Number of Dense Neurons,Best Val Acc Per Cardiac Cycle,Epoch,Training Acc per cardiac cycle,Sensitivity,Specificity,Macc,No of Abnormal Strongly Mislabeled,No of Normal Strongly Mislabeled,Comments
-fold0 2017-12-06 15:22:11,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,68.12,68.0,86.68,,,,,,NaN Error
-fold1 2017-12-06 16:54:16,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,69.06,46.0,84.88,,,,,,NaN Error
-fold2 2017-12-06 18:05:33.552753,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,78.19,29.0,84.48,,,,,,NAN Error
-fold3 2017-12-08 16:06:20.506795,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,79.92,21.0,87.28,,,,,,"Stooping low, possible NaN error"
-fold0 2017-12-11 09:55:04.403236,he_normal,relu-sigmoid,,5,4.0,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,,,,,,,,,"Underfittin, need to increase learning rate"
-fold0 2017-12-11 10:20:06.250238,he_normal,relu-sigmoid,,5,10.0,,0.25,,0.01,8,adam,0.006999999999999999,0.99,"(8,4)",20.0,,,,,,,,,Still underfitting. Weird behaviour
-fold0 2017-12-12 14:31:59.268389,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,72.34,9.0,92.97,71.52,80.66,76.094,,,Overfitting
-fold1 2017-12-11 22:18:56.115124,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,83.11,14.0,95.65,70.76,95.32,83.04,,,Overfitting
-fold2 2017-12-12 02:04:36.127106,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,82.88,6.0,91.94,81.87,94.15,88.01,,,Overfitting
-fold3 2017-12-12 09:02:20.725905,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20.0,83.03,3.0,90.64,85.38,84.79,85.087,,,Overfitting
-fold0 2017-12-18 11:40:03.246441,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20.0,72.05,43.0,89.75,76.82,76.03,76.42,,,underfitting and oscillating
-fold1 2017-12-18 12:16:45.443184,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20.0,85.23,118.0,89.12,92.4,84.8,88.6,,,underfitting and oscillating
-fold2 2017-12-18 15:15:40.815855,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20.0,86.76,83.0,89.62,89.47,91.23,90.35,,,underfitting and oscillating
-fold2 2017-12-19 12:33:58.117868,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,83.51,23.0,95.57,84.21,95.91,90.06,,,"Oscillation fixed, overfitting"
-fold2 2017-12-19 13:26:35.918372,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.005,0.01,64,adam,0.0007,0.99,"(8,4)",20.0,81.9,35.0,90.22,87.72,92.4,90.06,,,OSCILLATING AGAIN!!
-fold2 2017-12-19 15:16:46.229828,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.0,0.01,64,adam,0.0007,0.99,"(8,4)",20.0,85.89,149.0,91.25,91.81,90.64,91.23,,,oscillation reduced
-fold2 2017-12-19 16:46:10.189937,he_normal,relu-sigmoid,,5,10000.0,0.25,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,85.35,65.0,95.84,90.06,94.14,92.11,,,"oscillation reduced, overfitting. But variance reduced"
-fold0 2017-12-20 16:10:31.624027,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,73.99,189.0,95.14,86.75,71.23,78.99,16.0,35.0,
-fold1 2017-12-20 15:26:47.011204,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,88.98,90.0,93.97,94.15,89.47,91.81,6.0,10.0,
-fold2 2017-12-20 12:14:09.278081,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,88.6,77.0,93.53,94.74,91.23,92.98,3.0,10.0,"oscillation reduced, overfitting reduced, variance reduced"
-fold3 2017-12-20 14:43:16.922783,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,81.65,80.0,93.56,78.36,93.57,85.96,27.0,5.0,overfitting like fold2 but validation accuracy greatly reduced
-fold0 2017-12-27 13:12:34.499110,he_normal,relu-sigmoid,,16,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,75.38,23.0,93.28,91.39,65.07,78.23,,,increasing kernel size ruined it
-fold0 2018-01-02 12:35:23.532822,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,72.43,49.0,90.76,84.77,64.38,74.58,,,increasing dense regularization ruined it
-fold2 2018-01-02 15:17:15.166515,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,85.28,69.0,89.75,81.29,94.74,88.01,,,increasing dense regularization ruined it
-fold0aug 2018-01-06 17:49:28.443969,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,74.73,180.0,96.26,86.75,68.49,77.62,,,
-fold0aug 2018-01-06 20:09:21.292214,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.005,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,73.72,91.0,95.25,82.12,71.92,77.02,,,
-fold0aug 2018-01-07 11:48:42.276690,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.006999999999999999,0.0,64,adam,0.0007,0.99,"(8,4)",20.0,72.86,154.0,94.95,70.86,82.88,76.87,,,
-fold0aug 2018-01-07 19:49:01.116821,he_normal,relu-sigmoid,0.0,5,10000.0,0.5,0.0,0.01,0.0,64,Adam,0.0007,0.99,"(8,4)",20.0,73.5800109425,180.0,95.2843800367,84.1059602649,69.8630136986,76.9844869818,,,
-logname,he_normal,relu-sigmoid,addweights,kernel_size,maxnorm,dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,Adam,lr,bn_momentum,,,,,,,,,,,
+fold0 2017-12-06 15:22:11,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20,68.12,68.0,86.68,,,,,,NaN Error
+fold1 2017-12-06 16:54:16,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20,69.06,46.0,84.88,,,,,,NaN Error
+fold2 2017-12-06 18:05:33.552753,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20,78.19,29.0,84.48,,,,,,NAN Error
+fold3 2017-12-08 16:06:20.506795,zero,relu-sigmoid,,5,,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20,79.92,21.0,87.28,,,,,,"Stooping low, possible NaN error"
+fold0 2017-12-11 09:55:04.403236,he_normal,relu-sigmoid,,5,4.0,,0.25,,0.01,8,adam,0.0007,0.99,"(8,4)",20,,,,,,,,,"Underfittin, need to increase learning rate"
+fold0 2017-12-11 10:20:06.250238,he_normal,relu-sigmoid,,5,10.0,,0.25,,0.01,8,adam,0.007,0.99,"(8,4)",20,,,,,,,,,Still underfitting. Weird behaviour
+fold0 2017-12-12 14:31:59.268389,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20,72.34,9.0,92.97,71.52,80.66,76.094,,,Overfitting
+fold1 2017-12-11 22:18:56.115124,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20,83.11,14.0,95.65,70.76,95.32,83.04,,,Overfitting
+fold2 2017-12-12 02:04:36.127106,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20,82.88,6.0,91.94,81.87,94.15,88.01,,,Overfitting
+fold3 2017-12-12 09:02:20.725905,he_normal,relu-sigmoid,,5,10.0,,,,0.01,8,adam,0.0007,0.99,"(8,4)",20,83.03,3.0,90.64,85.38,84.79,85.087,,,Overfitting
+fold0 2017-12-18 11:40:03.246441,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20,72.05,43.0,89.75,76.82,76.03,76.42,,,underfitting and oscillating
+fold1 2017-12-18 12:16:45.443184,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20,85.23,118.0,89.12,92.4,84.8,88.6,,,underfitting and oscillating
+fold2 2017-12-18 15:15:40.815855,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.01,0.01,64,adam,0.0007,0.99,"(8,4)",20,86.76,83.0,89.62,89.47,91.23,90.35,,,underfitting and oscillating
+fold2 2017-12-19 12:33:58.117868,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,83.51,23.0,95.57,84.21,95.91,90.06,,,"Oscillation fixed, overfitting"
+fold2 2017-12-19 13:26:35.918372,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.005,0.01,64,adam,0.0007,0.99,"(8,4)",20,81.9,35.0,90.22,87.72,92.4,90.06,,,OSCILLATING AGAIN!!
+fold2 2017-12-19 15:16:46.229828,he_normal,relu-sigmoid,,5,10000.0,0.0,0.0,0.0,0.01,64,adam,0.0007,0.99,"(8,4)",20,85.89,149.0,91.25,91.81,90.64,91.23,,,oscillation reduced
+fold2 2017-12-19 16:46:10.189937,he_normal,relu-sigmoid,,5,10000.0,0.25,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,85.35,65.0,95.84,90.06,94.14,92.11,,,"oscillation reduced, overfitting. But variance reduced"
+fold0 2017-12-20 16:10:31.624027,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,73.99,189.0,95.14,86.75,71.23,78.99,16.0,35.0,
+fold1 2017-12-20 15:26:47.011204,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,88.98,90.0,93.97,94.15,89.47,91.81,6.0,10.0,
+fold2 2017-12-20 12:14:09.278081,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,88.6,77.0,93.53,94.74,91.23,92.98,3.0,10.0,"oscillation reduced, overfitting reduced, variance reduced"
+fold3 2017-12-20 14:43:16.922783,he_normal,relu-sigmoid,,5,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,81.65,80.0,93.56,78.36,93.57,85.96,27.0,5.0,overfitting like fold2 but validation accuracy greatly reduced
+fold0 2017-12-27 13:12:34.499110,he_normal,relu-sigmoid,,16,10000.0,0.5,0.0,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,75.38,23.0,93.28,91.39,65.07,78.23,,,increasing kernel size ruined it
+fold0 2018-01-02 12:35:23.532822,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,72.43,49.0,90.76,84.77,64.38,74.58,,,increasing dense regularization ruined it
+fold2 2018-01-02 15:17:15.166515,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,85.28,69.0,89.75,81.29,94.74,88.01,,,increasing dense regularization ruined it
+fold0aug 2018-01-06 17:49:28.443969,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.0,0.0,64,adam,0.0007,0.99,"(8,4)",20,74.73,180.0,96.26,86.75,68.49,77.62,,,
+fold0aug 2018-01-06 20:09:21.292214,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.005,0.0,64,adam,0.0007,0.99,"(8,4)",20,73.72,91.0,95.25,82.12,71.92,77.02,,,
+fold0aug 2018-01-07 11:48:42.276690,he_normal,relu-sigmoid,,5,10000.0,0.5,0.25,0.007,0.0,64,adam,0.0007,0.99,"(8,4)",20,72.86,154.0,94.95,70.86,82.88,76.87,,,
+fold0aug 2018-01-07 19:49:01.116821,he_normal,relu-sigmoid,0,5,10000.0,0.5,0.0,0.01,0.0,64,Adam,0.0007,0.99,"(8,4)",20,73.5800109425,180.0,95.2843800367,84.1059602649,69.8630136986,76.9844869818,,,
+fold0 2018-01-08 13:51:55.370759,he_normal,relu-sigmoid,False,5,10000.0,0.5,0.0,0.01,0.0,64,Adam,0.0007,0.99,"(8, 16)",20,72.4057892123,175.0,91.1102556773,77.4834437086,71.9178082192,74.7006259639,,,
+fold0 2018-01-08 18:07:39.042570,he_normal,relu-sigmoid,False,5,10000.0,0.5,0.0,0.01,0.0,64,Adam,0.0007,0.99,"(8, 10)",20,69.2244675232,29.0,85.0139342969,76.9157994324,54.7945205479,65.8551599901,,,
+fold0 2018-01-08 18:16:22.598537,he_normal,relu-sigmoid,False,5,10000.0,0.5,0.0,0.01,0.0,64,Adam,0.0007,0.99,"(8, 8)",20,73.9213544646,196.0,93.0002110993,84.5789971618,61.8395303327,73.2092637472,,,
