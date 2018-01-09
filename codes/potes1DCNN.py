@@ -266,8 +266,7 @@ if __name__ == '__main__':
 	########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
 	parser = argparse.ArgumentParser(description='Specify fold to process')
 	parser.add_argument("fold",
-						help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/",
-						choices=["fold0","fold1","fold2","fold3","fold0aug"])
+						help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/")
 	parser.add_argument("--seed",type=int,
 						help="Random seed for the random number generator (defaults to 1)")
 	parser.add_argument("--loadmodel",
@@ -348,14 +347,14 @@ if __name__ == '__main__':
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
 	
-	num_filt = (8,5)
+	num_filt = (8,3)
 	num_dense = 20
 	
 	bn_momentum = 0.99
 	eps= 1.1e-5
 	bias=False
-	l2_reg=0.01
-	l2_reg_dense=0.
+	l2_reg=0.
+	l2_reg_dense=0.01
 	kernel_size=5
 	maxnorm=10000.
 	dropout_rate=0.5
