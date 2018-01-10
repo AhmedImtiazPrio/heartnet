@@ -275,36 +275,24 @@ def compute_weight(Y, classes):
 
 
 def reshape_folds(x_train, x_val, y_train, y_val):
-    x1 = np.transpose(x_train[0, :, :])
-    x2 = np.transpose(x_train[1, :, :])
-    x3 = np.transpose(x_train[2, :, :])
-    x4 = np.transpose(x_train[3, :, :])
+    x1 = np.transpose(x_train[:, :])
 
     x1 = np.reshape(x1, [x1.shape[0], x1.shape[1], 1])
-    x2 = np.reshape(x2, [x2.shape[0], x2.shape[1], 1])
-    x3 = np.reshape(x3, [x3.shape[0], x3.shape[1], 1])
-    x4 = np.reshape(x4, [x4.shape[0], x4.shape[1], 1])
 
     y_train = np.reshape(y_train, [y_train.shape[0], 1])
 
     print(x1.shape)
     print(y_train.shape)
 
-    v1 = np.transpose(x_val[0, :, :])
-    v2 = np.transpose(x_val[1, :, :])
-    v3 = np.transpose(x_val[2, :, :])
-    v4 = np.transpose(x_val[3, :, :])
+    v1 = np.transpose(x_val[:, :])
 
     v1 = np.reshape(v1, [v1.shape[0], v1.shape[1], 1])
-    v2 = np.reshape(v2, [v2.shape[0], v2.shape[1], 1])
-    v3 = np.reshape(v3, [v3.shape[0], v3.shape[1], 1])
-    v4 = np.reshape(v4, [v4.shape[0], v4.shape[1], 1])
 
     y_val = np.reshape(y_val, [y_val.shape[0], 1])
 
     print(v1.shape)
     print(y_val.shape)
-    return [x1, x2, x3, x4], y_train, [v1, v2, v3, v4], y_val
+    return x1, y_train, v1 , y_val
 
 
 class show_lr(Callback):
