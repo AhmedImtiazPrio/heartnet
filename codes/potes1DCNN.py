@@ -353,7 +353,7 @@ if __name__ == '__main__':
 	bn_momentum = 0.99
 	eps= 1.1e-5
 	bias=False
-	l2_reg=0.01
+	l2_reg=0.09
 	l2_reg_dense=0.
 	kernel_size=5
 	maxnorm=10000.
