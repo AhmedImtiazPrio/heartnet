@@ -358,7 +358,7 @@ if __name__ == '__main__':
 		kernel_size=5
 		maxnorm=10000.
 		dropout_rate=0.8
-		dropout_rate_dense=0.
+		dropout_rate_dense=0.01
 		padding='valid'
 		activation_function='relu'
 		subsam=2
