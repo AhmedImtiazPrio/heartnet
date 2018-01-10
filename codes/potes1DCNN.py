@@ -46,7 +46,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input1)
-	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
+	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t1)
 	t1 = Activation(activation_function)(t1)
 	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
@@ -56,7 +56,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t1)
-	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t1)
+	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t1)
 	t1 = Activation(activation_function)(t1)
 	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
@@ -68,7 +68,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input2)
-	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
+	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t2)
 	t2 = Activation(activation_function)(t2)
 	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
@@ -78,7 +78,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t2)
-	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t2)
+	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t2)
 	t2 = Activation(activation_function)(t2)
 	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
@@ -90,7 +90,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input3)
-	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
+	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t3)
 	t3 = Activation(activation_function)(t3)
 	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
@@ -100,7 +100,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t3)
-	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t3)
+	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t3)
 	t3 = Activation(activation_function)(t3)
 	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
@@ -112,7 +112,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(input4)
-	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
+	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t4)
 	t4 = Activation(activation_function)(t4)
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
@@ -122,7 +122,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				use_bias=bias,
 				kernel_constraint=max_norm(maxnorm),
 				kernel_regularizer=l2(l2_reg))(t4)
-	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (t4)
+	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t4)
 	t4 = Activation(activation_function)(t4)
 	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
@@ -358,7 +358,7 @@ if __name__ == '__main__':
 		kernel_size=5
 		maxnorm=10000.
 		dropout_rate=0.8
-		dropout_rate_dense=0.3
+		dropout_rate_dense=0.5
 		padding='valid'
 		activation_function='relu'
 		subsam=2
