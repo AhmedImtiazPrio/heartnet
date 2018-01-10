@@ -347,7 +347,7 @@ if __name__ == '__main__':
 	checkpoint_name=model_dir+log_name+"/"+'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
 	results_path='/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
 	
-	num_filt = (8,3)
+	num_filt = (8,4)
 	num_dense = 20
 	
 	bn_momentum = 0.99
@@ -363,7 +363,7 @@ if __name__ == '__main__':
 	activation_function='relu'
 	subsam=2
 	
-	lr=0.0007
+	lr=0.0001
 	lr_decay=1e-8
 	lr_reduce_factor=0.5
 	patience=4 #for reduceLR
