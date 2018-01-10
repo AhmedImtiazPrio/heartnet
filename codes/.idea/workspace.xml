@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:10:52.890954/events.out.tfevents.1515586295.mHealthlab1" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" afterPath="" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
-      <change beforePath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 16:59:52.319668/events.out.tfevents.1515582033.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 16:59:52.319668/events.out.tfevents.1515582033.mHealthlab1" />
+      <change beforePath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 17:25:54.404782/events.out.tfevents.1515583596.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 17:25:54.404782/events.out.tfevents.1515583596.mHealthlab1" />
       <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
       <change beforePath="$PROJECT_DIR$/logs/training.csv" afterPath="$PROJECT_DIR$/logs/training.csv" />
-      <change beforePath="$PROJECT_DIR$/potes1DCNN.py" afterPath="$PROJECT_DIR$/potes1DCNN.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,27 +22,29 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="175" column="63" lean-forward="true" selection-start-line="175" selection-start-column="63" selection-end-line="175" selection-end-column="63" />
+            <state relative-caret-position="1110">
+              <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
               <folding>
-                <element signature="e#1119#2215#0" expanded="false" />
-                <marker date="1515584135092" expanded="false" signature="3228:7665" ph="..." />
+                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#1118#2214#0" expanded="false" />
+                <element signature="e#9400#11609#0" expanded="false" />
+                <element signature="e#11648#11841#0" expanded="false" />
+                <element signature="e#11899#12911#0" expanded="false" />
+                <element signature="e#12943#13072#0" expanded="false" />
+                <element signature="e#13103#13207#0" expanded="false" />
+                <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="potes1DCNN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/potes1DCNN.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="18" column="42" lean-forward="false" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>activation</find>
+      <find>Batch</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -53,6 +56,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/potes1DCNN.py" />
+        <option value="$PROJECT_DIR$/FIR_conv_test.ipynb" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
       </list>
     </option>
@@ -148,7 +152,7 @@
     <frame x="0" y="0" width="960" height="1055" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36430064" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16597077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -171,7 +175,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -180,8 +186,14 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1119#2215#0" expanded="false" />
-            <marker date="1515584135092" expanded="false" signature="3228:7665" ph="..." />
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#1118#2214#0" expanded="false" />
+            <element signature="e#9400#11609#0" expanded="false" />
+            <element signature="e#11648#11841#0" expanded="false" />
+            <element signature="e#11899#12911#0" expanded="false" />
+            <element signature="e#12943#13072#0" expanded="false" />
+            <element signature="e#13103#13207#0" expanded="false" />
+            <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
           </folding>
         </state>
       </provider>
@@ -193,22 +205,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="175" column="63" lean-forward="true" selection-start-line="175" selection-start-column="63" selection-end-line="175" selection-end-column="63" />
-          <folding>
-            <element signature="e#1119#2215#0" expanded="false" />
-            <marker date="1515584135092" expanded="false" signature="3228:7665" ph="..." />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/Untitled.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/potes1DCNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="18" column="42" lean-forward="false" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+        <state relative-caret-position="510">
+          <caret line="50" column="56" lean-forward="false" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FIR_conv_test.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1110">
+          <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#1118#2214#0" expanded="false" />
+            <element signature="e#9400#11609#0" expanded="false" />
+            <element signature="e#11648#11841#0" expanded="false" />
+            <element signature="e#11899#12911#0" expanded="false" />
+            <element signature="e#12943#13072#0" expanded="false" />
+            <element signature="e#13103#13207#0" expanded="false" />
+            <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
