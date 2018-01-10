@@ -485,7 +485,7 @@ if __name__ == '__main__':
 		df = pd.read_csv(results_path)
 		df1 = pd.read_csv(log_dir+'/training.csv')
 		max_idx = df1['val_macc'].idxmax()
-		new_entry = {'Filename':log_name,'Weight Initialization':'he_normal',
+		new_entry = {'Filename':'*'+log_name,'Weight Initialization':'he_normal',
 			 'Activation':activation_function+'-sigmoid','Class weights':addweights,
 			 'Kernel Size':kernel_size,'Max Norm':maxnorm,
 			 'Dropout -filters':dropout_rate,
@@ -508,5 +508,5 @@ if __name__ == '__main__':
 		df2 = df2.reindex(df.columns,axis=1)
 		df2.to_csv(results_path,index=False)
 		df2.tail()
-		print("Saved to results.csv")
+		print("Saving to results.csv")
 
