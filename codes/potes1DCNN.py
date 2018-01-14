@@ -398,6 +398,7 @@ if __name__ == '__main__':
 		model=heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dense,
 			eps,kernel_size,l2_reg,l2_reg_dense,load_path,lr,lr_decay,maxnorm,
 			padding,random_seed,subsam,num_filt,num_dense)
+		model.summary()
 		plot_model(model, to_file='model.png',show_shapes=True)
 		
 		####### Define Callbacks ######
