@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterPath="" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
       <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
     </list>
@@ -18,8 +19,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="442" column="23" lean-forward="false" selection-start-line="442" selection-start-column="23" selection-end-line="442" selection-end-column="23" />
+            <state relative-caret-position="435">
+              <caret line="428" column="26" lean-forward="false" selection-start-line="428" selection-start-column="26" selection-end-line="428" selection-end-column="26" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#1354#2450#0" expanded="false" />
@@ -27,7 +28,7 @@
                 <element signature="e#11884#12077#0" expanded="false" />
                 <element signature="e#12582#12711#0" expanded="false" />
                 <element signature="e#12742#12846#0" expanded="false" />
-                <marker date="1515929800231" expanded="false" signature="4272:8709" ph="..." />
+                <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
               </folding>
             </state>
           </provider>
@@ -212,7 +213,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515929800231" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
@@ -248,8 +249,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="442" column="23" lean-forward="false" selection-start-line="442" selection-start-column="23" selection-end-line="442" selection-end-column="23" />
+        <state relative-caret-position="435">
+          <caret line="428" column="26" lean-forward="false" selection-start-line="428" selection-start-column="26" selection-end-line="428" selection-end-column="26" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
             <element signature="e#1354#2450#0" expanded="false" />
@@ -257,7 +258,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515929800231" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
