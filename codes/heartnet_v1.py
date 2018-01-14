@@ -1,4 +1,10 @@
 from __future__ import print_function
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.4
+set_session(tf.Session(config=config))
+
 import os
 import numpy as np
 np.random.seed(1)
@@ -412,7 +418,29 @@ if __name__ == '__main__':
         FIR_train=True
 
 
-        lr = 0.0001
+        #lr = 0.0001
+        ######## learning rate bayesian optimization #######
+        # lr = 0.0057003773
+        lr =  0.0026508614
+        #lr =  0.0012843784
+        #lr =  1.36E-05
+        #lr =  5.419067672
+        #lr =  0.0001060894
+        #lr =  2.35E-06
+        #lr =  0.000161461
+        #lr =  0.000129292
+        #lr =  4.75E-06
+        #lr =  0.0008938633
+        #lr =  0.0001409278
+        #lr =  0.0346041186
+        #lr =  1.869691397
+        #lr =  0.0025685977
+        #lr =  0.0466593044
+        #lr =  0.008620454
+        #lr =  6.67E-05
+        #lr =  0.4921650824
+        #lr =  0.0001893414
+        ############################################
         lr_decay = 1e-8
         lr_reduce_factor = 0.5
         patience = 4  # for reduceLR
@@ -447,6 +475,7 @@ if __name__ == '__main__':
         model = heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, load_path, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train)
+        model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
 
         ####### Define Callbacks ######
@@ -455,7 +484,7 @@ if __name__ == '__main__':
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size, write_images=True)
-        csv_logger = CSVLogger(log_dir + '/training.csv')
+        csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
         # show_lr()
         # log_macc()
@@ -501,7 +530,7 @@ if __name__ == '__main__':
         ############### log results in csv ###############
 
         df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + '/training.csv')
+        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
         new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
                      'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
@@ -531,7 +560,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + '/training.csv')
+        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
         new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
                      'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
