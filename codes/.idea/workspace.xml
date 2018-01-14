@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/FIR_conv_test.ipynb" afterPath="$PROJECT_DIR$/FIR_conv_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/logs/fold2 2018-01-14 11:11:00.255860/events.out.tfevents.1515906689.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold2 2018-01-14 11:11:00.255860/events.out.tfevents.1515906689.mHealthlab1" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 13:30:47.453123/events.out.tfevents.1515915053.mHealthlab1" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 14:49:13.406089/events.out.tfevents.1515919759.mHealthlab1" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
+      <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
       <change beforePath="$PROJECT_DIR$/logs/training.csv" afterPath="$PROJECT_DIR$/logs/training.csv" />
+      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,16 +22,16 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="657">
-              <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
+            <state relative-caret-position="4605">
+              <caret line="486" column="52" lean-forward="false" selection-start-line="486" selection-start-column="52" selection-end-line="486" selection-end-column="52" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#1150#2246#0" expanded="false" />
-                <element signature="e#9432#11641#0" expanded="false" />
-                <element signature="e#11680#11873#0" expanded="false" />
-                <element signature="e#12378#12507#0" expanded="false" />
-                <element signature="e#12538#12642#0" expanded="false" />
-                <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
+                <element signature="e#1354#2450#0" expanded="false" />
+                <element signature="e#9636#11845#0" expanded="false" />
+                <element signature="e#11884#12077#0" expanded="false" />
+                <element signature="e#12582#12711#0" expanded="false" />
+                <element signature="e#12742#12846#0" expanded="false" />
+                <marker date="1515923000319" expanded="false" signature="4272:8709" ph="..." />
               </folding>
             </state>
           </provider>
@@ -56,7 +60,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="width" value="960" />
     <option name="height" value="1055" />
   </component>
@@ -169,7 +173,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1055" extended-state="1" />
+    <frame x="0" y="0" width="960" height="1055" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16597077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -207,12 +211,12 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1150#2246#0" expanded="false" />
-            <element signature="e#9432#11641#0" expanded="false" />
-            <element signature="e#11680#11873#0" expanded="false" />
-            <element signature="e#12378#12507#0" expanded="false" />
-            <element signature="e#12538#12642#0" expanded="false" />
-            <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
+            <element signature="e#1354#2450#0" expanded="false" />
+            <element signature="e#9636#11845#0" expanded="false" />
+            <element signature="e#11884#12077#0" expanded="false" />
+            <element signature="e#12582#12711#0" expanded="false" />
+            <element signature="e#12742#12846#0" expanded="false" />
+            <marker date="1515923000319" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
@@ -248,16 +252,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="657">
-          <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
+        <state relative-caret-position="4605">
+          <caret line="486" column="52" lean-forward="false" selection-start-line="486" selection-start-column="52" selection-end-line="486" selection-end-column="52" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1150#2246#0" expanded="false" />
-            <element signature="e#9432#11641#0" expanded="false" />
-            <element signature="e#11680#11873#0" expanded="false" />
-            <element signature="e#12378#12507#0" expanded="false" />
-            <element signature="e#12538#12642#0" expanded="false" />
-            <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
+            <element signature="e#1354#2450#0" expanded="false" />
+            <element signature="e#9636#11845#0" expanded="false" />
+            <element signature="e#11884#12077#0" expanded="false" />
+            <element signature="e#12582#12711#0" expanded="false" />
+            <element signature="e#12742#12846#0" expanded="false" />
+            <marker date="1515923000319" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
