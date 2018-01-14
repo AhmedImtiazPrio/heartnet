@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/data_fold_noFIR.m" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/scipy impulse response test-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/scipy impulse response test-checkpoint.ipynb" />
       <change beforePath="$PROJECT_DIR$/FIR_conv_test.ipynb" afterPath="$PROJECT_DIR$/FIR_conv_test.ipynb" />
-      <change beforePath="$PROJECT_DIR$/Print Predictions.ipynb" afterPath="$PROJECT_DIR$/Print Predictions.ipynb" />
-      <change beforePath="$PROJECT_DIR$/data_fold.m" afterPath="$PROJECT_DIR$/data_fold.m" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
-      <change beforePath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:51:56.259053/events.out.tfevents.1515588758.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:51:56.259053/events.out.tfevents.1515588758.mHealthlab1" />
-      <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
+      <change beforePath="$PROJECT_DIR$/logs/fold2 2018-01-14 11:11:00.255860/events.out.tfevents.1515906689.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold2 2018-01-14 11:11:00.255860/events.out.tfevents.1515906689.mHealthlab1" />
       <change beforePath="$PROJECT_DIR$/logs/training.csv" afterPath="$PROJECT_DIR$/logs/training.csv" />
-      <change beforePath="$PROJECT_DIR$/potes1DCNN.py" afterPath="$PROJECT_DIR$/potes1DCNN.py" />
-      <change beforePath="$PROJECT_DIR$/scipy impulse response test.ipynb" afterPath="$PROJECT_DIR$/scipy impulse response test.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,7 +18,7 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="747">
+            <state relative-caret-position="657">
               <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
@@ -257,7 +248,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="747">
+        <state relative-caret-position="657">
           <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
