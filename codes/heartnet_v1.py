@@ -409,10 +409,10 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=False
+        FIR_train=True
 
 
-        lr = 0.0007
+        lr = 0.0001
         lr_decay = 1e-8
         lr_reduce_factor = 0.5
         patience = 4  # for reduceLR
