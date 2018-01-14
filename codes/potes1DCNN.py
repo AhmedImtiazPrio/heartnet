@@ -336,7 +336,7 @@ if __name__ == '__main__':
 		epochs=epochs
 		batch_size=batch_size
 		verbose=verbose
-		
+		4
 		
 		model_dir='/media/taufiq/Data/heart_sound/models/'
 		fold_dir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
@@ -353,17 +353,17 @@ if __name__ == '__main__':
 		bn_momentum = 0.99
 		eps= 1.1e-5
 		bias=False
-		l2_reg=0.01
+		l2_reg=0.
 		l2_reg_dense=0.
 		kernel_size=5
 		maxnorm=10000.
-		dropout_rate=0.8
-		dropout_rate_dense=0.5
+		dropout_rate=0.5
+		dropout_rate_dense=0.
 		padding='valid'
 		activation_function='relu'
 		subsam=2
 		
-		lr=0.0001
+		lr=0.0007
 		lr_decay=1e-8
 		lr_reduce_factor=0.5
 		patience=4 #for reduceLR

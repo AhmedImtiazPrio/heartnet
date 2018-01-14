@@ -2,13 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:10:52.890954/events.out.tfevents.1515586295.mHealthlab1" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/data_fold_noFIR.m" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/scipy impulse response test-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/scipy impulse response test-checkpoint.ipynb" />
+      <change beforePath="$PROJECT_DIR$/FIR_conv_test.ipynb" afterPath="$PROJECT_DIR$/FIR_conv_test.ipynb" />
+      <change beforePath="$PROJECT_DIR$/Print Predictions.ipynb" afterPath="$PROJECT_DIR$/Print Predictions.ipynb" />
+      <change beforePath="$PROJECT_DIR$/data_fold.m" afterPath="$PROJECT_DIR$/data_fold.m" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
-      <change beforePath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 17:25:54.404782/events.out.tfevents.1515583596.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 17:25:54.404782/events.out.tfevents.1515583596.mHealthlab1" />
+      <change beforePath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:51:56.259053/events.out.tfevents.1515588758.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_cont 2018-01-10 18:51:56.259053/events.out.tfevents.1515588758.mHealthlab1" />
       <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
       <change beforePath="$PROJECT_DIR$/logs/training.csv" afterPath="$PROJECT_DIR$/logs/training.csv" />
+      <change beforePath="$PROJECT_DIR$/potes1DCNN.py" afterPath="$PROJECT_DIR$/potes1DCNN.py" />
+      <change beforePath="$PROJECT_DIR$/scipy impulse response test.ipynb" afterPath="$PROJECT_DIR$/scipy impulse response test.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -22,17 +27,16 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1110">
-              <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+            <state relative-caret-position="747">
+              <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#1118#2214#0" expanded="false" />
-                <element signature="e#9400#11609#0" expanded="false" />
-                <element signature="e#11648#11841#0" expanded="false" />
-                <element signature="e#11899#12911#0" expanded="false" />
-                <element signature="e#12943#13072#0" expanded="false" />
-                <element signature="e#13103#13207#0" expanded="false" />
-                <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
+                <element signature="e#1150#2246#0" expanded="false" />
+                <element signature="e#9432#11641#0" expanded="false" />
+                <element signature="e#11680#11873#0" expanded="false" />
+                <element signature="e#12378#12507#0" expanded="false" />
+                <element signature="e#12538#12642#0" expanded="false" />
+                <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
               </folding>
             </state>
           </provider>
@@ -61,7 +65,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="width" value="960" />
     <option name="height" value="1055" />
   </component>
@@ -132,6 +136,31 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="heartnet_v1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="codes" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/heartnet_v1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python.heartnet_v1" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
@@ -149,19 +178,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1055" extended-state="0" />
+    <frame x="0" y="0" width="960" height="1055" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16597077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998884" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39957938" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -176,7 +205,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -187,13 +216,12 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1118#2214#0" expanded="false" />
-            <element signature="e#9400#11609#0" expanded="false" />
-            <element signature="e#11648#11841#0" expanded="false" />
-            <element signature="e#11899#12911#0" expanded="false" />
-            <element signature="e#12943#13072#0" expanded="false" />
-            <element signature="e#13103#13207#0" expanded="false" />
-            <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
+            <element signature="e#1150#2246#0" expanded="false" />
+            <element signature="e#9432#11641#0" expanded="false" />
+            <element signature="e#11680#11873#0" expanded="false" />
+            <element signature="e#12378#12507#0" expanded="false" />
+            <element signature="e#12538#12642#0" expanded="false" />
+            <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
           </folding>
         </state>
       </provider>
@@ -229,17 +257,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1110">
-          <caret line="208" column="0" lean-forward="false" selection-start-line="208" selection-start-column="0" selection-end-line="208" selection-end-column="0" />
+        <state relative-caret-position="747">
+          <caret line="414" column="19" lean-forward="false" selection-start-line="414" selection-start-column="19" selection-end-line="414" selection-end-column="19" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#1118#2214#0" expanded="false" />
-            <element signature="e#9400#11609#0" expanded="false" />
-            <element signature="e#11648#11841#0" expanded="false" />
-            <element signature="e#11899#12911#0" expanded="false" />
-            <element signature="e#12943#13072#0" expanded="false" />
-            <element signature="e#13103#13207#0" expanded="false" />
-            <marker date="1515588185653" expanded="false" signature="4036:8473" ph="..." />
+            <element signature="e#1150#2246#0" expanded="false" />
+            <element signature="e#9432#11641#0" expanded="false" />
+            <element signature="e#11680#11873#0" expanded="false" />
+            <element signature="e#12378#12507#0" expanded="false" />
+            <element signature="e#12538#12642#0" expanded="false" />
+            <marker date="1515824318544" expanded="false" signature="4068:8505" ph="..." />
           </folding>
         </state>
       </provider>

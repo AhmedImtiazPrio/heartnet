@@ -29,6 +29,7 @@ from keras import backend as K
 from keras.utils import plot_model
 
 from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam):
@@ -399,19 +400,19 @@ if __name__ == '__main__':
         bn_momentum = 0.99
         eps = 1.1e-5
         bias = False
-        l2_reg = 0.01
+        l2_reg = 0.
         l2_reg_dense = 0.
         kernel_size = 5
         maxnorm = 10000.
-        dropout_rate = 0.8
-        dropout_rate_dense = 0.01
+        dropout_rate = 0.5
+        dropout_rate_dense = 0.
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
         FIR_train=False
 
 
-        lr = 0.0001
+        lr = 0.0007
         lr_decay = 1e-8
         lr_reduce_factor = 0.5
         patience = 4  # for reduceLR
@@ -468,64 +469,64 @@ if __name__ == '__main__':
 
         ######### Run forest run!! ##########
 
-        # if addweights:  ## if input arg classweights was specified True
-        #
-        #     class_weight = compute_weight(y_train, np.unique(y_train))
-        #
-        #     model.fit(x_train, y_train,
-        #               batch_size=batch_size,
-        #               epochs=epochs,
-        #               shuffle=True,
-        #               verbose=verbose,
-        #               validation_data=(x_val, y_val),
-        #               callbacks=[modelcheckpnt, show_lr(),
-        #                          log_macc(x_val, y_val, val_parts, res_thresh),
-        #                          tensbd, csv_logger],
-        #               initial_epoch=initial_epoch,
-        #               class_weight=class_weight)
-        #
-        # else:
-        #
-        #     model.fit(x_train, y_train,
-        #               batch_size=batch_size,
-        #               epochs=epochs,
-        #               shuffle=True,
-        #               verbose=verbose,
-        #               validation_data=(x_val, y_val),
-        #               callbacks=[modelcheckpnt,
-        #                          log_macc(x_val, y_val, val_parts, res_thresh),
-        #                          tensbd, csv_logger],
-        #               initial_epoch=initial_epoch)
-        #
-        # ############### log results in csv ###############
-        #
-        # df = pd.read_csv(results_path)
-        # df1 = pd.read_csv(log_dir + '/training.csv')
-        # max_idx = df1['val_macc'].idxmax()
-        # new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
-        #              'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
-        #              'Kernel Size': kernel_size, 'Max Norm': maxnorm,
-        #              'Dropout -filters': dropout_rate,
-        #              'Dropout - dense': dropout_rate_dense,
-        #              'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-        #              'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-        #              'BN momentum': bn_momentum,
-        #              'Best Val Acc Per Cardiac Cycle': np.mean(
-        #                  df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
-        #              'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-        #              'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-        #              'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-        #              'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-        #              'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
-        #              'Number of filters': str(num_filt),
-        #              'Number of Dense Neurons': num_dense}
-        #
-        # index, _ = df.shape
-        # new_entry = pd.DataFrame(new_entry, index=[index])
-        # df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns, axis=1)
-        # df2.to_csv(results_path, index=False)
-        # df2.tail()
+        if addweights:  ## if input arg classweights was specified True
+
+            class_weight = compute_weight(y_train, np.unique(y_train))
+
+            model.fit(x_train, y_train,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      shuffle=True,
+                      verbose=verbose,
+                      validation_data=(x_val, y_val),
+                      callbacks=[modelcheckpnt, show_lr(),
+                                 log_macc(x_val, y_val, val_parts, res_thresh),
+                                 tensbd, csv_logger],
+                      initial_epoch=initial_epoch,
+                      class_weight=class_weight)
+
+        else:
+
+            model.fit(x_train, y_train,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      shuffle=True,
+                      verbose=verbose,
+                      validation_data=(x_val, y_val),
+                      callbacks=[modelcheckpnt,
+                                 log_macc(x_val, y_val, val_parts, res_thresh),
+                                 tensbd, csv_logger],
+                      initial_epoch=initial_epoch)
+
+        ############### log results in csv ###############
+
+        df = pd.read_csv(results_path)
+        df1 = pd.read_csv(log_dir + '/training.csv')
+        max_idx = df1['val_macc'].idxmax()
+        new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
+                     'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
+                     'Kernel Size': kernel_size, 'Max Norm': maxnorm,
+                     'Dropout -filters': dropout_rate,
+                     'Dropout - dense': dropout_rate_dense,
+                     'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
+                     'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
+                     'BN momentum': bn_momentum,
+                     'Best Val Acc Per Cardiac Cycle': np.mean(
+                         df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
+                     'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
+                     'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
+                     'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
+                     'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
+                     'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
+                     'Number of filters': str(num_filt),
+                     'Number of Dense Neurons': num_dense}
+
+        index, _ = df.shape
+        new_entry = pd.DataFrame(new_entry, index=[index])
+        df2 = pd.concat([df, new_entry], axis=0)
+        df2 = df2.reindex(df.columns, axis=1)
+        df2.to_csv(results_path, index=False)
+        df2.tail()
 
     except KeyboardInterrupt:
         ############ If ended in advance ###########
