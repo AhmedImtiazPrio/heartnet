@@ -418,24 +418,15 @@ if __name__ == '__main__':
         FIR_train=True
 
 
-        #lr = 0.0001
-        ######## learning rate bayesian optimization #######
-        # lr =  0.0012843784 ##
-        # lr =  0.0008938633 ##
-        # lr =  0.0013612032
-        # lr =  0.0010423186
-        # lr =  0.0010654489
-        # lr =  0.0012381101
-        # lr =  0.0014714959
-        # lr =  0.0012534539
-        # lr =  0.0008853388
-        # lr =  0.0012067406
-        lr =  0.001199932
-        # lr =  0.0009896177
+        lr =  0.0012843784 ## After bayesian optimization
 
-
-        ############################################
         lr_decay = 1e-8
+
+        ###### lr_decay optimization ######
+
+        ###################################
+
+
         lr_reduce_factor = 0.5
         patience = 4  # for reduceLR
         cooldown = 0  # for reduceLR
