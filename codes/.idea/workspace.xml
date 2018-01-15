@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Bayesian Optimization viz.ipynb" afterPath="$PROJECT_DIR$/Bayesian Optimization viz.ipynb" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
+      <change beforePath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:42.903323/events.out.tfevents.1515934369.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:42.903323/events.out.tfevents.1515934369.mHealthlab1" />
+      <change beforePath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:42.903323/training.csv" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:42.903323/training.csv" />
+      <change beforePath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:52.803993/events.out.tfevents.1515934379.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:52.803993/events.out.tfevents.1515934379.mHealthlab1" />
+      <change beforePath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:52.803993/training.csv" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-14 18:52:52.803993/training.csv" />
       <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,8 +23,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="428" column="26" lean-forward="false" selection-start-line="428" selection-start-column="26" selection-end-line="428" selection-end-column="26" />
+            <state relative-caret-position="375">
+              <caret line="433" column="25" lean-forward="false" selection-start-line="433" selection-start-column="25" selection-end-line="433" selection-end-column="25" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#1354#2450#0" expanded="false" />
@@ -28,7 +32,7 @@
                 <element signature="e#11884#12077#0" expanded="false" />
                 <element signature="e#12582#12711#0" expanded="false" />
                 <element signature="e#12742#12846#0" expanded="false" />
-                <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
+                <marker date="1515992074552" expanded="false" signature="4272:8709" ph="..." />
               </folding>
             </state>
           </provider>
@@ -58,6 +62,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="411" />
+    <option name="y" value="214" />
     <option name="width" value="960" />
     <option name="height" value="1055" />
   </component>
@@ -170,7 +176,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1055" extended-state="0" />
+    <frame x="411" y="214" width="960" height="1055" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16597077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -213,7 +219,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1515992074552" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
@@ -249,8 +255,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="428" column="26" lean-forward="false" selection-start-line="428" selection-start-column="26" selection-end-line="428" selection-end-column="26" />
+        <state relative-caret-position="375">
+          <caret line="433" column="25" lean-forward="false" selection-start-line="433" selection-start-column="25" selection-end-line="433" selection-end-column="25" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
             <element signature="e#1354#2450#0" expanded="false" />
@@ -258,7 +264,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515934369622" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1515992074552" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
