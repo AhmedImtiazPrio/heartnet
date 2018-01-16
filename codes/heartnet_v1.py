@@ -2,7 +2,7 @@ from __future__ import print_function
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.4
+config.gpu_options.per_process_gpu_memory_fraction = 0.45
 set_session(tf.Session(config=config))
 
 import os
@@ -420,12 +420,10 @@ if __name__ == '__main__':
 
         lr =  0.0012843784 ## After bayesian optimization
 
-        # lr_decay = 1e-8
-
         ###### lr_decay optimization ######
         # lr_decay =0.0001132885
-        lr_decay =3.64370733503E-06
-        # lr_decay =3.97171548784E-08
+        # lr_decay =3.64370733503E-06
+        lr_decay =3.97171548784E-08
 
 
         ###################################
