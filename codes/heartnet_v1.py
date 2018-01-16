@@ -420,11 +420,23 @@ if __name__ == '__main__':
 
         lr =  0.0012843784 ## After bayesian optimization
 
-        lr_decay = 1e-8
+        # lr_decay = 1e-8
 
         ###### lr_decay optimization ######
 
+        # lr_decay =1.47948020251E-07
+        # lr_decay =0.0001132885
+        # lr_decay =0.000135044
+        # lr_decay =1.2642408513E-09
+        # lr_decay =0.0003608389
+        lr_decay =3.64370733503E-06
+        # lr_decay =0.000000001
+        # lr_decay =2.16067494911E-09
+        # lr_decay =3.97171548784E-08
+        # lr_decay =2.52837028416E-06
+
         ###################################
+
 
 
         lr_reduce_factor = 0.5
@@ -524,7 +536,7 @@ if __name__ == '__main__':
                      'Dropout - dense': dropout_rate_dense,
                      'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
                      'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum,
+                     'BN momentum': bn_momentum, 'Lr decay': lr_decay,
                      'Best Val Acc Per Cardiac Cycle': np.mean(
                          df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
                      'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
@@ -554,7 +566,7 @@ if __name__ == '__main__':
                      'Dropout - dense': dropout_rate_dense,
                      'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
                      'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum,
+                     'BN momentum': bn_momentum,'Lr decay': lr_decay,
                      'Best Val Acc Per Cardiac Cycle': np.mean(
                          df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
                      'Epoch': df1.loc[[max_idx]]['epoch'].values[0],

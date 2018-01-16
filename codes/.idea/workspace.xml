@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Bayesian Optimization viz-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/Bayesian Optimization viz-checkpoint.ipynb" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Bayesian Optimization viz.ipynb" afterPath="$PROJECT_DIR$/Bayesian Optimization viz.ipynb" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
+      <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
+      <change beforePath="$PROJECT_DIR$/potes1DCNN.py" afterPath="$PROJECT_DIR$/potes1DCNN.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +20,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="426" column="43" lean-forward="false" selection-start-line="426" selection-start-column="43" selection-end-line="426" selection-end-column="43" />
+            <state relative-caret-position="-1526">
+              <caret line="432" column="30" lean-forward="false" selection-start-line="432" selection-start-column="30" selection-end-line="432" selection-end-column="30" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
                 <element signature="e#1354#2450#0" expanded="false" />
@@ -27,7 +29,7 @@
                 <element signature="e#11884#12077#0" expanded="false" />
                 <element signature="e#12582#12711#0" expanded="false" />
                 <element signature="e#12742#12846#0" expanded="false" />
-                <marker date="1515996307530" expanded="false" signature="4272:8709" ph="..." />
+                <marker date="1516078742664" expanded="false" signature="4272:8709" ph="..." />
               </folding>
             </state>
           </provider>
@@ -50,15 +52,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/potes1DCNN.py" />
         <option value="$PROJECT_DIR$/FIR_conv_test.ipynb" />
+        <option value="$PROJECT_DIR$/potes1DCNN.py" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="411" />
-    <option name="y" value="214" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="494" />
+    <option name="y" value="25" />
     <option name="width" value="960" />
     <option name="height" value="1055" />
   </component>
@@ -171,7 +173,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="411" y="214" width="960" height="1055" extended-state="0" />
+    <frame x="494" y="25" width="960" height="1055" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16597077" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -214,7 +216,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515996307530" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1516078742664" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
@@ -233,14 +235,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/potes1DCNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="50" column="56" lean-forward="false" selection-start-line="50" selection-start-column="56" selection-end-line="50" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/FIR_conv_test.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -248,10 +242,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/potes1DCNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="466" column="41" lean-forward="false" selection-start-line="466" selection-start-column="41" selection-end-line="466" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="426" column="43" lean-forward="false" selection-start-line="426" selection-start-column="43" selection-end-line="426" selection-end-column="43" />
+        <state relative-caret-position="-1526">
+          <caret line="432" column="30" lean-forward="false" selection-start-line="432" selection-start-column="30" selection-end-line="432" selection-end-column="30" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
             <element signature="e#1354#2450#0" expanded="false" />
@@ -259,7 +261,7 @@
             <element signature="e#11884#12077#0" expanded="false" />
             <element signature="e#12582#12711#0" expanded="false" />
             <element signature="e#12742#12846#0" expanded="false" />
-            <marker date="1515996307530" expanded="false" signature="4272:8709" ph="..." />
+            <marker date="1516078742664" expanded="false" signature="4272:8709" ph="..." />
           </folding>
         </state>
       </provider>
