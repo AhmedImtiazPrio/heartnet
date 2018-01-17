@@ -48,7 +48,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(input1)
 	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t1)
 	t1 = Activation(activation_function)(t1)
-	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
+	t1 = Dropout(rate=0.,seed=random_seed)(t1)
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
 	t1 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -58,8 +58,9 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(t1)
 	t1 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t1)
 	t1 = Activation(activation_function)(t1)
-	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
+	
 	t1 = MaxPooling1D(pool_size=subsam)(t1)
+	t1 = Dropout(rate=dropout_rate,seed=random_seed)(t1)
 	t1 = Flatten()(t1)
 	
 	t2 = Conv1D(num_filt1, kernel_size=kernel_size,
@@ -70,7 +71,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(input2)
 	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t2)
 	t2 = Activation(activation_function)(t2)
-	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
+	t2 = Dropout(rate=0.,seed=random_seed)(t2)
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
 	t2 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -80,8 +81,9 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(t2)
 	t2 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t2)
 	t2 = Activation(activation_function)(t2)
-	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
+	
 	t2 = MaxPooling1D(pool_size=subsam)(t2)
+	t2 = Dropout(rate=dropout_rate,seed=random_seed)(t2)
 	t2 = Flatten()(t2)
 	
 	t3 = Conv1D(num_filt1, kernel_size=kernel_size,
@@ -92,7 +94,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(input3)
 	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t3)
 	t3 = Activation(activation_function)(t3)
-	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
+	t3 = Dropout(rate=0.,seed=random_seed)(t3)
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
 	t3 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -102,8 +104,9 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(t3)
 	t3 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t3)
 	t3 = Activation(activation_function)(t3)
-	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
+	
 	t3 = MaxPooling1D(pool_size=subsam)(t3)
+	t3 = Dropout(rate=dropout_rate,seed=random_seed)(t3)
 	t3 = Flatten()(t3)	
 	
 	t4 = Conv1D(num_filt1, kernel_size=kernel_size,
@@ -114,7 +117,7 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(input4)
 	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t4)
 	t4 = Activation(activation_function)(t4)
-	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
+	t4 = Dropout(rate=0.,seed=random_seed)(t4)
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
 	t4 = Conv1D(num_filt2, kernel_size=kernel_size,
 				kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -124,8 +127,9 @@ def heartnet(activation_function,bn_momentum,bias,dropout_rate,dropout_rate_dens
 				kernel_regularizer=l2(l2_reg))(t4)
 	t4 = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1)(t4)
 	t4 = Activation(activation_function)(t4)
-	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
+	
 	t4 = MaxPooling1D(pool_size=subsam)(t4)
+	t4 = Dropout(rate=dropout_rate,seed=random_seed)(t4)
 	t4 = Flatten()(t4)		
 	 
 	merged = Concatenate(axis=1)([t1,t2,t3,t4])
@@ -354,7 +358,7 @@ if __name__ == '__main__':
 		eps= 1.1e-5
 		bias=False
 		l2_reg=0.
-		l2_reg_dense=0.
+		l2_reg_dense=0.01
 		kernel_size=5
 		maxnorm=10000.
 		dropout_rate=0.25
