@@ -49,8 +49,8 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 kernel_regularizer=l2(l2_reg))(input_tensor)
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
-    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
+    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = Conv1D(num_filt2, kernel_size=kernel_size,
                 kernel_initializer=initializers.he_normal(seed=random_seed),
                 padding=padding,
@@ -59,8 +59,8 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 kernel_regularizer=l2(l2_reg))(t)
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
-    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
+    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = Flatten()(t)
     return t
 
@@ -464,12 +464,16 @@ if __name__ == '__main__':
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
 
+        embedding_layer_names = set(['dense_2'])
+        print(embedding_layer_names)
         ####### Define Callbacks ######
 
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size, write_images=True)
+                             batch_size=batch_size, histogram_freq=10, embeddings_freq=10,
+                             embeddings_layer_names=embedding_layer_names,
+                             write_images=True)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
         # show_lr()
