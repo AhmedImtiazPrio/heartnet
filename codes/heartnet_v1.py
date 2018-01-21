@@ -483,7 +483,8 @@ if __name__ == '__main__':
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size, histogram_freq=10, embeddings_freq=10,
+                             batch_size=batch_size, histogram_freq=10,
+                             embeddings_freq=10,
                              embeddings_layer_names=embedding_layer_names,
                              write_images=True)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
