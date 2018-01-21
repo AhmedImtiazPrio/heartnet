@@ -2,37 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da6f7d5d-1677-45f4-8a76-b269d00ef167" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/visualize dataframe-checkpoint.ipynb" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1 2018-01-17 17:08:20.854227/events.out.tfevents.1516187334.mHealthlab1" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:29:17.705379/events.out.tfevents.1516177764.mHealthlab1" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/checkpoint" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/events.out.tfevents.1516178008.mHealthlab1" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-0.data-00000-of-00001" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-0.index" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-0.meta" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-50.data-00000-of-00001" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-50.index" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/keras_embedding.ckpt-50.meta" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/projector_config.pbtxt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-17 14:33:22.106750/training.csv" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/checkpoint" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/events.out.tfevents.1516179832.mHealthlab1" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/keras_embedding.ckpt-60.data-00000-of-00001" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/keras_embedding.ckpt-60.index" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/keras_embedding.ckpt-60.meta" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/projector_config.pbtxt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold2_noFIR 2018-01-17 15:03:45.618162/training.csv" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold3_noFIR 2018-01-16 19:59:03.934614/events.out.tfevents.1516111153.mHealthlab1" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/logs/fold3_noFIR 2018-01-16 19:59:03.934614/training.csv" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/potes1DCNN_clone.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/visualize dataframe.ipynb" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-16 19:58:54.149714/events.out.tfevents.1516111140.mHealthlab1" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-16 19:58:54.149714/events.out.tfevents.1516111140.mHealthlab1" />
-      <change beforePath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-16 19:58:54.149714/training.csv" afterPath="$PROJECT_DIR$/logs/fold1_noFIR 2018-01-16 19:58:54.149714/training.csv" />
+      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
       <change beforePath="$PROJECT_DIR$/logs/results.csv" afterPath="$PROJECT_DIR$/logs/results.csv" />
-      <change beforePath="$PROJECT_DIR$/logs/training.csv" afterPath="$PROJECT_DIR$/logs/training.csv" />
       <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
-      <change beforePath="$PROJECT_DIR$/potes1DCNN.py" afterPath="$PROJECT_DIR$/potes1DCNN.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,15 +18,15 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="432" column="36" lean-forward="false" selection-start-line="432" selection-start-column="36" selection-end-line="432" selection-end-column="36" />
+            <state relative-caret-position="551">
+              <caret line="95" column="27" lean-forward="false" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#9637#11846#0" expanded="false" />
-                <element signature="e#11885#12078#0" expanded="false" />
-                <element signature="e#12583#12712#0" expanded="false" />
-                <element signature="e#12743#12847#0" expanded="false" />
-                <marker date="1516189644852" expanded="false" signature="4273:8710" ph="..." />
+                <element signature="e#10129#12338#0" expanded="false" />
+                <element signature="e#12377#12570#0" expanded="false" />
+                <element signature="e#13075#13204#0" expanded="false" />
+                <element signature="e#13235#13339#0" expanded="false" />
+                <marker date="1516533527787" expanded="false" signature="4765:9202" ph="..." />
               </folding>
             </state>
           </provider>
@@ -244,11 +216,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#9637#11846#0" expanded="false" />
-            <element signature="e#11885#12078#0" expanded="false" />
-            <element signature="e#12583#12712#0" expanded="false" />
-            <element signature="e#12743#12847#0" expanded="false" />
-            <marker date="1516189644852" expanded="false" signature="4273:8710" ph="..." />
+            <element signature="e#10129#12338#0" expanded="false" />
+            <element signature="e#12377#12570#0" expanded="false" />
+            <element signature="e#13075#13204#0" expanded="false" />
+            <element signature="e#13235#13339#0" expanded="false" />
+            <marker date="1516533527787" expanded="false" signature="4765:9202" ph="..." />
           </folding>
         </state>
       </provider>
@@ -267,11 +239,11 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#9637#11846#0" expanded="false" />
-            <element signature="e#11885#12078#0" expanded="false" />
-            <element signature="e#12583#12712#0" expanded="false" />
-            <element signature="e#12743#12847#0" expanded="false" />
-            <marker date="1516189644852" expanded="false" signature="4273:8710" ph="..." />
+            <element signature="e#10129#12338#0" expanded="false" />
+            <element signature="e#12377#12570#0" expanded="false" />
+            <element signature="e#13075#13204#0" expanded="false" />
+            <element signature="e#13235#13339#0" expanded="false" />
+            <marker date="1516533527787" expanded="false" signature="4765:9202" ph="..." />
           </folding>
         </state>
       </provider>
@@ -301,15 +273,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="432" column="36" lean-forward="false" selection-start-line="432" selection-start-column="36" selection-end-line="432" selection-end-column="36" />
+        <state relative-caret-position="551">
+          <caret line="95" column="27" lean-forward="false" selection-start-line="95" selection-start-column="27" selection-end-line="95" selection-end-column="27" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#9637#11846#0" expanded="false" />
-            <element signature="e#11885#12078#0" expanded="false" />
-            <element signature="e#12583#12712#0" expanded="false" />
-            <element signature="e#12743#12847#0" expanded="false" />
-            <marker date="1516189644852" expanded="false" signature="4273:8710" ph="..." />
+            <element signature="e#10129#12338#0" expanded="false" />
+            <element signature="e#12377#12570#0" expanded="false" />
+            <element signature="e#13075#13204#0" expanded="false" />
+            <element signature="e#13235#13339#0" expanded="false" />
+            <marker date="1516533527787" expanded="false" signature="4765:9202" ph="..." />
           </folding>
         </state>
       </provider>
