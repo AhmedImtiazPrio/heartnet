@@ -2,7 +2,7 @@ from __future__ import print_function
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.45
+config.gpu_options.per_process_gpu_memory_fraction = 0.8
 set_session(tf.Session(config=config))
 
 import os
@@ -476,7 +476,9 @@ if __name__ == '__main__':
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
 
-        embedding_layer_names = set(['dense_2'])
+        embedding_layer_names =set(layer.name
+                            for layer in model.layers
+                            if layer.name.startswith('dense_'))
         print(embedding_layer_names)
         ####### Define Callbacks ######
 
@@ -484,8 +486,9 @@ if __name__ == '__main__':
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size, histogram_freq=10,
-                             embeddings_freq=10,
+                             embeddings_freq=3,
                              embeddings_layer_names=embedding_layer_names,
+                             # embeddings_data=x_val,
                              write_images=True)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
