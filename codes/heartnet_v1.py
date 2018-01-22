@@ -71,7 +71,7 @@ def write_meta(Y,log_dir):
     for i in range(Y.shape[0]):
         metadata_file.write('%s\n' % (names[int(Y[i])]))
     metadata_file.close()
-
+    return metadata_file
 
 def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
              eps, kernel_size, l2_reg, l2_reg_dense, load_path, lr, lr_decay, maxnorm,
@@ -477,7 +477,7 @@ if __name__ == '__main__':
 
         ############### Write metadata for embedding visualizer ############
 
-        write_meta(y_val,log_dir)
+        metadata_file=write_meta(y_val,log_dir)
 
         ############## Create a model ############
 
@@ -500,6 +500,7 @@ if __name__ == '__main__':
                              embeddings_freq=1,
                              embeddings_layer_names=embedding_layer_names,
                              embeddings_data=x_val,
+                             embeddings_metadata=metadata_file,
                              write_images=True)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
