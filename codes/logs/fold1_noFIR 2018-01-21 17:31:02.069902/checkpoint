@@ -1,6 +1,0 @@
-model_checkpoint_path: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-160"
-all_model_checkpoint_paths: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-120"
-all_model_checkpoint_paths: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-130"
-all_model_checkpoint_paths: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-140"
-all_model_checkpoint_paths: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-150"
-all_model_checkpoint_paths: "/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/fold1_noFIR 2018-01-21 17:31:02.069902/keras_embedding.ckpt-160"
