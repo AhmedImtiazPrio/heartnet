@@ -65,7 +65,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     return t
 
 def write_meta(Y,log_dir):
-    names = ['0', '1', '-1']
+    names = ['Normal', 'Abnormal', 'Normal']
     metadata_file = open(os.path.join(log_dir, 'metadata.tsv'), 'w')
     metadata_file.write('Class\n')
     for i in range(Y.shape[0]):
