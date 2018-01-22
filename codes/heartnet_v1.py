@@ -64,6 +64,13 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = Flatten()(t)
     return t
 
+def write_meta(Y,log_dir):
+    names = ['0', '1', '-1']
+    metadata_file = open(os.path.join(log_dir, 'metadata.tsv'), 'w')
+    metadata_file.write('Class\n')
+    for i in range(Y.shape[0]):
+        metadata_file.write('%s\n' % (names[int(Y[i])]))
+    metadata_file.close()
 
 
 def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
@@ -467,6 +474,10 @@ if __name__ == '__main__':
         ################### Reshaping ############
 
         x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
+
+        ############### Write metadata for embedding visualizer ############
+
+        write_meta(y_val,log_dir)
 
         ############## Create a model ############
 
