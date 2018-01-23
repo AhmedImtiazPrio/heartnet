@@ -67,11 +67,11 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
 def write_meta(Y,log_dir):
     names = ['Normal', 'Abnormal', 'Normal']
     metadata_file = open(os.path.join(log_dir, 'metadata.tsv'), 'w')
-    metadata_file.write('Class\n')
+    # metadata_file.write('Class\n') ## For single metadata, headers are not required
     for i in range(Y.shape[0]):
         metadata_file.write('%s\n' % (names[int(Y[i])]))
     metadata_file.close()
-    return metadata_file
+    return os.path.join(log_dir, 'metadata.tsv')
 
 def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
              eps, kernel_size, l2_reg, l2_reg_dense, load_path, lr, lr_decay, maxnorm,
@@ -98,19 +98,19 @@ def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
     input1 = Conv1D(1 ,61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(seed=random_seed),
+                    # kernel_initializer=initializers.he_normal(seed=random_seed),
                     # weights=[b1],
                     padding='same',trainable=FIR_train)(input)
     input2 = Conv1D(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(seed=random_seed),
+                    # kernel_initializer=initializers.he_normal(seed=random_seed),
                     # weights=[b2],
                     padding='same',trainable=FIR_train)(input)
     input3 = Conv1D(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(seed=random_seed),
+                    # kernel_initializer=initializers.he_normal(seed=random_seed),
                     # weights=[b3],
                     padding='same',trainable=FIR_train)(input)
     input4 = Conv1D(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(seed=random_seed),
+                    # kernel_initializer=initializers.he_normal(seed=random_seed),
                     # weights=[b4],
                     padding='same',trainable=FIR_train)(input)
 
@@ -477,7 +477,7 @@ if __name__ == '__main__':
 
         ############### Write metadata for embedding visualizer ############
 
-        metadata_file=write_meta(y_val,log_dir)
+        metadata_file = write_meta(y_val,log_dir)
 
         ############## Create a model ############
 
@@ -489,7 +489,7 @@ if __name__ == '__main__':
 
         embedding_layer_names =set(layer.name
                             for layer in model.layers
-                            if layer.name.startswith('dense_'))
+                            if (layer.name.startswith('dense_')))
         print(embedding_layer_names)
         ####### Define Callbacks ######
 
@@ -497,7 +497,7 @@ if __name__ == '__main__':
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size, histogram_freq=10,
-                             embeddings_freq=1,
+                             embeddings_freq=99,
                              embeddings_layer_names=embedding_layer_names,
                              embeddings_data=x_val,
                              embeddings_metadata=metadata_file,
