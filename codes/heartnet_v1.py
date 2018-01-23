@@ -98,19 +98,19 @@ def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
     input1 = Conv1D(1 ,61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(seed=random_seed),
+                    kernel_initializer=initializers.Zeros(),
                     # weights=[b1],
                     padding='same',trainable=FIR_train)(input)
     input2 = Conv1D(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(seed=random_seed),
+                    kernel_initializer=initializers.Zeros(),
                     # weights=[b2],
                     padding='same',trainable=FIR_train)(input)
     input3 = Conv1D(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(seed=random_seed),
+                    kernel_initializer=initializers.Zeros(),
                     # weights=[b3],
                     padding='same',trainable=FIR_train)(input)
     input4 = Conv1D(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(seed=random_seed),
+                    kernel_initializer=initializers.Zeros(),
                     # weights=[b4],
                     padding='same',trainable=FIR_train)(input)
 
@@ -497,10 +497,10 @@ if __name__ == '__main__':
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size, histogram_freq=10,
-                             embeddings_freq=99,
-                             embeddings_layer_names=embedding_layer_names,
-                             embeddings_data=x_val,
-                             embeddings_metadata=metadata_file,
+                             # embeddings_freq=99,
+                             # embeddings_layer_names=embedding_layer_names,
+                             # embeddings_data=x_val,
+                             # embeddings_metadata=metadata_file,
                              write_images=True)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
