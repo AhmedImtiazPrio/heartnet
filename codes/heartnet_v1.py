@@ -90,21 +90,21 @@ def heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_
     b4 = np.hstack(b4)
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
-    input1 = Conv1D(1 ,61, use_bias=False,
+    input1 = Conv1D_linearphase(1 ,61, use_bias=False,
                     # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b1[:]],
+                    weights=[b1[30:]],
                     padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D(1, 61, use_bias=False,
+    input2 = Conv1D_linearphase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b2[:]],
+                    weights=[b2[30:]],
                     padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D(1, 61, use_bias=False,
+    input3 = Conv1D_linearphase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b3[:]],
+                    weights=[b3[30:]],
                     padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D(1, 61, use_bias=False,
+    input4 = Conv1D_linearphase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b4[:]],
+                    weights=[b4[30:]],
                     padding='same',trainable=FIR_train)(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
@@ -418,7 +418,7 @@ if __name__ == '__main__':
         bn_momentum = 0.99
         eps = 1.1e-5
         bias = False
-        l2_reg =  0.04864911065093751
+        l2_reg = 0.0 #0.04864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
         maxnorm = 10000.
