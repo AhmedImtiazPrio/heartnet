@@ -286,10 +286,10 @@ class log_macc(Callback):
 
 
 def compute_weight(Y, classes):
-    num_samples = len(Y)
-    n_classes = len(classes)
-    num_bin = np.bincount(Y[:, 0])
-    class_weights = {i: (num_samples / (n_classes * num_bin[i])) for i in range(6)}
+    num_samples = np.float32(len(Y))
+    n_classes = np.float32(len(classes))
+    num_bin = np.hstack([sum(Y == 0), sum(Y == 1)])
+    class_weights = {i: (num_samples / (n_classes * num_bin[i])) for i in range(2)}
     return class_weights
 
 
@@ -519,7 +519,7 @@ if __name__ == '__main__':
                       shuffle=True,
                       verbose=verbose,
                       validation_data=(x_val, y_val),
-                      callbacks=[modelcheckpnt, show_lr(),
+                      callbacks=[modelcheckpnt,
                                  log_macc(x_val, y_val, val_parts, res_thresh),
                                  tensbd, csv_logger],
                       initial_epoch=initial_epoch,
