@@ -66,7 +66,7 @@ def write_meta(Y,log_dir):
     metadata_file.close()
     return os.path.join(log_dir, 'metadata.tsv')
 
-def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
+def heartnet(load_path,activation_function, bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
              eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
              padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False):
 
@@ -418,7 +418,7 @@ if __name__ == '__main__':
         bn_momentum = 0.99
         eps = 1.1e-5
         bias = False
-        l2_reg = 0.0 #0.04864911065093751
+        l2_reg = 0. #0.04864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
         maxnorm = 10000.
@@ -474,8 +474,8 @@ if __name__ == '__main__':
 
         ############## Create a model ############
 
-        model = heartnet(activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
-                         eps, kernel_size, l2_reg, l2_reg_dense, load_path, lr, lr_decay, maxnorm,
+        model = heartnet(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
+                         eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train)
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
