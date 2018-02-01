@@ -91,20 +91,20 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
     input1 = Conv1D_linearphase(1 ,61, use_bias=False,
-                    # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b1[30:]],
+                    kernel_initializer=initializers.he_normal(random_seed),
+                    # weights=[b1[30:]],
                     padding='same',trainable=FIR_train)(input)
     input2 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b2[30:]],
+                    kernel_initializer=initializers.he_normal(random_seed),
+                    # weights=[b2[30:]],
                     padding='same',trainable=FIR_train)(input)
     input3 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b3[30:]],
+                    kernel_initializer=initializers.he_normal(random_seed),
+                    # weights=[b3[30:]],
                     padding='same',trainable=FIR_train)(input)
     input4 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_uniform(random_seed),
-                    weights=[b4[30:]],
+                    kernel_initializer=initializers.he_normal(random_seed),
+                    # weights=[b4[30:]],
                     padding='same',trainable=FIR_train)(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
