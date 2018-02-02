@@ -26,7 +26,7 @@ from keras.callbacks1 import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks1 import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase
+from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
@@ -90,21 +90,21 @@ def heartnet(load_path,activation_function, bn_momentum=0.99, bias=False, dropou
     b4 = np.hstack(b4)
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
-    input1 = Conv1D_linearphase(1 ,61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b1[30:]],
+    input1 = Conv1D_zerophase(1 ,61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b1[:]],
                     padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D_linearphase(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b2[30:]],
+    input2 = Conv1D_zerophase(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b2[:]],
                     padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D_linearphase(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b3[30:]],
+    input3 = Conv1D_zerophase(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b3[:]],
                     padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D_linearphase(1, 61, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b4[30:]],
+    input4 = Conv1D_zerophase(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b4[:]],
                     padding='same',trainable=FIR_train)(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
