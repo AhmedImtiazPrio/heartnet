@@ -90,19 +90,19 @@ def heartnet(load_path,activation_function, bn_momentum=0.99, bias=False, dropou
     b4 = np.hstack(b4)
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
-    input1 = Conv1D_zerophase(1 ,61, use_bias=False,
+    input1 = Conv1D(1 ,61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b1[:]],
                     padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D_zerophase(1, 61, use_bias=False,
+    input2 = Conv1D(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b2[:]],
                     padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D_zerophase(1, 61, use_bias=False,
+    input3 = Conv1D(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b3[:]],
                     padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D_zerophase(1, 61, use_bias=False,
+    input4 = Conv1D(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b4[:]],
                     padding='same',trainable=FIR_train)(input)
