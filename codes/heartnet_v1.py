@@ -2,7 +2,7 @@ from __future__ import print_function
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.8
+config.gpu_options.per_process_gpu_memory_fraction = 0.4
 set_session(tf.Session(config=config))
 
 import os
@@ -90,19 +90,19 @@ def heartnet(load_path,activation_function, bn_momentum=0.99, bias=False, dropou
     b4 = np.hstack(b4)
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
-    input1 = Conv1D(1 ,61, use_bias=False,
+    input1 = Conv1D_zerophase(1 ,61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b1[:]],
                     padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D(1, 61, use_bias=False,
+    input2 = Conv1D_zerophase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b2[:]],
                     padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D(1, 61, use_bias=False,
+    input3 = Conv1D_zerophase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b3[:]],
                     padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D(1, 61, use_bias=False,
+    input4 = Conv1D_zerophase(1, 61, use_bias=False,
                     # kernel_initializer=initializers.he_normal(random_seed),
                     weights=[b4[:]],
                     padding='same',trainable=FIR_train)(input)
@@ -427,7 +427,7 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=True
+        FIR_train=False
 
 
         lr =  0.0012843784 ## After bayesian optimization

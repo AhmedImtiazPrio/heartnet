@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
+      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,11 +17,11 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="420" column="17" lean-forward="false" selection-start-line="420" selection-start-column="17" selection-end-line="420" selection-end-column="17" />
+            <state relative-caret-position="210">
+              <caret line="47" column="66" lean-forward="false" selection-start-line="47" selection-start-column="66" selection-end-line="47" selection-end-column="66" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-                <element signature="e#5218#5267#0" expanded="false" />
+                <element signature="e#5258#5307#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -29,7 +30,7 @@
       <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
+            <state relative-caret-position="4590">
               <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
@@ -136,6 +137,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="95" y="25" width="957" height="1055" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -184,7 +186,28 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/custom_layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4590">
+          <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -205,7 +228,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -230,7 +253,7 @@
           <caret line="97" column="4" lean-forward="false" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -241,7 +264,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -266,7 +289,7 @@
           <caret line="97" column="4" lean-forward="false" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -277,7 +300,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -302,7 +325,7 @@
           <caret line="97" column="4" lean-forward="false" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -327,7 +350,7 @@
           <caret line="97" column="4" lean-forward="false" selection-start-line="97" selection-start-column="4" selection-end-line="97" selection-end-column="4" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -338,7 +361,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -361,15 +384,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="152" column="59" lean-forward="false" selection-start-line="152" selection-start-column="59" selection-end-line="152" selection-end-column="59" />
-          <folding>
-            <element signature="e#1559#1568#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
+        <state relative-caret-position="4590">
           <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
@@ -379,11 +399,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="420" column="17" lean-forward="false" selection-start-line="420" selection-start-column="17" selection-end-line="420" selection-end-column="17" />
+        <state relative-caret-position="210">
+          <caret line="47" column="66" lean-forward="false" selection-start-line="47" selection-start-column="66" selection-end-line="47" selection-end-column="66" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-            <element signature="e#5218#5267#0" expanded="false" />
+            <element signature="e#5258#5307#0" expanded="false" />
           </folding>
         </state>
       </provider>
