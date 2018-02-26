@@ -41,7 +41,7 @@ load('Springer_pi_vector.mat');
 load('Springer_total_obs_distribution.mat');
 springer_options   = default_Springer_HSMM_options;
 springer_options.use_mex = 1;
-
+% springer_options
 %% Importing labels
 labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
 label_pointer=1; % label saving index
