@@ -2,7 +2,7 @@
 clearvars -except folder_idx
 clc
 %% Initialize Parameters
-folder_idx=4; %index for training folder [0 to 5]
+folder_idx=0; %index for training folder [0 to 5]
 max_audio_length=60;    %seconds
 N=60;                   %order of filters
 sr=1000;                %resampling rate
@@ -84,6 +84,7 @@ for file_idx=1:num_files
                
     [idx_states , last_idx]=get_states(assigned_states); %idx_states ncc x 4 matrix 
                                 % containing starting index of segments 
+     
     
 %% Dividing signals into filter banks
     clear PCG
