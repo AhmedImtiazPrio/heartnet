@@ -1,7 +1,7 @@
 %% Spectral characteristics average per dataset
 % figure('units','normalized','outerposition',[0 0 1 1]) %% for loglog plot maximize figure
 a=[];
-for it=0:5
+% for it=0:5
 clearvars -except it a
 folder_idx=it; %index for training folder [0 to 5]
 datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
@@ -23,8 +23,8 @@ ftype = repmat('.wav',[length(exclude),1]);
 exclude = strcat(exclude,ftype); % list of files to be excluded from training-e
 
 %% Importing labels
-labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
-label_pointer=1; % label saving index
+% labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
+% label_pointer=1; % label saving index
 
 Avg = [];
 for file_idx=1:num_files
@@ -35,9 +35,9 @@ for file_idx=1:num_files
         end
     end
     
-    if labels(file_idx)==-1
-        continue;
-    end
+%     if labels(file_idx)==-1
+%         continue;
+%     end
     
     fname=[datapath,d(file_idx).name];
     [PCG,Fs] = audioread(fname);
@@ -102,4 +102,4 @@ end
 % ylabel('Magnitude');
 % title(['Freq characteristics per sensor (normal)']);
 a(it+1,:)=mean(Avg);
-end
+% end
