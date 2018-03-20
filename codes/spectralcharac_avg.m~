@@ -89,17 +89,17 @@ end
 
 %% LogLog Plot
 
-plot(F,mean(Avg))
-hold on
+% plot(F,mean(Avg))
+% hold on
 % end
-%%
-set(gca,'xscale','log')
-set(gca,'yscale','log')
-xlim([F(1) F(end)])
-ylim([10^-4 10])
-grid on
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
-title(['Freq characteristics for sensor']);
-% a(it+1,:)=mean(Avg);
+% %%
+% set(gca,'xscale','log')
+% set(gca,'yscale','log')
+% xlim([F(1) F(end)])
+% ylim([10^-4 1000])
+% grid on
+% xlabel('Frequency (Hz)');
+% ylabel('Magnitude');
+% title(['Freq characteristics per sensor (normal)']);
+a(it+1,:)=mean(Avg);
 % end
