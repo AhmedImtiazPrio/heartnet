@@ -2,23 +2,23 @@ clear
 clc
 rng('default')
 fold = 3; % number of normal/abnormals in new folds
-datapath='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/';
-valid_path='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/validation/RECORDS';
-abnorpath='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/';
-exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
-fold_path='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/'
+datapath='/media/taufiq/Data1/heart_sound/feature/potes_1DCNN/';
+valid_path='/media/taufiq/Data1/Heart_Sound/Physionet/validation/RECORDS';
+abnorpath='/media/taufiq/Data1/Heart_Sound/Physionet/training/';
+exclude_text='/media/taufiq/Data1/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
+fold_path='/media/taufiq/Data1/heart_sound/feature/potes_1DCNN/balancedCV/'
 
 %% Import physionet validation lsit
 valid0 = importlist(valid_path);
 %% Import all normal/abnormal list
 abnorlist=[];
 norlist=[];
-exclude = importlist(exclude_text);
+exclude = importfile(exclude_text);
 for folder_idx=0:5
     loadfile=[abnorpath 'training-' 'a'+folder_idx '/RECORDS-abnormal'];
-    abnorlist=[abnorlist;importlist(loadfile)];
+    abnorlist=[abnorlist;importfile(loadfile)];
     loadfile=[abnorpath 'training-' 'a'+folder_idx '/RECORDS-normal'];
-    norlist=[norlist;importlist(loadfile)];
+    norlist=[norlist;importfile(loadfile)];
 end
 %% Excluding the ECG from training-e
 for idx=1:size(exclude,1)
@@ -26,7 +26,7 @@ for idx=1:size(exclude,1)
                                                       % filenames
     norlist(contains(norlist,exclude(idx)))=[];  
 end
-list_main=[norlist;abnorlist];
+% list_main=[norlist;abnorlist];
 %% exclude validation set1 lists
 for idx=1:size(valid0,1)
     norlist(contains(norlist,valid0(idx)))=[]; 
@@ -40,7 +40,7 @@ valid=cell(fold,1);
 for it=1:fold
     [Y,I]=datasample(abnorlist,num_samples,'Replace',false); % Take random samples
     valid{it}=Y;                                             % Store names
-    abnorlist(I)=[];                                         % Remove sampled data
+    abnorlist(I)=[];                                         % Remove sampled Data1
     [Y,I]=datasample(norlist,num_samples,'Replace',false);
     valid{it}=[valid{it};Y];
     norlist(I)=[];

@@ -1,13 +1,13 @@
 %% Spectral characteristics average per dataset
 % figure('units','normalized','outerposition',[0 0 1 1]) %% for loglog plot maximize figure
-a=[];
-% for it=0:5
+% a=[];
+for it=0:5
 clearvars -except it a
 folder_idx=it; %index for training folder [0 to 5]
-datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
-exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
-labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
-addpath(genpath('/media/taufiq/Data/heart_sound/Heart_Sound/codes/cristhian.potes-204/'));
+datapath=['/media/taufiq/Data1/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
+exclude_text='/media/taufiq/Data1/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
+labelpath=['/media/taufiq/Data1/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
+addpath(genpath('/media/taufiq/Data1/heart_sound/heartnet/codes/cristhian.potes-204/'));
 
 d=dir([datapath,'*.wav']);
 num_files=size(d,1);
@@ -23,8 +23,8 @@ ftype = repmat('.wav',[length(exclude),1]);
 exclude = strcat(exclude,ftype); % list of files to be excluded from training-e
 
 %% Importing labels
-% labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
-% label_pointer=1; % label saving index
+labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
+label_pointer=1; % label saving index
 
 Avg = [];
 for file_idx=1:num_files
@@ -102,4 +102,4 @@ end
 % ylabel('Magnitude');
 % title(['Freq characteristics per sensor (normal)']);
 a(it+1,:)=mean(Avg);
-% end
+end
