@@ -31,7 +31,7 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam):
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
 
     num_filt1, num_filt2 = num_filt
     t = Conv1D(num_filt1, kernel_size=kernel_size,
@@ -39,6 +39,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 padding=padding,
                 use_bias=bias,
                 kernel_constraint=max_norm(maxnorm),
+                trainable=trainable,
                 kernel_regularizer=l2(l2_reg))(input_tensor)
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
@@ -48,6 +49,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 kernel_initializer=initializers.he_normal(seed=random_seed),
                 padding=padding,
                 use_bias=bias,
+                trainable=trainable,
                 kernel_constraint=max_norm(maxnorm),
                 kernel_regularizer=l2(l2_reg))(t)
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
@@ -68,7 +70,7 @@ def write_meta(Y,log_dir):
 
 def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
              eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False):
+             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True):
 
     input = Input(shape=(2500, 1))
 
@@ -108,13 +110,13 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
                     padding='same',trainable=FIR_train)(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam)
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
     t2 = branch(input2,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam)
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
     t3 = branch(input3,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam)
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
     t4 = branch(input4,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam)
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     # t1 = Conv1D(num_filt1, kernel_size=kernel_size,
     #             kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -214,7 +216,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
                    kernel_regularizer=l2(l2_reg_dense))(merged)
     # ~ merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
     merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
-    merged = Dense(1, activation='sigmoid')(merged)
+    merged = Dense(2, activation='softmax')(merged)
 
     model = Model(inputs=input, outputs=merged)
 
@@ -222,7 +224,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
         model.load_weights(filepath=load_path, by_name=False)
 
     adam = Adam(lr=lr, decay=lr_decay)
-    model.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
 
