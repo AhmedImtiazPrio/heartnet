@@ -28,6 +28,7 @@ from keras import backend as K
 from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase
 from sklearn.metrics import confusion_matrix
+from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
@@ -74,7 +75,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     input = Input(shape=(2500, 1))
 
-    coeff_path = '/media/taufiq/Data/heart_sound/feature/filterbankcoeff60.mat'
+    coeff_path = '/media/taufiq/Data1/heart_sound/heartnetTransfer/filterbankcoeff60.mat'
     coeff = tables.open_file(coeff_path)
     b1 = coeff.root.b1[:]
     b1 = np.hstack(b1)
@@ -405,14 +406,14 @@ if __name__ == '__main__':
         batch_size = batch_size
         verbose = verbose
 
-        model_dir = '/media/taufiq/Data/heart_sound/models/'
-        fold_dir = '/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/'
+        model_dir = '/media/taufiq/Data1/heart_sound/models/'
+        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/'
         log_name = foldname + ' ' + str(datetime.now())
-        log_dir = '/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/'
+        log_dir = '/media/taufiq/Data1/heart_sound/logs/'
         if not os.path.exists(model_dir + log_name):
             os.makedirs(model_dir + log_name)
         checkpoint_name = model_dir + log_name + "/" + 'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
-        results_path = '/media/taufiq/Data/heart_sound/Heart_Sound/codes/logs/results.csv'
+        results_path = '/media/taufiq/Data1/heart_sound/results_2class.csv'
 
         num_filt = (8, 4)
         num_dense = 20
@@ -469,7 +470,8 @@ if __name__ == '__main__':
         ################### Reshaping ############
 
         x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
-
+        y_train = to_categorical(y_train, num_classes=2)
+        y_val = to_categorical(y_val, num_classes=2)
         ############### Write metadata for embedding visualizer ############
 
         metadata_file = write_meta(y_val,log_dir)
@@ -566,7 +568,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        df2 = df2.reindex(df.columns, axis=1)
+        # df2 = df2.reindex(df.columns, axis=1)
         df2.to_csv(results_path, index=False)
         df2.tail()
 
