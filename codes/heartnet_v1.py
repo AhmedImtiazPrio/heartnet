@@ -22,8 +22,8 @@ from keras.models import Model
 from keras.regularizers import l2
 from keras.constraints import max_norm
 from keras.optimizers import Adam#, Nadam, Adamax
-from keras.callbacks1 import TensorBoard, Callback, ReduceLROnPlateau
-from keras.callbacks1 import LearningRateScheduler, ModelCheckpoint, CSVLogger
+from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
+from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase
