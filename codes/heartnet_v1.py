@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, division, absolute_import
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
@@ -265,15 +265,20 @@ class log_macc(Callback):
                 start_idx = start_idx + int(s)
 
             TN, FP, FN, TP = confusion_matrix(true, pred).ravel()
-            TN = float(TN)
-            TP = float(TP)
-            FP = float(FP)
-            FN = float(FN)
-            sensitivity = TP / (TP + FN)
-            specificity = TN / (TN + FP)
+            print("Epoch:{},TN:{},FP:{},FN:{},TP:{}".format(epoch,TN,FP,FN,TP))
+            # TN = float(TN)
+            # TP = float(TP)
+            # FP = float(FP)
+            # FN = float(FN)
+            sensitivity = TP / (TP + FN + eps)
+            specificity = TN / (TN + FP + eps)
+            precision = TP / (TP + FP + eps)
+            F1 = 2 * (precision * sensitivity) / (precision + sensitivity)
             Macc = (sensitivity + specificity) / 2
             logs['val_sensitivity'] = np.array(sensitivity)
             logs['val_specificity'] = np.array(specificity)
+            logs['val_precision'] = np.array(precision)
+            logs['val_F1'] = np.array(F1)
             logs['val_macc'] = np.array(Macc)
 
             #### Learning Rate for Adam ###
@@ -474,7 +479,7 @@ if __name__ == '__main__':
         y_val = to_categorical(y_val, num_classes=2)
         ############### Write metadata for embedding visualizer ############
 
-        metadata_file = write_meta(y_val,log_dir)
+        # metadata_file = write_meta(y_val,log_dir)
 
         ############## Create a model ############
 
@@ -568,7 +573,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns, axis=1)
+        df2 = df2.reindex(df.columns, axis=1)
         df2.to_csv(results_path, index=False)
         df2.tail()
 
