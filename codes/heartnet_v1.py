@@ -448,7 +448,7 @@ if __name__ == '__main__':
 
         bn_momentum = 0.99
         eps = 1.1e-5
-        bias = False
+        bias = True
         l2_reg = 0.04864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
