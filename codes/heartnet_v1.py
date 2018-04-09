@@ -459,7 +459,7 @@ if __name__ == '__main__':
         activation_function = 'relu'
         subsam = 2
         FIR_train=False
-        decision = 'confidence'  # Decision algorithm for inference over total recording ('majority','confidence')
+        decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         lr =  0.0012843784 ## After bayesian optimization
 
