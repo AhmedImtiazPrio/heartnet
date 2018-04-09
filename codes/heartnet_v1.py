@@ -553,7 +553,7 @@ if __name__ == '__main__':
         df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
         new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
+                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
                      'Kernel Size': kernel_size, 'Max Norm': maxnorm,
                      'Dropout -filters': dropout_rate,
                      'Dropout - dense': dropout_rate_dense,
@@ -565,7 +565,9 @@ if __name__ == '__main__':
                      'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
                      'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
                      'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
+                     'Precision' : np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
                      'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
+                     'F1' :np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
                      'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
                      'Number of filters': str(num_filt),
                      'Number of Dense Neurons': num_dense}
@@ -583,7 +585,7 @@ if __name__ == '__main__':
         df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
         new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-sigmoid', 'Class weights': addweights,
+                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
                      'Kernel Size': kernel_size, 'Max Norm': maxnorm,
                      'Dropout -filters': dropout_rate,
                      'Dropout - dense': dropout_rate_dense,
@@ -596,8 +598,10 @@ if __name__ == '__main__':
                      'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
                      'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
                      'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
+                     'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
                      'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
                      'Number of filters': str(num_filt),
+                     'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
                      'Number of Dense Neurons': num_dense}
 
         index, _ = df.shape
