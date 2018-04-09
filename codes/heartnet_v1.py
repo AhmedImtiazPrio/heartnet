@@ -231,41 +231,63 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
 class log_macc(Callback):
 
-    def __init__(self, x_val, y_val, val_parts, res_thresh):
-        self.x_val = x_val
-        self.y_val = y_val
+    def __init__(self, val_parts,decision='majority',verbose=0):
+        super(log_macc, self).__init__()
         self.val_parts = val_parts
-        self.res_thresh = res_thresh
+        self.decision = decision
+        self.verbose = verbose
+        # self.x_val = x_val
+        # self.y_val = y_val
 
     def on_epoch_end(self, epoch, logs):
         if logs is not None:
-            y_pred = self.model.predict(self.x_val, verbose=0)
-
+            y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
             true = []
             pred = []
             start_idx = 0
-            for s in self.val_parts:
 
-                if not s:  ## for e00032 in validation0 there was no cardiac cycle
-                    continue
-                # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
+            if self.decision == 'majority':
+                y_pred = np.argmax(y_pred, axis=-1)
+                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
 
-                temp_ = np.mean(self.y_val[start_idx:start_idx + int(s) - 1])
-                temp = np.mean(y_pred[start_idx:start_idx + int(s) - 1, :])
+                for s in self.val_parts:
 
-                if temp > self.res_thresh:
-                    pred.append(1)
-                else:
-                    pred.append(0)
-                if temp_ > self.res_thresh:
-                    true.append(1)
-                else:
-                    true.append(0)
+                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
+                        continue
+                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
 
-                start_idx = start_idx + int(s)
+                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
+                    temp = y_pred[start_idx:start_idx + int(s) - 1]
 
-            TN, FP, FN, TP = confusion_matrix(true, pred).ravel()
-            print("Epoch:{},TN:{},FP:{},FN:{},TP:{}".format(epoch,TN,FP,FN,TP))
+                    if (sum(temp == 0) > sum(temp == 1)):
+                        pred.append(0)
+                    else:
+                        pred.append(1)
+
+                    if (sum(temp_ == 0) > sum(temp_ == 1)):
+                        true.append(0)
+                    else:
+                        true.append(1)
+
+                    start_idx = start_idx + int(s)
+
+            if self.decision =='confidence':
+                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
+                for s in self.val_parts:
+                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
+                        continue
+                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
+                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
+                    if (sum(temp_ == 0) > sum(temp_ == 1)):
+                        true.append(0)
+                    else:
+                        true.append(1)
+                    temp = np.sum(y_pred[start_idx:start_idx + int(s) - 1],axis=0)
+                    pred.append(int(np.argmax(temp)))
+                    start_idx = start_idx + int(s)
+
+
+            TN, FP, FN, TP = confusion_matrix(true, pred, labels=[0,1]).ravel()
             # TN = float(TN)
             # TP = float(TP)
             # FP = float(FP)
@@ -280,7 +302,8 @@ class log_macc(Callback):
             logs['val_precision'] = np.array(precision)
             logs['val_F1'] = np.array(F1)
             logs['val_macc'] = np.array(Macc)
-
+            if self.verbose:
+                print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
             #### Learning Rate for Adam ###
 
             lr = self.model.optimizer.lr
@@ -436,7 +459,7 @@ if __name__ == '__main__':
         activation_function = 'relu'
         subsam = 2
         FIR_train=False
-
+        decision = 'confidence'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         lr =  0.0012843784 ## After bayesian optimization
 
@@ -529,7 +552,7 @@ if __name__ == '__main__':
                       verbose=verbose,
                       validation_data=(x_val, y_val),
                       callbacks=[modelcheckpnt,
-                                 log_macc(x_val, y_val, val_parts, res_thresh),
+                                 log_macc(val_parts, decision=decision,verbose=verbose),
                                  tensbd, csv_logger],
                       initial_epoch=initial_epoch,
                       class_weight=class_weight)
@@ -543,7 +566,7 @@ if __name__ == '__main__':
                       verbose=verbose,
                       validation_data=(x_val, y_val),
                       callbacks=[modelcheckpnt,
-                                 log_macc(x_val, y_val, val_parts, res_thresh),
+                                 log_macc(val_parts, decision=decision, verbose=verbose),
                                  tensbd, csv_logger],
                       initial_epoch=initial_epoch)
 
@@ -575,7 +598,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        df2 = df2.reindex(df.columns, axis=1)
+        df2 = df2.reindex(df.columns)
         df2.to_csv(results_path, index=False)
         df2.tail()
 
@@ -607,7 +630,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        df2 = df2.reindex(df.columns, axis=1)
+        df2 = df2.reindex(df.columns)
         df2.to_csv(results_path, index=False)
         df2.tail()
         print("Saving to results.csv")
