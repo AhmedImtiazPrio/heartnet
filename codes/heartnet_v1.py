@@ -14,7 +14,7 @@ import pandas as pd
 import tables
 from datetime import datetime
 import argparse
-from keras.layers import Input, Conv1D, MaxPooling1D, Dense, Dropout, Flatten, Activation
+from keras.layers import Input, Conv1D, MaxPooling1D, Dense, Dropout, Flatten, Activation, AveragePooling1D
 from keras import initializers
 from keras.layers.normalization import BatchNormalization
 from keras.layers.merge import Concatenate
@@ -45,7 +45,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = MaxPooling1D(pool_size=subsam)(t)
+    t = AveragePooling1D(pool_size=subsam)(t)
     t = Conv1D(num_filt2, kernel_size=kernel_size,
                 kernel_initializer=initializers.he_normal(seed=random_seed),
                 padding=padding,
@@ -56,7 +56,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = MaxPooling1D(pool_size=subsam)(t)
+    t = AveragePooling1D(pool_size=subsam)(t)
     t = Flatten()(t)
     return t
 
@@ -448,7 +448,7 @@ if __name__ == '__main__':
 
         bn_momentum = 0.99
         eps = 1.1e-5
-        bias = True
+        bias = False
         l2_reg = 0.04864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
