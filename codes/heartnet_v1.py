@@ -4,7 +4,6 @@ from __future__ import print_function, division, absolute_import
 # config = tf.ConfigProto()
 # config.gpu_options.per_process_gpu_memory_fraction = 0.4
 # set_session(tf.Session(config=config))
-
 import os
 import numpy as np
 np.random.seed(1)
@@ -454,7 +453,7 @@ if __name__ == '__main__':
         kernel_size = 5
         maxnorm = 10000.
         dropout_rate = 0.5
-        dropout_rate_dense = 0.
+        dropout_rate_dense = 0.3
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
