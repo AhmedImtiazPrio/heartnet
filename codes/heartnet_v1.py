@@ -4,6 +4,7 @@ from __future__ import print_function, division, absolute_import
 # config = tf.ConfigProto()
 # config.gpu_options.per_process_gpu_memory_fraction = 0.4
 # set_session(tf.Session(config=config))
+from clr_callback import CyclicLR
 import os
 import numpy as np
 np.random.seed(1)
@@ -209,13 +210,13 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     merged = Concatenate(axis=1)([t1, t2, t3, t4])
     # merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(num_dense,
-                   # activation=activation_function,
+                   activation=activation_function,
                    kernel_initializer=initializers.he_normal(seed=random_seed),
                    use_bias=bias,
                    kernel_constraint=max_norm(maxnorm),
                    kernel_regularizer=l2(l2_reg_dense))(merged)
-    merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
-    merged = Activation(activation_function)(merged)
+    # merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
+    # merged = Activation(activation_function)(merged)
     merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(2, activation='softmax')(merged)
 
@@ -307,13 +308,14 @@ class log_macc(Callback):
             #### Learning Rate for Adam ###
 
             lr = self.model.optimizer.lr
-            if self.model.optimizer.initial_decay > 0:
-                lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
-                                                                      K.dtype(self.model.optimizer.decay))))
-            t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
-            lr_t = lr * (
-                    K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
-            logs['lr'] = np.array(float(K.get_value(lr_t)))
+            # if self.model.optimizer.initial_decay > 0:
+            #     lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
+            #                                                           K.dtype(self.model.optimizer.decay))))
+            # t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
+            # lr_t = lr * (
+            #         K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
+            # logs['lr'] = np.array(float(K.get_value(lr_t)))
+            logs['lr'] = np.array(float(K.get_value(lr)))
 
 
 def compute_weight(Y, classes):
@@ -458,7 +460,7 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=False
+        FIR_train=True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         lr =  0.0012843784 ## After bayesian optimization
@@ -565,9 +567,14 @@ if __name__ == '__main__':
                       shuffle=True,
                       verbose=verbose,
                       validation_data=(x_val, y_val),
-                      callbacks=[modelcheckpnt,
-                                 log_macc(val_parts, decision=decision, verbose=verbose),
-                                 tensbd, csv_logger],
+                      callbacks=[
+                                # CyclicLR(base_lr=0.0001132885,
+                                #          max_lr=0.0012843784,
+                                #          step_size=8*(x_train.shape[0]//batch_size),
+                                #          ),
+                                modelcheckpnt,
+                                log_macc(val_parts, decision=decision, verbose=verbose),
+                                tensbd, csv_logger],
                       initial_epoch=initial_epoch)
 
         ############### log results in csv ###############
