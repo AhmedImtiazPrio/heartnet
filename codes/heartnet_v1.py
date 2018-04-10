@@ -207,7 +207,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     # t4 = Flatten()(t4)
 
     merged = Concatenate(axis=1)([t1, t2, t3, t4])
-
+    merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
                    kernel_initializer=initializers.he_normal(seed=random_seed),
@@ -453,7 +453,7 @@ if __name__ == '__main__':
         kernel_size = 5
         maxnorm = 10000.
         dropout_rate = 0.5
-        dropout_rate_dense = 0.3
+        dropout_rate_dense = 0.2
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
