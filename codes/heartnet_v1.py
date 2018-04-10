@@ -5,6 +5,7 @@ from __future__ import print_function, division, absolute_import
 # config.gpu_options.per_process_gpu_memory_fraction = 0.4
 # set_session(tf.Session(config=config))
 from clr_callback import CyclicLR
+from AudioDataGenerator import AudioDataGenerator
 import os
 import numpy as np
 np.random.seed(1)
@@ -540,42 +541,72 @@ if __name__ == '__main__':
                                       factor=lr_reduce_factor, patience=patience,
                                       min_lr=0.00001, verbose=1, cooldown=cooldown)
         dynamiclr = LearningRateScheduler(lr_schedule)
+        ######### Data Generator ############
+
+        datagen = AudioDataGenerator(shift=.1,
+                                     # fill_mode='reflect',
+                                     # featurewise_center=True,
+                                     # zoom_range=.2,
+                                     # zca_whitening=True,
+                                     # samplewise_center=True,
+                                     # samplewise_std_normalization=True,
+                                     )
+        # valgen = AudioDataGenerator(
+        #     # fill_mode='reflect',
+        #     # featurewise_center=True,
+        #     # zoom_range=.2,
+        #     # zca_whitening=True,
+        #     # samplewise_center=True,
+        #     # samplewise_std_normalization=True,
+        # )
+
+        model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
+                            steps_per_epoch=len(x_train) // batch_size,
+                            use_multiprocessing=True,
+                            epochs=epochs,
+                            verbose=verbose,
+                            shuffle=True,
+                            callbacks=[modelcheckpnt,
+                                       log_macc(val_parts, decision=decision,verbose=verbose),
+                                       tensbd, csv_logger],
+                            validation_data=(x_val, y_val),
+                            )
 
         ######### Run forest run!! ##########
 
-        if addweights:  ## if input arg classweights was specified True
-
-            class_weight = compute_weight(y_train, np.unique(y_train))
-
-            model.fit(x_train, y_train,
-                      batch_size=batch_size,
-                      epochs=epochs,
-                      shuffle=True,
-                      verbose=verbose,
-                      validation_data=(x_val, y_val),
-                      callbacks=[modelcheckpnt,
-                                 log_macc(val_parts, decision=decision,verbose=verbose),
-                                 tensbd, csv_logger],
-                      initial_epoch=initial_epoch,
-                      class_weight=class_weight)
-
-        else:
-
-            model.fit(x_train, y_train,
-                      batch_size=batch_size,
-                      epochs=epochs,
-                      shuffle=True,
-                      verbose=verbose,
-                      validation_data=(x_val, y_val),
-                      callbacks=[
-                                # CyclicLR(base_lr=0.0001132885,
-                                #          max_lr=0.0012843784,
-                                #          step_size=8*(x_train.shape[0]//batch_size),
-                                #          ),
-                                modelcheckpnt,
-                                log_macc(val_parts, decision=decision, verbose=verbose),
-                                tensbd, csv_logger],
-                      initial_epoch=initial_epoch)
+        # if addweights:  ## if input arg classweights was specified True
+        #
+        #     class_weight = compute_weight(y_train, np.unique(y_train))
+        #
+        #     model.fit(x_train, y_train,
+        #               batch_size=batch_size,
+        #               epochs=epochs,
+        #               shuffle=True,
+        #               verbose=verbose,
+        #               validation_data=(x_val, y_val),
+        #               callbacks=[modelcheckpnt,
+        #                          log_macc(val_parts, decision=decision,verbose=verbose),
+        #                          tensbd, csv_logger],
+        #               initial_epoch=initial_epoch,
+        #               class_weight=class_weight)
+        #
+        # else:
+        #
+        #     model.fit(x_train, y_train,
+        #               batch_size=batch_size,
+        #               epochs=epochs,
+        #               shuffle=True,
+        #               verbose=verbose,
+        #               validation_data=(x_val, y_val),
+        #               callbacks=[
+        #                         # CyclicLR(base_lr=0.0001132885,
+        #                         #          max_lr=0.0012843784,
+        #                         #          step_size=8*(x_train.shape[0]//batch_size),
+        #                         #          ),
+        #                         modelcheckpnt,
+        #                         log_macc(val_parts, decision=decision, verbose=verbose),
+        #                         tensbd, csv_logger],
+        #               initial_epoch=initial_epoch)
 
         ############### log results in csv ###############
 
@@ -605,7 +636,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        df2 = df2.reindex(df.columns)
+        # df2 = df2.reindex(df.columns)
         df2.to_csv(results_path, index=False)
         df2.tail()
 
@@ -637,7 +668,7 @@ if __name__ == '__main__':
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
         df2 = pd.concat([df, new_entry], axis=0)
-        df2 = df2.reindex(df.columns)
+        # df2 = df2.reindex(df.columns)
         df2.to_csv(results_path, index=False)
         df2.tail()
         print("Saving to results.csv")
