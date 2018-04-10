@@ -207,14 +207,15 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     # t4 = Flatten()(t4)
 
     merged = Concatenate(axis=1)([t1, t2, t3, t4])
-    merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
+    # merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(num_dense,
-                   activation=activation_function,
+                   # activation=activation_function,
                    kernel_initializer=initializers.he_normal(seed=random_seed),
                    use_bias=bias,
                    kernel_constraint=max_norm(maxnorm),
                    kernel_regularizer=l2(l2_reg_dense))(merged)
-    # ~ merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
+    merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
+    merged = Activation(activation_function)(merged)
     merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(2, activation='softmax')(merged)
 
