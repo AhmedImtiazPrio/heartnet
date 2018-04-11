@@ -233,11 +233,12 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
 class log_macc(Callback):
 
-    def __init__(self, val_parts,decision='majority',verbose=0):
+    def __init__(self, val_parts,decision='majority',verbose=0, val_files=None):
         super(log_macc, self).__init__()
         self.val_parts = val_parts
         self.decision = decision
         self.verbose = verbose
+        self.val_files = np.asarray(val_files)
         # self.x_val = x_val
         # self.y_val = y_val
 
@@ -306,6 +307,7 @@ class log_macc(Callback):
             logs['val_macc'] = np.array(Macc)
             if self.verbose:
                 print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
+
             #### Learning Rate for Adam ###
 
             lr = self.model.optimizer.lr
@@ -316,7 +318,13 @@ class log_macc(Callback):
             lr_t = lr * (
                     K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
             logs['lr'] = np.array(float(K.get_value(lr_t)))
-            # logs['lr'] = np.array(float(K.get_value(lr)))
+
+            if self.val_files:
+                mask = self.val_files=='x'
+                TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
+                sensitivity = TP / (TP + FN + eps)
+                specificity = TN / (TN + FP + eps)
+                logs['ComParE_UAR'] = (sensitivity + specificity) / 2
 
 
 def compute_weight(Y, classes):
@@ -508,7 +516,7 @@ if __name__ == '__main__':
         for each in feat.root.val_files[:][0]:
             val_files.append(chr(each))
         print(len(val_files))
-        
+
         ################### Reshaping ############
 
         x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
@@ -578,7 +586,7 @@ if __name__ == '__main__':
                             verbose=verbose,
                             shuffle=True,
                             callbacks=[modelcheckpnt,
-                                       log_macc(val_parts, decision=decision,verbose=verbose),
+                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
                             )
