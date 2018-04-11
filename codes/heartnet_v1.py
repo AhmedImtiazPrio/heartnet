@@ -46,7 +46,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = AveragePooling1D(pool_size=subsam)(t)
+    t = MaxPooling1D(pool_size=subsam)(t)
     t = Conv1D(num_filt2, kernel_size=kernel_size,
                 kernel_initializer=initializers.he_normal(seed=random_seed),
                 padding=padding,
@@ -57,7 +57,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = AveragePooling1D(pool_size=subsam)(t)
+    t = MaxPooling1D(pool_size=subsam)(t)
     t = Flatten()(t)
     return t
 
@@ -309,14 +309,14 @@ class log_macc(Callback):
             #### Learning Rate for Adam ###
 
             lr = self.model.optimizer.lr
-            # if self.model.optimizer.initial_decay > 0:
-            #     lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
-            #                                                           K.dtype(self.model.optimizer.decay))))
-            # t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
-            # lr_t = lr * (
-            #         K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
-            # logs['lr'] = np.array(float(K.get_value(lr_t)))
-            logs['lr'] = np.array(float(K.get_value(lr)))
+            if self.model.optimizer.initial_decay > 0:
+                lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
+                                                                      K.dtype(self.model.optimizer.decay))))
+            t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
+            lr_t = lr * (
+                    K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
+            logs['lr'] = np.array(float(K.get_value(lr_t)))
+            # logs['lr'] = np.array(float(K.get_value(lr)))
 
 
 def compute_weight(Y, classes):
@@ -457,7 +457,7 @@ if __name__ == '__main__':
         kernel_size = 5
         maxnorm = 10000.
         dropout_rate = 0.5
-        dropout_rate_dense = 0.2
+        dropout_rate_dense = 0.
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
