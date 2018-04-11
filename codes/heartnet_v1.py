@@ -4,7 +4,7 @@ from __future__ import print_function, division, absolute_import
 # config = tf.ConfigProto()
 # config.gpu_options.per_process_gpu_memory_fraction = 0.4
 # set_session(tf.Session(config=config))
-from clr_callback import CyclicLR
+# from clr_callback import CyclicLR
 from AudioDataGenerator import AudioDataGenerator
 import os
 import numpy as np
@@ -120,94 +120,6 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     t4 = branch(input4,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
-    # t1 = Conv1D(num_filt1, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(input1)
-    # t1 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t1)
-    # t1 = Activation(activation_function)(t1)
-    # t1 = Dropout(rate=dropout_rate, seed=random_seed)(t1)
-    # t1 = MaxPooling1D(pool_size=subsam)(t1)
-    # t1 = Conv1D(num_filt2, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(t1)
-    # t1 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t1)
-    # t1 = Activation(activation_function)(t1)
-    # t1 = Dropout(rate=dropout_rate, seed=random_seed)(t1)
-    # t1 = MaxPooling1D(pool_size=subsam)(t1)
-    # t1 = Flatten()(t1)
-
-    # t2 = Conv1D(num_filt1, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(input2)
-    # t2 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t2)
-    # t2 = Activation(activation_function)(t2)
-    # t2 = Dropout(rate=dropout_rate, seed=random_seed)(t2)
-    # t2 = MaxPooling1D(pool_size=subsam)(t2)
-    # t2 = Conv1D(num_filt2, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(t2)
-    # t2 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t2)
-    # t2 = Activation(activation_function)(t2)
-    # t2 = Dropout(rate=dropout_rate, seed=random_seed)(t2)
-    # t2 = MaxPooling1D(pool_size=subsam)(t2)
-    # t2 = Flatten()(t2)
-
-    # t3 = Conv1D(num_filt1, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(input3)
-    # t3 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t3)
-    # t3 = Activation(activation_function)(t3)
-    # t3 = Dropout(rate=dropout_rate, seed=random_seed)(t3)
-    # t3 = MaxPooling1D(pool_size=subsam)(t3)
-    # t3 = Conv1D(num_filt2, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(t3)
-    # t3 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t3)
-    # t3 = Activation(activation_function)(t3)
-    # t3 = Dropout(rate=dropout_rate, seed=random_seed)(t3)
-    # t3 = MaxPooling1D(pool_size=subsam)(t3)
-    # t3 = Flatten()(t3)
-
-    # t4 = Conv1D(num_filt1, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(input4)
-    # t4 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t4)
-    # t4 = Activation(activation_function)(t4)
-    # t4 = Dropout(rate=dropout_rate, seed=random_seed)(t4)
-    # t4 = MaxPooling1D(pool_size=subsam)(t4)
-    # t4 = Conv1D(num_filt2, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(t4)
-    # t4 = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t4)
-    # t4 = Activation(activation_function)(t4)
-    # t4 = Dropout(rate=dropout_rate, seed=random_seed)(t4)
-    # t4 = MaxPooling1D(pool_size=subsam)(t4)
-    # t4 = Flatten()(t4)
-
     merged = Concatenate(axis=1)([t1, t2, t3, t4])
     # merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
     merged = Dense(num_dense,
@@ -319,7 +231,7 @@ class log_macc(Callback):
                     K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
             logs['lr'] = np.array(float(K.get_value(lr_t)))
 
-            if self.val_files:
+            if self.val_files is not None:
                 mask = self.val_files=='x'
                 TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
                 sensitivity = TP / (TP + FN + eps)
@@ -475,7 +387,7 @@ if __name__ == '__main__':
         lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885
+        lr_decay =0.00001132885
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
