@@ -498,6 +498,17 @@ if __name__ == '__main__':
             if y_val[i] == -1:
                 y_val[i] = 0
 
+        ############# Parse Database names ########
+
+        train_files = []
+        for each in feat.root.train_files[:][0]:
+            train_files.append(chr(each))
+        print(len(train_files))
+        val_files = []
+        for each in feat.root.val_files[:][0]:
+            val_files.append(chr(each))
+        print(len(val_files))
+        
         ################### Reshaping ############
 
         x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
