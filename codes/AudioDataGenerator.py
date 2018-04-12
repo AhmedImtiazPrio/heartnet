@@ -1,4 +1,5 @@
 from __future__ import print_function, division, absolute_import
+import dill
 import numpy as np
 from keras.preprocessing.image import Iterator
 from scipy import linalg
