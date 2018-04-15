@@ -30,7 +30,7 @@ from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
@@ -43,7 +43,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 kernel_constraint=max_norm(maxnorm),
                 trainable=trainable,
                 kernel_regularizer=l2(l2_reg))(input_tensor)
-    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
+    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
@@ -54,20 +54,20 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 trainable=trainable,
                 kernel_constraint=max_norm(maxnorm),
                 kernel_regularizer=l2(l2_reg))(t)
-    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
+    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = Conv1D(num_filt2, kernel_size=kernel_size,
-               kernel_initializer=initializers.he_normal(seed=random_seed),
-               padding=padding,
-               use_bias=bias,
-               trainable=trainable,
-               kernel_constraint=max_norm(maxnorm),
-               kernel_regularizer=l2(l2_reg))(t)
-    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
-    t = Activation(activation_function)(t)
-    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = MaxPooling1D(pool_size=subsam)(t)
+    # t = Conv1D(num_filt2, kernel_size=kernel_size,
+    #            kernel_initializer=initializers.he_normal(seed=random_seed),
+    #            padding=padding,
+    #            use_bias=bias,
+    #            trainable=trainable,
+    #            kernel_constraint=max_norm(maxnorm),
+    #            kernel_regularizer=l2(l2_reg))(t)
+    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
+    # t = Activation(activation_function)(t)
+    # t = Dropout(rate=dropout_rate, seed=random_seed)(t)
+    # t = MaxPooling1D(pool_size=subsam)(t)
     t = Flatten()(t)
     return t
 
@@ -389,7 +389,7 @@ if __name__ == '__main__':
         dropout_rate = 0.5
         dropout_rate_dense = 0.2
         padding = 'valid'
-        activation_function = 'relu'
+        activation_function = 'sigmoid'
         subsam = 2
         FIR_train=True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
@@ -397,7 +397,7 @@ if __name__ == '__main__':
         lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885
+        lr_decay =0.00001132885
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
