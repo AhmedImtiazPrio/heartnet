@@ -311,6 +311,8 @@ if __name__ == '__main__':
                             help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
         parser.add_argument("--classweights", type=bool,
                             help="if True, class weights are added according to the ratio of the two classes present in the training data")
+        parser.add_argument("--comment",
+                            help = "Add comments to the log files")
 
         args = parser.parse_args()
         print("%s selected" % (args.fold))
@@ -357,6 +359,11 @@ if __name__ == '__main__':
             addweights = True
         else:
             addweights = False
+        if args.comment:
+            comment = args.comment
+        else:
+            comment = None
+
 
         #########################################################
 
@@ -573,7 +580,8 @@ if __name__ == '__main__':
                      'F1' :np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
                      'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
                      'Number of filters': str(num_filt),
-                     'Number of Dense Neurons': num_dense}
+                     'Number of Dense Neurons': num_dense,
+                     'Comment' : comment}
 
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
@@ -605,7 +613,8 @@ if __name__ == '__main__':
                      'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
                      'Number of filters': str(num_filt),
                      'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
-                     'Number of Dense Neurons': num_dense}
+                     'Number of Dense Neurons': num_dense,
+                     'Comment': comment}
 
         index, _ = df.shape
         new_entry = pd.DataFrame(new_entry, index=[index])
