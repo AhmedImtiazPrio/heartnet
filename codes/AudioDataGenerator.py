@@ -36,7 +36,7 @@ class NumpyArrayIterator(Iterator):
                  batch_size=32, shuffle=False, seed=None,
                  data_format=None,
                  save_to_dir=None, save_prefix='', save_format='png',
-                 subset=None):
+                 subset=None,verbose=1):
         if y is not None and len(x) != len(y):
             raise ValueError('`x` (images tensor) and `y` (labels) '
                              'should have the same length. '
@@ -80,6 +80,9 @@ class NumpyArrayIterator(Iterator):
         self.save_prefix = save_prefix
         self.save_format = save_format
         super(NumpyArrayIterator, self).__init__(x.shape[0], batch_size, shuffle, seed)
+        if verbose:
+            print("Generator Initialized")
+            self.verbose = verbose
 
     def _get_batches_of_transformed_samples(self, index_array):
         batch_x = np.zeros(tuple([len(index_array)] + list(self.x.shape)[1:]),
@@ -108,6 +111,8 @@ class NumpyArrayIterator(Iterator):
             index_array = next(self.index_generator)
         # The transformation of images is not under thread lock
         # so it can be done in parallel
+        if self.verbose:
+            print("Transforming next batch")
         return self._get_batches_of_transformed_samples(index_array)
 
 class AudioDataGenerator(object):
@@ -170,7 +175,8 @@ class AudioDataGenerator(object):
                  preprocessing_function=None,
                  data_format=None,
                  noise=None,
-                 validation_split=0.0):
+                 validation_split=0.0,
+                 verbose = 1):
         if data_format is None:
             data_format = 'channels_last'
         self.featurewise_center = featurewise_center
