@@ -1,9 +1,9 @@
 from __future__ import print_function, division, absolute_import
-# import tensorflow as tf
-# from keras.backend.tensorflow_backend import set_session
-# config = tf.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.4
-# set_session(tf.Session(config=config))
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.4
+set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
 import dill
 from AudioDataGenerator import AudioDataGenerator
@@ -462,7 +462,6 @@ if __name__ == '__main__':
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train)
         model.summary()
-        plot_model(model, to_file=log_dir+log_name+'/model.png', show_shapes=True)
         plot_model(model, to_file='model.png', show_shapes=True)
         # embedding_layer_names =set(layer.name
         #                     for layer in model.layers
@@ -493,7 +492,9 @@ if __name__ == '__main__':
         dynamiclr = LearningRateScheduler(lr_schedule)
         ######### Data Generator ############
 
-        datagen = AudioDataGenerator(shift=.1,
+        datagen = AudioDataGenerator(
+                                     # shift=.1,
+                                     roll_range=.1,
                                      # fill_mode='reflect',
                                      # featurewise_center=True,
                                      # zoom_range=.2,
@@ -512,7 +513,7 @@ if __name__ == '__main__':
 
         model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
                             steps_per_epoch=len(x_train) // batch_size,
-                            use_multiprocessing=True,
+                            use_multiprocessing=False,
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
@@ -535,7 +536,7 @@ if __name__ == '__main__':
         #               verbose=verbose,
         #               validation_data=(x_val, y_val),
         #               callbacks=[modelcheckpnt,
-        #                          log_macc(val_parts, decision=decision,verbose=verbose),
+        #                          log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
         #                          tensbd, csv_logger],
         #               initial_epoch=initial_epoch,
         #               class_weight=class_weight)
@@ -554,12 +555,12 @@ if __name__ == '__main__':
         #                         #          step_size=8*(x_train.shape[0]//batch_size),
         #                         #          ),
         #                         modelcheckpnt,
-        #                         log_macc(val_parts, decision=decision, verbose=verbose),
+        #                         log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
         #                         tensbd, csv_logger],
         #               initial_epoch=initial_epoch)
 
         ############### log results in csv ###############
-
+        plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         df = pd.read_csv(results_path)
         df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
@@ -593,6 +594,7 @@ if __name__ == '__main__':
 
     except KeyboardInterrupt:
         ############ If ended in advance ###########
+        plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         df = pd.read_csv(results_path)
         df1 = pd.read_csv(log_dir + log_name + '/training.csv')
         max_idx = df1['val_macc'].idxmax()
