@@ -98,6 +98,8 @@ class NumpyArrayIterator(Iterator):
         if self.y is None:
             return batch_x
         batch_y = self.y[index_array]
+        if self.verbose:
+            "Transformed"
         return batch_x, batch_y
 
     def next(self):
@@ -111,8 +113,8 @@ class NumpyArrayIterator(Iterator):
             index_array = next(self.index_generator)
         # The transformation of images is not under thread lock
         # so it can be done in parallel
-        if self.verbose:
-            print("Transforming next batch")
+        # if self.verbose:
+        #     print("Transforming next batch")
         return self._get_batches_of_transformed_samples(index_array)
 
 class AudioDataGenerator(object):
