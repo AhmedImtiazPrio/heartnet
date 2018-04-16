@@ -464,16 +464,17 @@ if __name__ == '__main__':
         model.summary()
         plot_model(model, to_file=log_dir+log_name+'/model.png', show_shapes=True)
         plot_model(model, to_file='model.png', show_shapes=True)
-        embedding_layer_names =set(layer.name
-                            for layer in model.layers
-                            if (layer.name.startswith('dense_')))
-        print(embedding_layer_names)
+        # embedding_layer_names =set(layer.name
+        #                     for layer in model.layers
+        #                     if (layer.name.startswith('dense_')))
+        # print(embedding_layer_names)
         ####### Define Callbacks ######
 
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size, histogram_freq=100,
+                             batch_size=batch_size, histogram_freq=50,
+                             write_grads=True,
                              # embeddings_freq=99,
                              # embeddings_layer_names=embedding_layer_names,
                              # embeddings_data=x_val,
