@@ -1,5 +1,5 @@
 from __future__ import print_function, division, absolute_import
-import dill
+# import dill
 import numpy as np
 from keras.preprocessing.image import Iterator
 from scipy import linalg
@@ -80,9 +80,9 @@ class NumpyArrayIterator(Iterator):
         self.save_prefix = save_prefix
         self.save_format = save_format
         super(NumpyArrayIterator, self).__init__(x.shape[0], batch_size, shuffle, seed)
-        if verbose:
-            print("Generator Initialized")
-            self.verbose = verbose
+        # if verbose:
+        #     print("Generator Initialized")
+        #     self.verbose = verbose
 
     def _get_batches_of_transformed_samples(self, index_array):
         batch_x = np.zeros(tuple([len(index_array)] + list(self.x.shape)[1:]),
@@ -98,8 +98,8 @@ class NumpyArrayIterator(Iterator):
         if self.y is None:
             return batch_x
         batch_y = self.y[index_array]
-        if self.verbose:
-            "Transformed"
+        # if self.verbose:
+        #     "Transformed"
         return batch_x, batch_y
 
     def next(self):
