@@ -23,7 +23,7 @@ from keras.layers.merge import Concatenate
 from keras.models import Model
 from keras.regularizers import l2
 from keras.constraints import max_norm
-from keras.optimizers import Adam#, Nadam, Adamax
+from keras.optimizers import Adam  # Nadam, Adamax
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
@@ -398,7 +398,7 @@ if __name__ == '__main__':
         lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
-        lr_decay =0.00001132885
+        lr_decay =0.0001132885
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
