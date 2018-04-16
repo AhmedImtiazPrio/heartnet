@@ -5,6 +5,7 @@ from __future__ import print_function, division, absolute_import
 # config.gpu_options.per_process_gpu_memory_fraction = 0.4
 # set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
+import dill
 from AudioDataGenerator import AudioDataGenerator
 import os
 import numpy as np
@@ -43,7 +44,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 kernel_constraint=max_norm(maxnorm),
                 trainable=trainable,
                 kernel_regularizer=l2(l2_reg))(input_tensor)
-    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
+    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
@@ -54,7 +55,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
                 trainable=trainable,
                 kernel_constraint=max_norm(maxnorm),
                 kernel_regularizer=l2(l2_reg))(t)
-    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
+    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     # t = Conv1D(num_filt2, kernel_size=kernel_size,
@@ -389,7 +390,7 @@ if __name__ == '__main__':
         dropout_rate = 0.5
         dropout_rate_dense = 0.2
         padding = 'valid'
-        activation_function = 'sigmoid'
+        activation_function = 'relu'
         subsam = 2
         FIR_train=True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
