@@ -462,7 +462,7 @@ if __name__ == '__main__':
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train)
         model.summary()
-        plot_model(model, to_file=model_dir+log_name+'/'+'model.png', show_shapes=True)
+        plot_model(model, to_file=log_dir+log_name+'/model.png', show_shapes=True)
         plot_model(model, to_file='model.png', show_shapes=True)
         embedding_layer_names =set(layer.name
                             for layer in model.layers
