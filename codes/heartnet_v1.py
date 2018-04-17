@@ -1,11 +1,11 @@
 from __future__ import print_function, division, absolute_import
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.4
-set_session(tf.Session(config=config))
+# import tensorflow as tf
+# from keras.backend.tensorflow_backend import set_session
+# config = tf.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.4
+# set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
-import dill
+# import dill
 from AudioDataGenerator import AudioDataGenerator
 import os
 import numpy as np
@@ -243,11 +243,18 @@ class log_macc(Callback):
             logs['lr'] = np.array(float(K.get_value(lr_t)))
 
             if self.val_files is not None:
-                mask = self.val_files=='x'
-                TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
-                sensitivity = TP / (TP + FN + eps)
-                specificity = TN / (TN + FP + eps)
-                logs['ComParE_UAR'] = (sensitivity + specificity) / 2
+                true = np.asarray(true)
+                pred = np.asarray(pred)
+                tpn = true == pred
+                for dataset in ['a','b','c','d','e','f','x']:
+                    mask = self.val_files == dataset
+                    logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
+                    # mask = self.val_files=='x'
+                    # TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
+                    # sensitivity = TP / (TP + FN + eps)
+                    # specificity = TN / (TN + FP + eps)
+                    # logs['ComParE_UAR'] = (sensitivity + specificity) / 2
+
 
 
 def compute_weight(Y, classes):
@@ -493,11 +500,11 @@ if __name__ == '__main__':
         ######### Data Generator ############
 
         datagen = AudioDataGenerator(
-                                     # shift=.1,
-                                     roll_range=.1,
+                                     shift=.1,
+                                     # roll_range=.1,
                                      # fill_mode='reflect',
                                      # featurewise_center=True,
-                                     # zoom_range=.2,
+                                     # zoom_range=.1,
                                      # zca_whitening=True,
                                      # samplewise_center=True,
                                      # samplewise_std_normalization=True,
@@ -513,7 +520,8 @@ if __name__ == '__main__':
 
         model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
                             steps_per_epoch=len(x_train) // batch_size,
-                            use_multiprocessing=False,
+                            # max_queue_size=20,
+                            use_multiprocessing=True,
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
