@@ -369,13 +369,18 @@ class Conv1D_linearphase(Layer):
         return outputs
 
     def compute_output_shape(self, input_shape):
+        kernel_size = self.kernel_size
+        if self.kernel_size[0] % 2:
+            kernel_size[0] = kernel_size[0]*2 -1
+        else:
+            kernel_size[0] = kernel_size[0]*2
         if self.data_format == 'channels_last':
             space = input_shape[1:-1]
             new_space = []
             for i in range(len(space)):
                 new_dim = conv_utils.conv_output_length(
                     space[i],
-                    self.kernel_size[i],
+                    kernel_size[i],
                     padding=self.padding,
                     stride=self.strides[i],
                     dilation=self.dilation_rate[i])
@@ -387,7 +392,7 @@ class Conv1D_linearphase(Layer):
             for i in range(len(space)):
                 new_dim = conv_utils.conv_output_length(
                     space[i],
-                    self.kernel_size[i],
+                    kernel_size[i],
                     padding=self.padding,
                     stride=self.strides[i],
                     dilation=self.dilation_rate[i])
