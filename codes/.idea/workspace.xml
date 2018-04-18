@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/AudioDataGenerator.py" afterPath="$PROJECT_DIR$/AudioDataGenerator.py" />
       <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
+      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,20 +19,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3020">
-              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#64#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AudioDataGenerator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="37" lean-forward="true" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+            <state relative-caret-position="385">
+              <caret line="401" column="24" lean-forward="true" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
@@ -67,6 +57,7 @@
       <find>linalg</find>
       <find>roll</find>
       <find>verbose</find>
+      <find>trainable</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -83,9 +74,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="972" />
-    <option name="width" value="948" />
-    <option name="height" value="540" />
+    <option name="x" value="411" />
+    <option name="y" value="711" />
+    <option name="width" value="944" />
+    <option name="height" value="542" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -175,7 +167,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="972" y="0" width="1901" height="1083" extended-state="6" />
+    <frame x="22" y="0" width="1901" height="1083" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14511873" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -202,7 +194,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="8" />
+      <option name="time" value="10" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -486,8 +478,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="37" lean-forward="true" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
+        <state relative-caret-position="450">
+          <caret line="30" column="34" lean-forward="true" selection-start-line="30" selection-start-column="34" selection-end-line="30" selection-end-column="34" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
@@ -496,8 +488,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3020">
-          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="385">
+          <caret line="401" column="24" lean-forward="true" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>

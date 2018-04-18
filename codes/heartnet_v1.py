@@ -48,16 +48,6 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
-    # t = Conv1D(num_filt2, kernel_size=kernel_size,
-    #             kernel_initializer=initializers.he_normal(seed=random_seed),
-    #             padding=padding,
-    #             use_bias=bias,
-    #             trainable=trainable,
-    #             kernel_constraint=max_norm(maxnorm),
-    #             kernel_regularizer=l2(l2_reg))(t)
-    # t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
-    # t = Activation(activation_function)(t)
-    # t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = Conv1D(num_filt2, kernel_size=kernel_size,
                kernel_initializer=initializers.he_normal(seed=random_seed),
                padding=padding,
@@ -132,6 +122,8 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
+    merged = branch(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
@@ -407,6 +399,7 @@ if __name__ == '__main__':
         activation_function = 'relu'
         subsam = 2
         FIR_train=True
+        trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         lr =  0.0012843784 ## After bayesian optimization
@@ -467,7 +460,7 @@ if __name__ == '__main__':
 
         model = heartnet(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
-                         padding, random_seed, subsam, num_filt, num_dense, FIR_train)
+                         padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable)
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
         # embedding_layer_names =set(layer.name
@@ -521,7 +514,7 @@ if __name__ == '__main__':
         model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
                             steps_per_epoch=len(x_train) // batch_size,
                             # max_queue_size=20,
-                            use_multiprocessing=True,
+                            use_multiprocessing=False,
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
