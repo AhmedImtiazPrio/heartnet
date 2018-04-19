@@ -123,23 +123,24 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
     merged = branch(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
+                eps, bn_momentum, activation_function, dropout_rate, subsam, True)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
                    kernel_initializer=initializers.he_normal(seed=random_seed),
                    use_bias=bias,
                    kernel_constraint=max_norm(maxnorm),
-                   kernel_regularizer=l2(l2_reg_dense))(merged)
+                   kernel_regularizer=l2(l2_reg_dense),
+                   name='Dense')(merged)
     # merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
     # merged = Activation(activation_function)(merged)
     merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
-    merged = Dense(2, activation='softmax')(merged)
+    merged = Dense(2, activation='softmax', name='Output')(merged)
 
     model = Model(inputs=input, outputs=merged)
 
     if load_path:  # If path for loading model was specified
-        model.load_weights(filepath=load_path, by_name=False)
+        model.load_weights(filepath=load_path, by_name=True)
 
     adam = Adam(lr=lr, decay=lr_decay)
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -368,7 +369,7 @@ if __name__ == '__main__':
 
         foldname = foldname
         random_seed = random_seed
-        load_path = load_path
+        load_path = load_path #/media/taufiq/Data1/heart_sound/models/fold1+compare 2018-04-16 14:40:18.285578/weights.0188-0.8374.hdf5 model adaptation
         initial_epoch = initial_epoch
         epochs = epochs
         batch_size = batch_size
@@ -398,8 +399,8 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=True
-        trainable = True
+        FIR_train=False
+        trainable = False
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         lr =  0.0012843784 ## After bayesian optimization

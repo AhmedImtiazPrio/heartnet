@@ -122,8 +122,6 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = branch(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
