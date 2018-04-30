@@ -461,9 +461,9 @@ class DCT1D(Layer):
 
     def call(self, inputs):
 
-        x = tf.transpose(inputs, [0, self.axis+1, self.axis])
+        x = tf.transpose(inputs, [0, 2, 1])
         x = tf.spectral.dct(x, type=self.type, n=self.n, axis=-1, norm=self.norm)
-        outputs = tf.transpose(x, [0, self.axis+1, self.axis])
+        outputs = tf.transpose(x, [0, 2, 1])
         return outputs
 
     def get_config(self):

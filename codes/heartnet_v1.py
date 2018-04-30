@@ -310,6 +310,7 @@ class log_macc(Callback):
         # self.y_val = y_val
 
     def on_epoch_end(self, epoch, logs):
+        eps = 1.1e-5
         if logs is not None:
             y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
             true = []
