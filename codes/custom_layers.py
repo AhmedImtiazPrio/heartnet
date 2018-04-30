@@ -458,35 +458,13 @@ class DCT1D(Layer):
             return tuple(space)
         else:
             return input_shape
-    # def build(self, input_shape):
-    #     if self.data_format == 'channels_first':
-    #         channel_axis = 1
-    #     else:
-    #         channel_axis = -1
-    #     if input_shape[channel_axis] is None:
-    #         raise ValueError('The channel dimension of the inputs '
-    #                          'should be defined. Found `None`.')
-    #     input_dim = input_shape[channel_axis]
-    #     self.input_spec = InputSpec(ndim=self.rank + 2,
-    #                                 axes={channel_axis: input_dim})
-    #     self.built = True
 
     def call(self, inputs):
 
-        # def dct_wrap(inputs):
-        #     out = dct(inputs,type=self.type,n=self.n,axis=self.axis,norm=self.norm)
-        #     return out
-        #
-        # outputs = tf.py_func(dct_wrap,
-        #                      [inputs],
-        #                      K.floatx(),
-        #                      stateful=False,
-        #                      name=self.name)
-
-        outputs = inputs
+        x = tf.transpose(inputs, [0, self.axis+1, self.axis])
+        x = tf.spectral.dct(x, type=self.type, n=self.n, axis=-1, norm=self.norm)
+        outputs = tf.transpose(x, [0, self.axis+1, self.axis])
         return outputs
-
-
 
     def get_config(self):
         config = {

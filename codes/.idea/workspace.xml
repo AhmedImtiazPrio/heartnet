@@ -15,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2409">
-              <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
+            <state relative-caret-position="330">
+              <caret line="139" column="8" lean-forward="true" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="8" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#10993#11022#0" expanded="false" />
@@ -32,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="463" column="15" lean-forward="false" selection-start-line="463" selection-start-column="15" selection-end-line="463" selection-end-column="15" />
+            <state relative-caret-position="225">
+              <caret line="15" column="64" lean-forward="false" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="64" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
@@ -47,7 +47,7 @@
       <file leaf-file-name="AudioDataGenerator.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
+            <state relative-caret-position="1155">
               <caret line="84" column="32" lean-forward="false" selection-start-line="84" selection-start-column="27" selection-end-line="84" selection-end-column="32" />
               <folding />
             </state>
@@ -57,7 +57,7 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4615">
+            <state relative-caret-position="5280">
               <caret line="627" column="68" lean-forward="false" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
@@ -138,6 +138,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -149,8 +151,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -211,7 +211,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="22" y="0" width="1901" height="1083" extended-state="6" />
+    <frame x="972" y="0" width="1901" height="1083" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14511873" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -249,6 +250,64 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1620">
+          <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#10993#11022#0" expanded="false" />
+            <element signature="e#12558#12626#0" expanded="false" />
+            <element signature="e#14240#14256#0" expanded="false" />
+            <element signature="e#14678#14708#0" expanded="false" />
+            <element signature="e#15697#15734#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5280">
+          <caret line="627" column="68" lean-forward="false" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#1608#3523#0" expanded="false" />
+            <element signature="e#3698#5249#0" expanded="false" />
+            <element signature="e#5423#6978#0" expanded="false" />
+            <element signature="e#7153#8531#0" expanded="false" />
+            <element signature="e#8703#9869#0" expanded="false" />
+            <element signature="e#9902#10261#0" expanded="false" />
+            <element signature="e#10634#14864#0" expanded="false" />
+            <element signature="e#19439#19673#0" expanded="false" />
+            <element signature="e#19730#20145#0" expanded="false" />
+            <element signature="e#20176#20305#0" expanded="false" />
+            <element signature="e#20335#20439#0" expanded="false" />
+            <element signature="e#28312#28358#0" expanded="false" />
+            <element signature="e#28825#28841#0" expanded="false" />
+            <element signature="e#29263#29293#0" expanded="false" />
+            <element signature="e#30282#30319#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/custom_layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6840">
+          <caret line="463" column="15" lean-forward="false" selection-start-line="463" selection-start-column="15" selection-end-line="463" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="84" column="32" lean-forward="false" selection-start-line="84" selection-start-column="27" selection-end-line="84" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -810,30 +869,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
+        <state relative-caret-position="1155">
           <caret line="84" column="32" lean-forward="false" selection-start-line="84" selection-start-column="27" selection-end-line="84" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2409">
-          <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#10993#11022#0" expanded="false" />
-            <element signature="e#12558#12626#0" expanded="false" />
-            <element signature="e#14240#14256#0" expanded="false" />
-            <element signature="e#14678#14708#0" expanded="false" />
-            <element signature="e#15697#15734#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4615">
+        <state relative-caret-position="5280">
           <caret line="627" column="68" lean-forward="false" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
@@ -858,10 +902,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="463" column="15" lean-forward="false" selection-start-line="463" selection-start-column="15" selection-end-line="463" selection-end-column="15" />
+        <state relative-caret-position="225">
+          <caret line="15" column="64" lean-forward="false" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="64" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="139" column="8" lean-forward="true" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#10993#11022#0" expanded="false" />
+            <element signature="e#12558#12626#0" expanded="false" />
+            <element signature="e#14240#14256#0" expanded="false" />
+            <element signature="e#14678#14708#0" expanded="false" />
+            <element signature="e#15697#15734#0" expanded="false" />
           </folding>
         </state>
       </provider>
