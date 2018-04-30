@@ -444,32 +444,12 @@ class DCT1D(Layer):
         self.type = type
         self.n = n
         self.axis = axis
-        if norm != 'ortho':
-            raise ValueError('Normalization should be `ortho` or `None`')
+        if norm is not None:
+            if norm != 'ortho':
+                raise ValueError('Normalization should be `ortho` or `None`')
         self.norm = norm
         self.data_format = conv_utils.normalize_data_format(data_format)
         self.input_spec = InputSpec(ndim=self.rank + 2)
-
-    def build(self, input_shape):
-        if self.data_format == 'channels_first':
-            channel_axis = 1
-        else:
-            channel_axis = -1
-        if input_shape[channel_axis] is None:
-            raise ValueError('The channel dimension of the inputs '
-                             'should be defined. Found `None`.')
-        input_dim = input_shape[channel_axis]
-        self.input_spec = InputSpec(ndim=self.rank + 2,
-                                    axes={channel_axis: input_dim})
-        self.built = True
-
-    def call(self, inputs):
-
-        outputs = tf.py_func(dct,
-                             [inputs,self.type,self.n,self.axis,self.norm],
-                             K.floatx(),
-                             name=self.name)
-        return outputs
 
     def compute_output_shape(self, input_shape):
         if self.n is not None:
@@ -478,6 +458,35 @@ class DCT1D(Layer):
             return tuple(space)
         else:
             return input_shape
+    # def build(self, input_shape):
+    #     if self.data_format == 'channels_first':
+    #         channel_axis = 1
+    #     else:
+    #         channel_axis = -1
+    #     if input_shape[channel_axis] is None:
+    #         raise ValueError('The channel dimension of the inputs '
+    #                          'should be defined. Found `None`.')
+    #     input_dim = input_shape[channel_axis]
+    #     self.input_spec = InputSpec(ndim=self.rank + 2,
+    #                                 axes={channel_axis: input_dim})
+    #     self.built = True
+
+    def call(self, inputs):
+
+        # def dct_wrap(inputs):
+        #     out = dct(inputs,type=self.type,n=self.n,axis=self.axis,norm=self.norm)
+        #     return out
+        #
+        # outputs = tf.py_func(dct_wrap,
+        #                      [inputs],
+        #                      K.floatx(),
+        #                      stateful=False,
+        #                      name=self.name)
+
+        outputs = inputs
+        return outputs
+
+
 
     def get_config(self):
         config = {
