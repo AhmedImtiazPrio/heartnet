@@ -28,7 +28,8 @@ from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase
+from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase, DCT1D
+from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 # import matplotlib.pyplot as plt
@@ -61,15 +62,6 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = MaxPooling1D(pool_size=subsam)(t)
     # t = Flatten()(t)
     return t
-
-def write_meta(Y,log_dir):
-    names = ['Normal', 'Abnormal', 'Normal']
-    metadata_file = open(os.path.join(log_dir, 'metadata.tsv'), 'w')
-    # metadata_file.write('Class\n') ## For single metadata, headers are not required
-    for i in range(Y.shape[0]):
-        metadata_file.write('%s\n' % (names[int(Y[i])]))
-    metadata_file.close()
-    return os.path.join(log_dir, 'metadata.tsv')
 
 def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
              eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
@@ -122,6 +114,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
+    merged = DCT1D()(merged)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
@@ -142,153 +135,6 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     adam = Adam(lr=lr, decay=lr_decay)
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
-
-
-class log_macc(Callback):
-
-    def __init__(self, val_parts,decision='majority',verbose=0, val_files=None):
-        super(log_macc, self).__init__()
-        self.val_parts = val_parts
-        self.decision = decision
-        self.verbose = verbose
-        self.val_files = np.asarray(val_files)
-        # self.x_val = x_val
-        # self.y_val = y_val
-
-    def on_epoch_end(self, epoch, logs):
-        if logs is not None:
-            y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
-            true = []
-            pred = []
-            start_idx = 0
-
-            if self.decision == 'majority':
-                y_pred = np.argmax(y_pred, axis=-1)
-                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
-
-                for s in self.val_parts:
-
-                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
-                        continue
-                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
-
-                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
-                    temp = y_pred[start_idx:start_idx + int(s) - 1]
-
-                    if (sum(temp == 0) > sum(temp == 1)):
-                        pred.append(0)
-                    else:
-                        pred.append(1)
-
-                    if (sum(temp_ == 0) > sum(temp_ == 1)):
-                        true.append(0)
-                    else:
-                        true.append(1)
-
-                    start_idx = start_idx + int(s)
-
-            if self.decision =='confidence':
-                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
-                for s in self.val_parts:
-                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
-                        continue
-                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
-                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
-                    if (sum(temp_ == 0) > sum(temp_ == 1)):
-                        true.append(0)
-                    else:
-                        true.append(1)
-                    temp = np.sum(y_pred[start_idx:start_idx + int(s) - 1],axis=0)
-                    pred.append(int(np.argmax(temp)))
-                    start_idx = start_idx + int(s)
-
-
-            TN, FP, FN, TP = confusion_matrix(true, pred, labels=[0,1]).ravel()
-            # TN = float(TN)
-            # TP = float(TP)
-            # FP = float(FP)
-            # FN = float(FN)
-            sensitivity = TP / (TP + FN + eps)
-            specificity = TN / (TN + FP + eps)
-            precision = TP / (TP + FP + eps)
-            F1 = 2 * (precision * sensitivity) / (precision + sensitivity)
-            Macc = (sensitivity + specificity) / 2
-            logs['val_sensitivity'] = np.array(sensitivity)
-            logs['val_specificity'] = np.array(specificity)
-            logs['val_precision'] = np.array(precision)
-            logs['val_F1'] = np.array(F1)
-            logs['val_macc'] = np.array(Macc)
-            if self.verbose:
-                print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
-
-            #### Learning Rate for Adam ###
-
-            lr = self.model.optimizer.lr
-            if self.model.optimizer.initial_decay > 0:
-                lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
-                                                                      K.dtype(self.model.optimizer.decay))))
-            t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
-            lr_t = lr * (
-                    K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
-            logs['lr'] = np.array(float(K.get_value(lr_t)))
-
-            if self.val_files is not None:
-                true = np.asarray(true)
-                pred = np.asarray(pred)
-                tpn = true == pred
-                for dataset in ['a','b','c','d','e','f','x']:
-                    mask = self.val_files == dataset
-                    logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
-                    # mask = self.val_files=='x'
-                    # TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
-                    # sensitivity = TP / (TP + FN + eps)
-                    # specificity = TN / (TN + FP + eps)
-                    # logs['ComParE_UAR'] = (sensitivity + specificity) / 2
-
-
-
-def compute_weight(Y, classes):
-    num_samples = np.float32(len(Y))
-    n_classes = np.float32(len(classes))
-    num_bin = np.hstack([sum(Y == 0), sum(Y == 1)])
-    class_weights = {i: (num_samples / (n_classes * num_bin[i])) for i in range(2)}
-    return class_weights
-
-
-def reshape_folds(x_train, x_val, y_train, y_val):
-    x1 = np.transpose(x_train[:, :])
-
-    x1 = np.reshape(x1, [x1.shape[0], x1.shape[1], 1])
-
-    y_train = np.reshape(y_train, [y_train.shape[0], 1])
-
-    print(x1.shape)
-    print(y_train.shape)
-
-    v1 = np.transpose(x_val[:, :])
-
-    v1 = np.reshape(v1, [v1.shape[0], v1.shape[1], 1])
-
-    y_val = np.reshape(y_val, [y_val.shape[0], 1])
-
-    print(v1.shape)
-    print(y_val.shape)
-    return x1, y_train, v1 , y_val
-
-
-class show_lr(Callback):
-    def on_epoch_begin(self, epoch, logs):
-        print('Learning rate:')
-        print(float(K.get_value(self.model.optimizer.lr)))
-
-
-def lr_schedule(epoch):
-    if epoch <= 5:
-        lr_rate = 1e-3
-    else:
-        lr_rate = 1e-4 - epoch * 1e-8
-    return lr_rate
-
 
 if __name__ == '__main__':
     try:
@@ -465,6 +311,7 @@ if __name__ == '__main__':
         #                     for layer in model.layers
         #                     if (layer.name.startswith('dense_')))
         # print(embedding_layer_names)
+
         ####### Define Callbacks ######
 
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
@@ -479,15 +326,6 @@ if __name__ == '__main__':
                              write_images=False)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
-        # show_lr()
-        # log_macc()
-
-        # Learning rate callbacks
-
-        reduce_lr = ReduceLROnPlateau(monitor='val_loss',
-                                      factor=lr_reduce_factor, patience=patience,
-                                      min_lr=0.00001, verbose=1, cooldown=cooldown)
-        dynamiclr = LearningRateScheduler(lr_schedule)
         ######### Data Generator ############
 
         datagen = AudioDataGenerator(
@@ -560,69 +398,15 @@ if __name__ == '__main__':
 
         ############### log results in csv ###############
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
-        max_idx = df1['val_macc'].idxmax()
-        new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
-                     'Kernel Size': kernel_size, 'Max Norm': maxnorm,
-                     'Dropout -filters': dropout_rate,
-                     'Dropout - dense': dropout_rate_dense,
-                     'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-                     'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum, 'Lr decay': lr_decay,
-                     'Best Val Acc Per Cardiac Cycle': np.mean(
-                         df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
-                     'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                     'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-                     'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-                     'Precision' : np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
-                     'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-                     'F1' :np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
-                     'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
-                     'Number of filters': str(num_filt),
-                     'Number of Dense Neurons': num_dense,
-                     'Comment' : comment}
-
-        index, _ = df.shape
-        new_entry = pd.DataFrame(new_entry, index=[index])
-        df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns)
-        df2.to_csv(results_path, index=False)
-        df2.tail()
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    num_dense=num_dense, comment=comment)
 
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
-        max_idx = df1['val_macc'].idxmax()
-        new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
-                     'Kernel Size': kernel_size, 'Max Norm': maxnorm,
-                     'Dropout -filters': dropout_rate,
-                     'Dropout - dense': dropout_rate_dense,
-                     'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-                     'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum,'Lr decay': lr_decay,
-                     'Best Val Acc Per Cardiac Cycle': np.mean(
-                         df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
-                     'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                     'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-                     'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-                     'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-                     'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
-                     'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
-                     'Number of filters': str(num_filt),
-                     'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
-                     'Number of Dense Neurons': num_dense,
-                     'Comment': comment}
-
-        index, _ = df.shape
-        new_entry = pd.DataFrame(new_entry, index=[index])
-        df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns)
-        df2.to_csv(results_path, index=False)
-        df2.tail()
-        print("Saving to results.csv")
-
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    num_dense=num_dense, comment=comment)
