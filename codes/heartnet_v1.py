@@ -70,6 +70,43 @@ def res_subsam(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnor
     x = add([x, short])
     return x
 
+def res_nosub(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
+           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
+    num_filt1, num_filt2 = num_filt
+    x = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(input_tensor)
+    x = Activation(activation_function)(x)
+    x = Dropout(rate=dropout_rate, seed=random_seed)(x)
+    x = Conv1D(num_filt1, kernel_size=kernel_size,
+               kernel_initializer=initializers.he_normal(seed=random_seed),
+               padding='same',
+               use_bias=bias,
+               # strides=subsam,
+               kernel_constraint=max_norm(maxnorm),
+               trainable=trainable,
+               kernel_regularizer=l2(l2_reg))(x) ##
+    x = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(x)
+    x = Activation(activation_function)(x)
+    x = Dropout(rate=dropout_rate, seed=random_seed)(x)
+    # x = MaxPooling1D(pool_size=subsam)(x)
+    x = Conv1D(num_filt2, kernel_size=kernel_size,
+               kernel_initializer=initializers.he_normal(seed=random_seed),
+               padding='same',
+               use_bias=bias,
+               # strides=subsam,
+               kernel_constraint=max_norm(maxnorm),
+               trainable=trainable,
+               kernel_regularizer=l2(l2_reg))(x)  ##
+    short = Conv1D(num_filt2, kernel_size=1,
+               kernel_initializer=initializers.he_normal(seed=random_seed),
+               padding='same',
+               use_bias=bias,
+               kernel_constraint=max_norm(maxnorm),
+               # strides=subsam,
+               trainable=trainable,
+               kernel_regularizer=l2(l2_reg))(input_tensor)
+    x = add([x, short])
+    return x
+
 def res_first (input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
     num_filt1, num_filt2 = num_filt
@@ -196,8 +233,14 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
     # merged = branch(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
     #             eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = res_first(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+    merged = res_first(merged, [16,32], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
                eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    merged = res_nosub(merged, [32,32], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    merged = res_subsam(merged, [32, 64], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    merged = res_nosub(merged, [32, 16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
     merged = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(merged)
     merged = Activation(activation_function)(merged)
     merged = Flatten()(merged)
@@ -471,7 +514,7 @@ if __name__ == '__main__':
         kernel_size = 5
         maxnorm = 10000.
         dropout_rate = 0.5
-        dropout_rate_dense = 0.2
+        dropout_rate_dense = 0.
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
