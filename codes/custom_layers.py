@@ -5,6 +5,7 @@ from keras.engine.topology import InputSpec
 import tensorflow as tf
 from keras.utils import conv_utils
 from keras.layers import activations, initializers, regularizers, constraints
+from scipy.fftpack import dct
 
 
 class Conv1D_zerophase(Layer):
@@ -432,4 +433,60 @@ class Conv1D_linearphase(Layer):
             'bias_constraint': constraints.serialize(self.bias_constraint)
         }
         base_config = super(Conv1D_linearphase, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+
+
+class DCT1D(Layer):
+
+    def __init__(self, type=2, n=None, axis=-2, norm=None, rank=1, data_format='channels_last',**kwargs):
+        super(DCT1D, self).__init__(**kwargs)
+        self.rank = rank
+        self.type = type
+        self.n = n
+        self.axis = axis
+        if norm != 'ortho':
+            raise ValueError('Normalization should be `ortho` or `None`')
+        self.norm = norm
+        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.input_spec = InputSpec(ndim=self.rank + 2)
+
+    def build(self, input_shape):
+        if self.data_format == 'channels_first':
+            channel_axis = 1
+        else:
+            channel_axis = -1
+        if input_shape[channel_axis] is None:
+            raise ValueError('The channel dimension of the inputs '
+                             'should be defined. Found `None`.')
+        input_dim = input_shape[channel_axis]
+        self.input_spec = InputSpec(ndim=self.rank + 2,
+                                    axes={channel_axis: input_dim})
+        self.built = True
+
+    def call(self, inputs):
+
+        outputs = tf.py_func(dct,
+                             [inputs,self.type,self.n,self.axis,self.norm],
+                             K.floatx(),
+                             name=self.name)
+        return outputs
+
+    def compute_output_shape(self, input_shape):
+        if self.n is not None:
+            space = list(input_shape)
+            space[self.axis] = self.n
+            return tuple(space)
+        else:
+            return input_shape
+
+    def get_config(self):
+        config = {
+            'rank': self.rank,
+            'data_format': self.data_format,
+            'type': self.type,
+            'n': self.n,
+            'axis': self.axis,
+            'norm': self.norm,
+        }
+        base_config = super(DCT1D, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
