@@ -33,6 +33,40 @@ from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 # import matplotlib.pyplot as plt
 
+def results_log(results_path,log_dir,log_name,activation_function,addweights,kernel_size,maxnorm,
+                dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,lr_decay,num_dense,comment):
+    df = pd.read_csv(results_path)
+    df1 = pd.read_csv(log_dir + log_name + '/training.csv')
+    max_idx = df1['val_macc'].idxmax()
+    new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
+                 'Activation': activation_function + '-softmax', 'Class weights': addweights,
+                 'Kernel Size': kernel_size, 'Max Norm': maxnorm,
+                 'Dropout -filters': dropout_rate,
+                 'Dropout - dense': dropout_rate_dense,
+                 'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
+                 'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
+                 'BN momentum': bn_momentum, 'Lr decay': lr_decay,
+                 'Best Val Acc Per Cardiac Cycle': np.mean(
+                     df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
+                 'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
+                 'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
+                 'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
+                 'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
+                 'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
+                 'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
+                 'Number of filters': str(num_filt),
+                 'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
+                 'Number of Dense Neurons': num_dense,
+                 'Comment': comment}
+
+    index, _ = df.shape
+    new_entry = pd.DataFrame(new_entry, index=[index])
+    df2 = pd.concat([df, new_entry], axis=0)
+    # df2 = df2.reindex(df.columns)
+    df2.to_csv(results_path, index=False)
+    df2.tail()
+    print("Saving to results.csv")
+
 def res_subsam(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
     num_filt1, num_filt2 = num_filt
@@ -140,7 +174,6 @@ def res_first (input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnor
                kernel_regularizer=l2(l2_reg))(input_tensor)
     x = add([x, short])
     return x
-
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
@@ -265,7 +298,6 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
-
 class log_macc(Callback):
 
     def __init__(self, val_parts,decision='majority',verbose=0, val_files=None):
@@ -367,15 +399,12 @@ class log_macc(Callback):
                     # specificity = TN / (TN + FP + eps)
                     # logs['ComParE_UAR'] = (sensitivity + specificity) / 2
 
-
-
 def compute_weight(Y, classes):
     num_samples = np.float32(len(Y))
     n_classes = np.float32(len(classes))
     num_bin = np.hstack([sum(Y == 0), sum(Y == 1)])
     class_weights = {i: (num_samples / (n_classes * num_bin[i])) for i in range(2)}
     return class_weights
-
 
 def reshape_folds(x_train, x_val, y_train, y_val):
     x1 = np.transpose(x_train[:, :])
@@ -397,12 +426,10 @@ def reshape_folds(x_train, x_val, y_train, y_val):
     print(y_val.shape)
     return x1, y_train, v1 , y_val
 
-
 class show_lr(Callback):
     def on_epoch_begin(self, epoch, logs):
         print('Learning rate:')
         print(float(K.get_value(self.model.optimizer.lr)))
-
 
 def lr_schedule(epoch):
     if epoch <= 5:
@@ -410,7 +437,6 @@ def lr_schedule(epoch):
     else:
         lr_rate = 1e-4 - epoch * 1e-8
     return lr_rate
-
 
 if __name__ == '__main__':
     try:
@@ -601,15 +627,12 @@ if __name__ == '__main__':
                              write_images=False)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
-        # show_lr()
-        # log_macc()
-
-        # Learning rate callbacks
-
-        reduce_lr = ReduceLROnPlateau(monitor='val_loss',
-                                      factor=lr_reduce_factor, patience=patience,
-                                      min_lr=0.00001, verbose=1, cooldown=cooldown)
-        dynamiclr = LearningRateScheduler(lr_schedule)
+        ######### Learning Rate Callbacks ############
+        #
+        # reduce_lr = ReduceLROnPlateau(monitor='val_loss',
+        #                               factor=lr_reduce_factor, patience=patience,
+        #                               min_lr=0.00001, verbose=1, cooldown=cooldown)
+        # dynamiclr = LearningRateScheduler(lr_schedule)
         ######### Data Generator ############
 
         datagen = AudioDataGenerator(
@@ -681,70 +704,15 @@ if __name__ == '__main__':
         #               initial_epoch=initial_epoch)
 
         ############### log results in csv ###############
+
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
-        max_idx = df1['val_macc'].idxmax()
-        new_entry = {'Filename': log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
-                     'Kernel Size': kernel_size, 'Max Norm': maxnorm,
-                     'Dropout -filters': dropout_rate,
-                     'Dropout - dense': dropout_rate_dense,
-                     'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-                     'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum, 'Lr decay': lr_decay,
-                     'Best Val Acc Per Cardiac Cycle': np.mean(
-                         df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
-                     'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                     'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-                     'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-                     'Precision' : np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
-                     'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-                     'F1' :np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
-                     'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
-                     'Number of filters': str(num_filt),
-                     'Number of Dense Neurons': num_dense,
-                     'Comment' : comment}
-
-        index, _ = df.shape
-        new_entry = pd.DataFrame(new_entry, index=[index])
-        df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns)
-        df2.to_csv(results_path, index=False)
-        df2.tail()
-
+        results_log(results_path, log_dir, log_name, activation_function, addweights, kernel_size, maxnorm,
+                    dropout_rate, dropout_rate_dense, l2_reg, l2_reg_dense, batch_size, lr, bn_momentum, lr_decay,
+                    num_dense, comment)
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        df = pd.read_csv(results_path)
-        df1 = pd.read_csv(log_dir + log_name + '/training.csv')
-        max_idx = df1['val_macc'].idxmax()
-        new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
-                     'Activation': activation_function + '-softmax', 'Class weights': addweights,
-                     'Kernel Size': kernel_size, 'Max Norm': maxnorm,
-                     'Dropout -filters': dropout_rate,
-                     'Dropout - dense': dropout_rate_dense,
-                     'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-                     'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
-                     'BN momentum': bn_momentum,'Lr decay': lr_decay,
-                     'Best Val Acc Per Cardiac Cycle': np.mean(
-                         df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
-                     'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                     'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-                     'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-                     'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-                     'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
-                     'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
-                     'Number of filters': str(num_filt),
-                     'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
-                     'Number of Dense Neurons': num_dense,
-                     'Comment': comment}
-
-        index, _ = df.shape
-        new_entry = pd.DataFrame(new_entry, index=[index])
-        df2 = pd.concat([df, new_entry], axis=0)
-        # df2 = df2.reindex(df.columns)
-        df2.to_csv(results_path, index=False)
-        df2.tail()
-        print("Saving to results.csv")
+        results_log(results_path, log_dir, log_name, activation_function, addweights, kernel_size, maxnorm,
+                    dropout_rate, dropout_rate_dense, l2_reg, l2_reg_dense, batch_size, lr, bn_momentum, lr_decay,
+                    num_dense, comment)
 
