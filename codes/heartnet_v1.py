@@ -706,13 +706,15 @@ if __name__ == '__main__':
         ############### log results in csv ###############
 
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        results_log(results_path, log_dir, log_name, activation_function, addweights, kernel_size, maxnorm,
-                    dropout_rate, dropout_rate_dense, l2_reg, l2_reg_dense, batch_size, lr, bn_momentum, lr_decay,
-                    num_dense, comment)
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    num_dense=num_dense, comment=comment)
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        results_log(results_path, log_dir, log_name, activation_function, addweights, kernel_size, maxnorm,
-                    dropout_rate, dropout_rate_dense, l2_reg, l2_reg_dense, batch_size, lr, bn_momentum, lr_decay,
-                    num_dense, comment)
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    num_dense=num_dense, comment=comment)
 
