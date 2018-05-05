@@ -233,7 +233,7 @@ if __name__ == '__main__':
         bn_momentum = 0.99
         eps = 1.1e-5
         bias = False
-        l2_reg = 0.004864911065093751
+        l2_reg = 0.04864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
         maxnorm = 10000.
@@ -242,11 +242,11 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=True
+        FIR_train=False
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
-        lr =  0.012843784 ## After bayesian optimization
+        lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
         lr_decay =0.0001132885
@@ -307,6 +307,9 @@ if __name__ == '__main__':
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable)
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
+        model_json = model.to_json()
+        with open(model_dir + log_name+"/model.json", "w") as json_file:
+            json_file.write(model_json)
         # embedding_layer_names =set(layer.name
         #                     for layer in model.layers
         #                     if (layer.name.startswith('dense_')))
@@ -402,7 +405,6 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment)
-
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
@@ -410,3 +412,6 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment)
+        model_json = model.to_json()
+        with open(model_dir + log_name+"/model.json", "w") as json_file:
+            json_file.write(model_json)

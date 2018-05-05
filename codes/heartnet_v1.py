@@ -610,6 +610,9 @@ if __name__ == '__main__':
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable)
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
+        model_json = model.to_json()
+        with open(model_dir + log_name+"/model.json", "w") as json_file:
+            json_file.write(model_json)
         # embedding_layer_names =set(layer.name
         #                     for layer in model.layers
         #                     if (layer.name.startswith('dense_')))
@@ -718,4 +721,6 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment)
-
+        model_json = model.to_json()
+        with open(model_dir + log_name+"/model.json", "w") as json_file:
+            json_file.write(model_json)
