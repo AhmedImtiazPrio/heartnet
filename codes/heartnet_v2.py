@@ -233,12 +233,12 @@ if __name__ == '__main__':
         bn_momentum = 0.99
         eps = 1.1e-5
         bias = False
-        l2_reg = 0.04864911065093751
+        l2_reg = 0.004864911065093751
         l2_reg_dense = 0.
         kernel_size = 5
         maxnorm = 10000.
-        dropout_rate = 0.5
-        dropout_rate_dense = 0.2
+        dropout_rate = 0.2
+        dropout_rate_dense = 0.
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
@@ -246,7 +246,7 @@ if __name__ == '__main__':
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
-        lr =  0.0012843784 ## After bayesian optimization
+        lr =  0.012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
         lr_decay =0.0001132885
@@ -317,7 +317,7 @@ if __name__ == '__main__':
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size, histogram_freq=50,
+                             batch_size=batch_size, histogram_freq=2,
                              write_grads=True,
                              # embeddings_freq=99,
                              # embeddings_layer_names=embedding_layer_names,
