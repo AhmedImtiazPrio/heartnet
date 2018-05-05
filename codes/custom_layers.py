@@ -154,6 +154,7 @@ class Conv1D_zerophase_linear(Layer):
         super(Conv1D_zerophase_linear, self).__init__(**kwargs)
         self.rank = rank
         self.filters = filters
+        self.kernel_size_ = kernel_size
         if kernel_size % 2:
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2 + 1, rank, 'kernel_size')
         else:
@@ -277,7 +278,7 @@ class Conv1D_zerophase_linear(Layer):
         config = {
             'rank': self.rank,
             'filters': self.filters,
-            'kernel_size': self.kernel_size,
+            'kernel_size': self.kernel_size_,
             'strides': self.strides,
             'padding': self.padding,
             'data_format': self.data_format,
@@ -304,6 +305,7 @@ class Conv1D_linearphase(Layer):
         super(Conv1D_linearphase, self).__init__(**kwargs)
         self.rank = rank
         self.filters = filters
+        self.kernel_size_=kernel_size
         if kernel_size % 2:
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2 + 1, rank, 'kernel_size')
         else:
@@ -417,7 +419,7 @@ class Conv1D_linearphase(Layer):
         config = {
             'rank': self.rank,
             'filters': self.filters,
-            'kernel_size': self.kernel_size,
+            'kernel_size': self.kernel_size_,
             'strides': self.strides,
             'padding': self.padding,
             'data_format': self.data_format,
@@ -444,12 +446,13 @@ class DCT1D(Layer):
         self.type = type
         self.n = n
         self.axis = axis
-        if norm is not None:
-            if norm != 'ortho':
-                raise ValueError('Normalization should be `ortho` or `None`')
         self.norm = norm
         self.data_format = conv_utils.normalize_data_format(data_format)
         self.input_spec = InputSpec(ndim=self.rank + 2)
+        if norm is not None:
+            if norm != 'ortho':
+                raise ValueError('Normalization should be `ortho` or `None`')
+
 
     def compute_output_shape(self, input_shape):
         if self.n is not None:
