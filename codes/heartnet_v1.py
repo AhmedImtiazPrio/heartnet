@@ -571,7 +571,7 @@ if __name__ == '__main__':
         y_train = feat.root.trainY[0, :]
         x_val = feat.root.valX[:]
         y_val = feat.root.valY[0, :]
-        train_parts = feat.root.train_parts[:]
+        train_parts = feat.root.train_parts[0, :]
         val_parts = feat.root.val_parts[0, :]
 
         ############## Relabeling ################
