@@ -266,16 +266,16 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
     # merged = branch(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
     #             eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = res_first(merged, [16,32], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-               eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = res_nosub(merged, [32,32], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = res_subsam(merged, [32, 64], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = res_nosub(merged, [32, 16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
-                       eps, bn_momentum, activation_function, dropout_rate, subsam, True)
-    merged = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(merged)
-    merged = Activation(activation_function)(merged)
+    # merged = res_first(merged, [32,16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+    #            eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    # merged = res_nosub(merged, [32,32], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+    #                    eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    # merged = res_subsam(merged, [32, 64], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+    #                    eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    # merged = res_nosub(merged, [32, 16], kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+    #                    eps, bn_momentum, activation_function, dropout_rate, subsam, True)
+    # merged = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(merged)
+    # merged = Activation(activation_function)(merged)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
