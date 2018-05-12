@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/eval-checkpoint.ipynb" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/eval-checkpoint.ipynb" />
-      <change beforePath="$PROJECT_DIR$/eval.ipynb" afterPath="$PROJECT_DIR$/eval.ipynb" />
-    </list>
+    <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -117,7 +114,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="972" />
     <option name="width" value="948" />
     <option name="height" value="1080" />
@@ -210,7 +207,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="22" y="0" width="1901" height="1083" extended-state="6" />
+    <frame x="22" y="0" width="1901" height="1083" extended-state="7" />
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14511873" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
