@@ -28,11 +28,13 @@ from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase, DCT1D
+from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase, DCT1D, Conv1D_gammatone
 from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set()
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
@@ -87,22 +89,31 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     b4 = np.hstack(b4)
     b4 = np.reshape(b4, [b4.shape[0], 1, 1])
 
-    input1 = Conv1D_linearphase(1 ,61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b1[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b2[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b3[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b4[30:]],
-                    padding='same',trainable=FIR_train)(input)
+    ## Conv1D_linearphase
+
+    # input1 = Conv1D_linearphase(1 ,61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b1[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input2 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b2[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input3 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b3[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input4 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b4[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+
+    ##Conv1D_gammatone
+
+    input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
@@ -114,7 +125,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = DCT1D()(merged)
+    # merged = DCT1D()(merged)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
                    activation=activation_function,
@@ -405,6 +416,13 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment,num_filt=num_filt)
+        print(model.layers[1].get_weights())
+        with K.get_session() as sess:
+            impulse_gammatone = sess.run(model.layers[1].impulse_gammatone())
+        plt.plot(impulse_gammatone)
+        plt.show()
+
+
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
