@@ -507,7 +507,7 @@ class Conv1D_linearphaseType(Layer):
         else:
             flipped = tf.reverse(self.kernel[1:, :, :], axis=[0])
         if self.type > 2:
-            flipped = tf.multiply(-1, flipped)
+            flipped = tf.multiply(-1., flipped)
         #         print (flipped)
         conv_kernel = tf.concat([flipped, self.kernel], axis=0)
         #         print (conv_kernel)

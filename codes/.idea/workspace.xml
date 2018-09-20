@@ -16,28 +16,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="658">
-              <caret line="112" column="31" lean-forward="false" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+            <state relative-caret-position="-782">
+              <caret line="128" column="34" lean-forward="false" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
-                <element signature="e#11539#11568#0" expanded="false" />
-                <element signature="e#13104#13172#0" expanded="false" />
-                <element signature="e#14937#14953#0" expanded="false" />
-                <element signature="e#15375#15405#0" expanded="false" />
-                <element signature="e#16394#16431#0" expanded="false" />
+                <element signature="e#12620#12649#0" expanded="false" />
+                <element signature="e#14185#14253#0" expanded="false" />
+                <element signature="e#16018#16034#0" expanded="false" />
+                <element signature="e#16456#16486#0" expanded="false" />
+                <element signature="e#17475#17512#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="509" column="46" lean-forward="true" selection-start-line="509" selection-start-column="46" selection-end-line="509" selection-end-column="46" />
+            <state relative-caret-position="607">
+              <caret line="648" column="34" lean-forward="true" selection-start-line="648" selection-start-column="34" selection-end-line="648" selection-end-column="34" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
@@ -236,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537421220091</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone">
+      <created>1537428037185</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1537428037185</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -268,7 +275,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="log_macc generalized heartnet_v1&#10;fold1_noFIR hyperparams with LP-tConv heartnet_v2" />
     <MESSAGE value="FIR trainable" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIR trainable" />
+    <MESSAGE value="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone" />
+    <option name="LAST_COMMIT_MESSAGE" value="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -314,11 +322,11 @@
           <caret line="30" column="92" lean-forward="false" selection-start-line="30" selection-start-column="92" selection-end-line="30" selection-end-column="92" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#11539#11568#0" expanded="false" />
-            <element signature="e#13104#13172#0" expanded="false" />
-            <element signature="e#14937#14953#0" expanded="false" />
-            <element signature="e#15375#15405#0" expanded="false" />
-            <element signature="e#16394#16431#0" expanded="false" />
+            <element signature="e#12620#12649#0" expanded="false" />
+            <element signature="e#14185#14253#0" expanded="false" />
+            <element signature="e#16018#16034#0" expanded="false" />
+            <element signature="e#16456#16486#0" expanded="false" />
+            <element signature="e#17475#17512#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -370,11 +378,11 @@
           <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#11539#11568#0" expanded="false" />
-            <element signature="e#13104#13172#0" expanded="false" />
-            <element signature="e#14937#14953#0" expanded="false" />
-            <element signature="e#15375#15405#0" expanded="false" />
-            <element signature="e#16394#16431#0" expanded="false" />
+            <element signature="e#12620#12649#0" expanded="false" />
+            <element signature="e#14185#14253#0" expanded="false" />
+            <element signature="e#16018#16034#0" expanded="false" />
+            <element signature="e#16456#16486#0" expanded="false" />
+            <element signature="e#17475#17512#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -449,11 +457,11 @@
           <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#11539#11568#0" expanded="false" />
-            <element signature="e#13104#13172#0" expanded="false" />
-            <element signature="e#14937#14953#0" expanded="false" />
-            <element signature="e#15375#15405#0" expanded="false" />
-            <element signature="e#16394#16431#0" expanded="false" />
+            <element signature="e#12620#12649#0" expanded="false" />
+            <element signature="e#14185#14253#0" expanded="false" />
+            <element signature="e#16018#16034#0" expanded="false" />
+            <element signature="e#16456#16486#0" expanded="false" />
+            <element signature="e#17475#17512#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -497,11 +505,11 @@
           <caret line="124" column="30" lean-forward="true" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#11539#11568#0" expanded="false" />
-            <element signature="e#13104#13172#0" expanded="false" />
-            <element signature="e#14937#14953#0" expanded="false" />
-            <element signature="e#15375#15405#0" expanded="false" />
-            <element signature="e#16394#16431#0" expanded="false" />
+            <element signature="e#12620#12649#0" expanded="false" />
+            <element signature="e#14185#14253#0" expanded="false" />
+            <element signature="e#16018#16034#0" expanded="false" />
+            <element signature="e#16456#16486#0" expanded="false" />
+            <element signature="e#17475#17512#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -981,27 +989,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/custom_layers.py">
+    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="509" column="46" lean-forward="true" selection-start-line="509" selection-start-column="46" selection-end-line="509" selection-end-column="46" />
+        <state relative-caret-position="-782">
+          <caret line="128" column="34" lean-forward="false" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#12620#12649#0" expanded="false" />
+            <element signature="e#14185#14253#0" expanded="false" />
+            <element signature="e#16018#16034#0" expanded="false" />
+            <element signature="e#16456#16486#0" expanded="false" />
+            <element signature="e#17475#17512#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
+    <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="658">
-          <caret line="112" column="31" lean-forward="false" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+        <state relative-caret-position="607">
+          <caret line="648" column="34" lean-forward="true" selection-start-line="648" selection-start-column="34" selection-end-line="648" selection-end-column="34" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#11539#11568#0" expanded="false" />
-            <element signature="e#13104#13172#0" expanded="false" />
-            <element signature="e#14937#14953#0" expanded="false" />
-            <element signature="e#15375#15405#0" expanded="false" />
-            <element signature="e#16394#16431#0" expanded="false" />
           </folding>
         </state>
       </provider>

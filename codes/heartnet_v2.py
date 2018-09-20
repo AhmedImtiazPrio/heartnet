@@ -28,7 +28,8 @@ from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase, DCT1D, Conv1D_gammatone
+from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
+    DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
 from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
@@ -108,12 +109,31 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     #                 weights=[b4[30:]],
     #                 padding='same',trainable=FIR_train)(input)
 
-    ##Conv1D_gammatone
+    ## Conv1D_linearphase Anti-Symmetric
 
-    input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b1[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b2[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b3[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b4[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+
+    ##Conv1D_gammatone
+    #
+    # input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    # input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    # input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    # input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
