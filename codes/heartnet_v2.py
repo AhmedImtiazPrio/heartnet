@@ -253,7 +253,7 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train=False
+        FIR_train= True
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
