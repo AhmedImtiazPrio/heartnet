@@ -91,29 +91,29 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     ## Conv1D_linearphase
 
-    input1 = Conv1D_linearphase(1 ,61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b1[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b2[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b3[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b4[30:]],
-                    padding='same',trainable=FIR_train)(input)
+    # input1 = Conv1D_linearphase(1 ,61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b1[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input2 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b2[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input3 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b3[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input4 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b4[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
 
     ##Conv1D_gammatone
 
-    # input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    # input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    # input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-    # input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+    input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
@@ -331,7 +331,7 @@ if __name__ == '__main__':
         modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                         monitor='val_acc', save_best_only=False, mode='max')
         tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size, histogram_freq=0,
+                             batch_size=batch_size, histogram_freq = 3,
                              write_grads=True,
                              # embeddings_freq=99,
                              # embeddings_layer_names=embedding_layer_names,
