@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/custom_layers.py" afterPath="$PROJECT_DIR$/custom_layers.py" />
       <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
       <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
     </list>
@@ -16,24 +15,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-782">
-              <caret line="128" column="34" lean-forward="false" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
+            <state relative-caret-position="478">
+              <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
-                <element signature="e#12620#12649#0" expanded="false" />
-                <element signature="e#14185#14253#0" expanded="false" />
-                <element signature="e#16018#16034#0" expanded="false" />
-                <element signature="e#16456#16486#0" expanded="false" />
-                <element signature="e#17475#17512#0" expanded="false" />
+                <element signature="e#12645#12674#0" expanded="false" />
+                <element signature="e#14210#14278#0" expanded="false" />
+                <element signature="e#16043#16059#0" expanded="false" />
+                <element signature="e#16481#16511#0" expanded="false" />
+                <element signature="e#17500#17537#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="607">
@@ -120,8 +119,8 @@
         <option value="$PROJECT_DIR$/AudioDataGenerator.py" />
         <option value="$PROJECT_DIR$/eval.py" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
-        <option value="$PROJECT_DIR$/heartnet_v2.py" />
         <option value="$PROJECT_DIR$/custom_layers.py" />
+        <option value="$PROJECT_DIR$/heartnet_v2.py" />
       </list>
     </option>
   </component>
@@ -243,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537428037185</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Custom layers conv1D multiply float fix&#10;heartnet v2 with type 3">
+      <created>1537447313245</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1537447313245</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -276,7 +282,8 @@
     <MESSAGE value="log_macc generalized heartnet_v1&#10;fold1_noFIR hyperparams with LP-tConv heartnet_v2" />
     <MESSAGE value="FIR trainable" />
     <MESSAGE value="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone" />
-    <option name="LAST_COMMIT_MESSAGE" value="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone" />
+    <MESSAGE value="Custom layers conv1D multiply float fix&#10;heartnet v2 with type 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Custom layers conv1D multiply float fix&#10;heartnet v2 with type 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -322,11 +329,11 @@
           <caret line="30" column="92" lean-forward="false" selection-start-line="30" selection-start-column="92" selection-end-line="30" selection-end-column="92" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12620#12649#0" expanded="false" />
-            <element signature="e#14185#14253#0" expanded="false" />
-            <element signature="e#16018#16034#0" expanded="false" />
-            <element signature="e#16456#16486#0" expanded="false" />
-            <element signature="e#17475#17512#0" expanded="false" />
+            <element signature="e#12645#12674#0" expanded="false" />
+            <element signature="e#14210#14278#0" expanded="false" />
+            <element signature="e#16043#16059#0" expanded="false" />
+            <element signature="e#16481#16511#0" expanded="false" />
+            <element signature="e#17500#17537#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -378,11 +385,11 @@
           <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12620#12649#0" expanded="false" />
-            <element signature="e#14185#14253#0" expanded="false" />
-            <element signature="e#16018#16034#0" expanded="false" />
-            <element signature="e#16456#16486#0" expanded="false" />
-            <element signature="e#17475#17512#0" expanded="false" />
+            <element signature="e#12645#12674#0" expanded="false" />
+            <element signature="e#14210#14278#0" expanded="false" />
+            <element signature="e#16043#16059#0" expanded="false" />
+            <element signature="e#16481#16511#0" expanded="false" />
+            <element signature="e#17500#17537#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -457,11 +464,11 @@
           <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12620#12649#0" expanded="false" />
-            <element signature="e#14185#14253#0" expanded="false" />
-            <element signature="e#16018#16034#0" expanded="false" />
-            <element signature="e#16456#16486#0" expanded="false" />
-            <element signature="e#17475#17512#0" expanded="false" />
+            <element signature="e#12645#12674#0" expanded="false" />
+            <element signature="e#14210#14278#0" expanded="false" />
+            <element signature="e#16043#16059#0" expanded="false" />
+            <element signature="e#16481#16511#0" expanded="false" />
+            <element signature="e#17500#17537#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -505,11 +512,11 @@
           <caret line="124" column="30" lean-forward="true" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12620#12649#0" expanded="false" />
-            <element signature="e#14185#14253#0" expanded="false" />
-            <element signature="e#16018#16034#0" expanded="false" />
-            <element signature="e#16456#16486#0" expanded="false" />
-            <element signature="e#17475#17512#0" expanded="false" />
+            <element signature="e#12645#12674#0" expanded="false" />
+            <element signature="e#14210#14278#0" expanded="false" />
+            <element signature="e#16043#16059#0" expanded="false" />
+            <element signature="e#16481#16511#0" expanded="false" />
+            <element signature="e#17500#17537#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -989,27 +996,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-782">
-          <caret line="128" column="34" lean-forward="false" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12620#12649#0" expanded="false" />
-            <element signature="e#14185#14253#0" expanded="false" />
-            <element signature="e#16018#16034#0" expanded="false" />
-            <element signature="e#16456#16486#0" expanded="false" />
-            <element signature="e#17475#17512#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="607">
           <caret line="648" column="34" lean-forward="true" selection-start-line="648" selection-start-column="34" selection-end-line="648" selection-end-column="34" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#12645#12674#0" expanded="false" />
+            <element signature="e#14210#14278#0" expanded="false" />
+            <element signature="e#16043#16059#0" expanded="false" />
+            <element signature="e#16481#16511#0" expanded="false" />
+            <element signature="e#17500#17537#0" expanded="false" />
           </folding>
         </state>
       </provider>
