@@ -391,7 +391,7 @@ class log_macc(Callback):
                 true = np.asarray(true)
                 pred = np.asarray(pred)
                 tpn = true == pred
-                for dataset in ['a','b','c','d','e','f','x']:
+                for dataset in set(self.val_files):
                     mask = self.val_files == dataset
                     logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
                     # mask = self.val_files=='x'
