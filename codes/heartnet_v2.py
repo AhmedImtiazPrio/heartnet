@@ -92,41 +92,41 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     ## Conv1D_linearphase
 
-    input1 = Conv1D_linearphase(1 ,61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b1[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input2 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b2[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input3 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b3[30:]],
-                    padding='same',trainable=FIR_train)(input)
-    input4 = Conv1D_linearphase(1, 61, use_bias=False,
-                    # kernel_initializer=initializers.he_normal(random_seed),
-                    weights=[b4[30:]],
-                    padding='same',trainable=FIR_train)(input)
+    # input1 = Conv1D_linearphase(1 ,61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b1[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input2 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b2[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input3 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b3[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
+    # input4 = Conv1D_linearphase(1, 61, use_bias=False,
+    #                 # kernel_initializer=initializers.he_normal(random_seed),
+    #                 weights=[b4[30:]],
+    #                 padding='same',trainable=FIR_train)(input)
 
     ## Conv1D_linearphase Anti-Symmetric
     #
-    # input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
-    #                 # kernel_initializer=initializers.he_normal(random_seed),
-    #                 weights=[b1[30:]],
-    #                 padding='same',trainable=FIR_train, type = 3)(input)
-    # input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
-    #                 # kernel_initializer=initializers.he_normal(random_seed),
-    #                 weights=[b2[30:]],
-    #                 padding='same',trainable=FIR_train, type = 3)(input)
-    # input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
-    #                 # kernel_initializer=initializers.he_normal(random_seed),
-    #                 weights=[b3[30:]],
-    #                 padding='same',trainable=FIR_train, type = 3)(input)
-    # input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
-    #                 # kernel_initializer=initializers.he_normal(random_seed),
-    #                 weights=[b4[30:]],
-    #                 padding='same',trainable=FIR_train, type = 3)(input)
+    input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b1[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b2[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b3[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
+    input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b4[30:]],
+                    padding='same',trainable=FIR_train, type = 3)(input)
 
     #Conv1D_gammatone
     #
