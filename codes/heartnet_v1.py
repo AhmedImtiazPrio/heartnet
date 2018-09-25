@@ -46,16 +46,16 @@ def results_log(results_path,log_dir,log_name,activation_function,addweights,ker
                  'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
                  'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
                  'BN momentum': bn_momentum, 'Lr decay': lr_decay,
-                 'Best Val Acc Per Cardiac Cycle': np.mean(
-                     df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
+                 'Best Val Acc Per Cardiac Cycle':
+                     df1.loc[max_idx]['val_acc'].values * 100,
                  'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                 'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
-                 'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
-                 'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
-                 'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
-                 'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
+                 'Training Acc per cardiac cycle': df1.loc[max_idx]['acc'].values * 100,
+                 'Specificity': df1.loc[max_idx]['val_specificity'].values * 100,
+                 'Macc': df1.loc[max_idx]['val_macc'].values * 100,
+                 'Precision': df1.loc[max_idx]['val_precision'].values * 100,
+                 'Sensitivity': df1.loc[max_idx]['val_sensitivity'].values * 100,
                  'Number of filters': str(num_filt),
-                 'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
+                 'F1': df1.loc[max_idx]['val_F1'].values * 100,
                  'Number of Dense Neurons': num_dense,
                  'Comment': comment}
 
@@ -66,6 +66,41 @@ def results_log(results_path,log_dir,log_name,activation_function,addweights,ker
     df2.to_csv(results_path, index=False)
     df2.tail()
     print("Saving to results.csv")
+
+
+# def results_log(results_path,log_dir,log_name,activation_function,addweights,kernel_size,maxnorm,
+#                 dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,lr_decay,num_dense,comment,num_filt):
+#     df = pd.read_csv(results_path)
+#     df1 = pd.read_csv(log_dir + log_name + '/training.csv')
+#     max_idx = df1['val_macc'].idxmax()
+#     new_entry = {'Filename': '*' + log_name, 'Weight Initialization': 'he_normal',
+#                  'Activation': activation_function + '-softmax', 'Class weights': addweights,
+#                  'Kernel Size': kernel_size, 'Max Norm': maxnorm,
+#                  'Dropout -filters': dropout_rate,
+#                  'Dropout - dense': dropout_rate_dense,
+#                  'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
+#                  'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
+#                  'BN momentum': bn_momentum, 'Lr decay': lr_decay,
+#                  'Best Val Acc Per Cardiac Cycle': np.mean(
+#                      df1.loc[max_idx - 3:max_idx + 3]['val_acc'].values) * 100,
+#                  'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
+#                  'Training Acc per cardiac cycle': np.mean(df1.loc[max_idx - 3:max_idx + 3]['acc'].values) * 100,
+#                  'Specificity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_specificity'].values) * 100,
+#                  'Macc': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_macc'].values) * 100,
+#                  'Precision': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_precision'].values) * 100,
+#                  'Sensitivity': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_sensitivity'].values) * 100,
+#                  'Number of filters': str(num_filt),
+#                  'F1': np.mean(df1.loc[max_idx - 3:max_idx + 3]['val_F1'].values) * 100,
+#                  'Number of Dense Neurons': num_dense,
+#                  'Comment': comment}
+#
+#     index, _ = df.shape
+#     new_entry = pd.DataFrame(new_entry, index=[index])
+#     df2 = pd.concat([df, new_entry], axis=0)
+#     # df2 = df2.reindex(df.columns)
+#     df2.to_csv(results_path, index=False)
+#     df2.tail()
+#     print("Saving to results.csv")
 
 def res_subsam(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
