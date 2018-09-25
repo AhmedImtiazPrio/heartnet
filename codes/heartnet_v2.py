@@ -172,7 +172,8 @@ if __name__ == '__main__':
         ########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
         parser = argparse.ArgumentParser(description='Specify fold to process')
         parser.add_argument("fold",
-                            help="which fold to use from balanced folds generated in /media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/")
+                            help="which fold to use from balanced folds generated in /media/taufiq/Data/"
+                                 "heart_sound/feature/potes_1DCNN/balancedCV/folds/")
         parser.add_argument("--seed", type=int,
                             help="Random seed for the random number generator (defaults to 1)")
         parser.add_argument("--loadmodel",
@@ -184,7 +185,8 @@ if __name__ == '__main__':
         parser.add_argument("--verbose", type=int, choices=[1, 2],
                             help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
         parser.add_argument("--classweights", type=bool,
-                            help="if True, class weights are added according to the ratio of the two classes present in the training data")
+                            help="if True, class weights are added according to the ratio of the "
+                                 "two classes present in the training data")
         parser.add_argument("--comment",
                             help = "Add comments to the log files")
 
@@ -432,9 +434,12 @@ if __name__ == '__main__':
 
         ############### log results in csv ###############
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
+                    activation_function=activation_function, addweights=addweights,
+                    kernel_size=kernel_size, maxnorm=maxnorm,
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
-                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size,
+                    lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment,num_filt=num_filt)
         print(model.layers[1].get_weights())
         with K.get_session() as sess:
@@ -446,9 +451,12 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
-        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name, activation_function=activation_function, addweights=addweights, kernel_size=kernel_size, maxnorm=maxnorm,
+        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
+                    activation_function=activation_function, addweights=addweights,
+                    kernel_size=kernel_size, maxnorm=maxnorm,
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
-                    l2_reg_dense=l2_reg_dense, batch_size=batch_size, lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
+                    l2_reg_dense=l2_reg_dense, batch_size=batch_size,
+                    lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment,num_filt=num_filt)
         model_json = model.to_json()
         with open(model_dir + log_name+"/model.json", "w") as json_file:
