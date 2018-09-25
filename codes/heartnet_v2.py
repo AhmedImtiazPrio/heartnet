@@ -223,7 +223,7 @@ if __name__ == '__main__':
             print("Training with %d samples per minibatch" % (args.batch_size))
             batch_size = args.batch_size
         else:
-            batch_size = 64
+            batch_size = 1024
             print("Training with %d minibatches" % (batch_size))
 
         if args.verbose:

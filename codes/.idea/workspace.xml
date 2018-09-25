@@ -17,15 +17,15 @@
       <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="787">
-              <caret line="460" column="36" lean-forward="true" selection-start-line="460" selection-start-column="36" selection-end-line="460" selection-end-column="36" />
+            <state relative-caret-position="1139">
+              <caret line="340" column="23" lean-forward="false" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
-                <element signature="e#12696#12725#0" expanded="false" />
-                <element signature="e#14261#14329#0" expanded="false" />
-                <element signature="e#16094#16110#0" expanded="false" />
-                <element signature="e#16532#16562#0" expanded="false" />
-                <element signature="e#17551#17588#0" expanded="false" />
+                <element signature="e#12698#12727#0" expanded="false" />
+                <element signature="e#14263#14331#0" expanded="false" />
+                <element signature="e#16096#16112#0" expanded="false" />
+                <element signature="e#16534#16564#0" expanded="false" />
+                <element signature="e#17553#17590#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -291,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537860772685</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="code refactor">
+      <created>1537861265652</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1537861265652</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -331,7 +338,8 @@
     <MESSAGE value="FIR init LP-tConv Type 4" />
     <MESSAGE value="FIR init LP-tConv Type 1" />
     <MESSAGE value="Removed smoothing from results_log" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed smoothing from results_log" />
+    <MESSAGE value="code refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="code refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -369,11 +377,11 @@
           <caret line="30" column="92" lean-forward="false" selection-start-line="30" selection-start-column="92" selection-end-line="30" selection-end-column="92" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12696#12725#0" expanded="false" />
-            <element signature="e#14261#14329#0" expanded="false" />
-            <element signature="e#16094#16110#0" expanded="false" />
-            <element signature="e#16532#16562#0" expanded="false" />
-            <element signature="e#17551#17588#0" expanded="false" />
+            <element signature="e#12698#12727#0" expanded="false" />
+            <element signature="e#14263#14331#0" expanded="false" />
+            <element signature="e#16096#16112#0" expanded="false" />
+            <element signature="e#16534#16564#0" expanded="false" />
+            <element signature="e#17553#17590#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -425,11 +433,11 @@
           <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12696#12725#0" expanded="false" />
-            <element signature="e#14261#14329#0" expanded="false" />
-            <element signature="e#16094#16110#0" expanded="false" />
-            <element signature="e#16532#16562#0" expanded="false" />
-            <element signature="e#17551#17588#0" expanded="false" />
+            <element signature="e#12698#12727#0" expanded="false" />
+            <element signature="e#14263#14331#0" expanded="false" />
+            <element signature="e#16096#16112#0" expanded="false" />
+            <element signature="e#16534#16564#0" expanded="false" />
+            <element signature="e#17553#17590#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -504,11 +512,11 @@
           <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12696#12725#0" expanded="false" />
-            <element signature="e#14261#14329#0" expanded="false" />
-            <element signature="e#16094#16110#0" expanded="false" />
-            <element signature="e#16532#16562#0" expanded="false" />
-            <element signature="e#17551#17588#0" expanded="false" />
+            <element signature="e#12698#12727#0" expanded="false" />
+            <element signature="e#14263#14331#0" expanded="false" />
+            <element signature="e#16096#16112#0" expanded="false" />
+            <element signature="e#16534#16564#0" expanded="false" />
+            <element signature="e#17553#17590#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -552,11 +560,11 @@
           <caret line="124" column="30" lean-forward="true" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12696#12725#0" expanded="false" />
-            <element signature="e#14261#14329#0" expanded="false" />
-            <element signature="e#16094#16110#0" expanded="false" />
-            <element signature="e#16532#16562#0" expanded="false" />
-            <element signature="e#17551#17588#0" expanded="false" />
+            <element signature="e#12698#12727#0" expanded="false" />
+            <element signature="e#14263#14331#0" expanded="false" />
+            <element signature="e#16096#16112#0" expanded="false" />
+            <element signature="e#16534#16564#0" expanded="false" />
+            <element signature="e#17553#17590#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1053,15 +1061,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="787">
-          <caret line="460" column="36" lean-forward="true" selection-start-line="460" selection-start-column="36" selection-end-line="460" selection-end-column="36" />
+        <state relative-caret-position="1139">
+          <caret line="340" column="23" lean-forward="false" selection-start-line="340" selection-start-column="23" selection-end-line="340" selection-end-column="23" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12696#12725#0" expanded="false" />
-            <element signature="e#14261#14329#0" expanded="false" />
-            <element signature="e#16094#16110#0" expanded="false" />
-            <element signature="e#16532#16562#0" expanded="false" />
-            <element signature="e#17551#17588#0" expanded="false" />
+            <element signature="e#12698#12727#0" expanded="false" />
+            <element signature="e#14263#14331#0" expanded="false" />
+            <element signature="e#16096#16112#0" expanded="false" />
+            <element signature="e#16534#16564#0" expanded="false" />
+            <element signature="e#17553#17590#0" expanded="false" />
           </folding>
         </state>
       </provider>
