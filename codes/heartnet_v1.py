@@ -401,7 +401,7 @@ class log_macc(Callback):
             sensitivity = TP / (TP + FN + eps)
             specificity = TN / (TN + FP + eps)
             precision = TP / (TP + FP + eps)
-            F1 = 2 * (precision * sensitivity) / (precision + sensitivity)
+            F1 = 2 * (precision * sensitivity) / (precision + sensitivity + eps)
             Macc = (sensitivity + specificity) / 2
             logs['val_sensitivity'] = np.array(sensitivity)
             logs['val_specificity'] = np.array(specificity)
