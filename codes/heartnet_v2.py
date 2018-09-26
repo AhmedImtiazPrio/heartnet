@@ -128,7 +128,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     #                 weights=[b4[30:]],
     #                 padding='same',trainable=FIR_train, type = 3)(input)
 
-    Conv1D_gammatone
+    #Conv1D_gammatone
 
     input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
     input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
