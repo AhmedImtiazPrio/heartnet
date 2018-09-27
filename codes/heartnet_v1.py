@@ -47,15 +47,15 @@ def results_log(results_path,log_dir,log_name,activation_function,addweights,ker
                  'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
                  'BN momentum': bn_momentum, 'Lr decay': lr_decay,
                  'Best Val Acc Per Cardiac Cycle':
-                     df1.loc[max_idx]['val_acc'].values * 100,
+                     df1.loc[max_idx]['val_acc'] * 100,
                  'Epoch': df1.loc[[max_idx]]['epoch'].values[0],
-                 'Training Acc per cardiac cycle': df1.loc[max_idx]['acc'].values * 100,
-                 'Specificity': df1.loc[max_idx]['val_specificity'].values * 100,
-                 'Macc': df1.loc[max_idx]['val_macc'].values * 100,
-                 'Precision': df1.loc[max_idx]['val_precision'].values * 100,
-                 'Sensitivity': df1.loc[max_idx]['val_sensitivity'].values * 100,
+                 'Training Acc per cardiac cycle': df1.loc[max_idx]['acc'] * 100,
+                 'Specificity': df1.loc[max_idx]['val_specificity'] * 100,
+                 'Macc': df1.loc[max_idx]['val_macc'] * 100,
+                 'Precision': df1.loc[max_idx]['val_precision'] * 100,
+                 'Sensitivity': df1.loc[max_idx]['val_sensitivity'] * 100,
                  'Number of filters': str(num_filt),
-                 'F1': df1.loc[max_idx]['val_F1'].values * 100,
+                 'F1': df1.loc[max_idx]['val_F1'] * 100,
                  'Number of Dense Neurons': num_dense,
                  'Comment': comment}
 
