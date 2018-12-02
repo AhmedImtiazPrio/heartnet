@@ -6,5 +6,6 @@ codes/logs/*
 codes/.idea/*
 codes/.ipynb_checkpoints/*
 featGen/*
-^(?!.*.arff)
-^(?!.*.wav)
+featGen/!*.pl
+featGen/!*.sh
+
