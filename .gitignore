@@ -5,7 +5,6 @@ Technical docs
 codes/logs/*
 codes/.idea/*
 codes/.ipynb_checkpoints/*
-featGen/*
-featGen/!*.pl
-featGen/!*.sh
+featGen/wav/*
+featGen/arff/*
 
