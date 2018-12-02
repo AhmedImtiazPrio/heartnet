@@ -3,4 +3,8 @@ Physionet
 non technical docs
 Technical docs
 codes/logs/*
-codes/.idea
+codes/.idea/*
+codes/.ipynb_checkpoints/*
+featGen/*
+^(?!.*.arff)
+^(?!.*.wav)
