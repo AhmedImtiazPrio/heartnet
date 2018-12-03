@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # path to openSMILE 2.3 SMILExtract
-openSMILE=/tools/opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
+openSMILE=/home/taufiq/Downloads/opensmile-2.3.0/bin/linux_x64_standalone_static/SMILExtract
 
 # ComParE 2016 configuration file - included in the openSMILE 2.3 package
-configFile=/tools/opensmile-2.3.0/config/ComParE_2016.conf
+configFile=/home/taufiq/Downloads/opensmile-2.3.0/config/ComParE_2016.conf
 
 labels_file=../lab/ComParE2018_Heartbeat.tsv
 
@@ -44,12 +44,12 @@ done < $labels_file
 
 
 # Extract LLDs for test
-rm -f $test_lld_arff
+#rm -f $test_lld_arff
 
-label=?
-lld_arff=$test_lld_arff
+#label=?
+#lld_arff=$test_lld_arff
 
-for wavefile in $audio_dir/test*.wav; do
-    instname=${wavefile##*/}
-    "$openSMILE" -C "$configFile" -appendcsvlld 1 -instname "$instname" -I "$audio_dir/$wavefile" -lldarffoutput "$lld_arff" -arfftargetsfile arff_targets.conf.inc -class "$label"
-done
+#for wavefile in $audio_dir/test*.wav; do
+#    instname=${wavefile##*/}
+#    "$openSMILE" -C "$configFile" -appendcsvlld 1 -instname "$instname" -I "$audio_dir/$wavefile" -#lldarffoutput "$lld_arff" -arfftargetsfile arff_targets.conf.inc -class "$label"
+#done
