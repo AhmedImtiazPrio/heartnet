@@ -7,4 +7,5 @@ codes/.idea/*
 codes/.ipynb_checkpoints/*
 featGen/wav/*
 featGen/arff/*
+featGen/mfcc/*
 
