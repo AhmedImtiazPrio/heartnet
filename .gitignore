@@ -9,4 +9,7 @@ featGen/wav/*
 featGen/arff/*
 featGen/mfcc/*
 featGen/*.csv
+featGen/*.mat
+.fuse*
+*.m~
 
