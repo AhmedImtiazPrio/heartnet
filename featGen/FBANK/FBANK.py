@@ -28,7 +28,7 @@ for pcg in list_wav:
     data,sr = load(os.path.join(wav_dir,pcg))
     time = len(data)/sr
     data = partition(data,parts=parts,overlap=overlap)
-    n_time = int(np.ceil(data.shape[1]/mfsc_hop_length))
+    n_time = int(np.floor(data.shape[1]/mfsc_hop_length+1))
     feats = []
     spect = np.zeros((parts,n_mels,n_time))
     delta = np.zeros((parts,n_mels,n_time-1))
