@@ -54,7 +54,8 @@ if [ ! -s "$train_boaw_arff" ]; then
 	java -Xmx$jvm_mem -jar openXBOW.jar -writeName -i "$train_lld_arff" -o "$train_boaw_arff" -standardizeInput -log -size "$openXBOW_size_codebook" -B "$model_dir/codebook" -a "$openXBOW_num_assignments" -attributes "$openXBOW_attributes_string" -arffLabels "$openXBOW_arff_labels"
 fi
 if [ ! -s "$test_boaw_arff" ]; then
-	java -Xmx$jvm_mem -jar openXBOW.jar -writeName -i "$test_lld_arff" -o "$test_boaw_arff" -b "$model_dir/codebook" -attributes "$openXBOW_attributes_string" -arffLabels "$openXBOW_arff_labels"
+	java -Xmx$jvm_mem -jar openXBOW.jar -writeName -i "$test_lld_arff" -o "$test_boaw_arff" -b
+"$model_dir/codebook" -attributes "$openXBOW_attributes_string" -arffLabels "$openXBOW_arff_labels"
 fi
 
 # Upsampling of train
