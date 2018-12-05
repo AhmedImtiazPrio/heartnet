@@ -1,6 +1,6 @@
 #!/bin/sh
 
-jvm_mem=10000m
+jvm_mem=15000m
 
 ### File Paths ###
 
@@ -9,15 +9,16 @@ mkdir -p $model_dir
 
 featfile=../mfcc.csv
 labelsfile=../labels.csv
-outputfile=../boawFeat.arff
 
 ### BOAW Parameters ###
 
-cdbk_size="64,128"
+cdbk_size="4096"
+#test -z "$cdbk_size" && cdbk_range="64 128" #128 256 512 1024 2048 4096 8192 16384"
+
 multiassign=5
 
-rm -f boawFeat.arff
-
-java -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$featfile" -l "$labelsfile" -o "$outputfile" -standardizeInput -norm 1 -log -size "$cdbk_size" -a "$multiassign" -B "$model_dir/codebook"
-
-# -Xmx$jvm_mem
+#for cdbk_size in $cdbk_range; do
+    outputfile=./feat/boawFeat.$cdbk_size.arff
+    rm -f "$outputfile"
+    java -Xmx$jvm_mem -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$featfile" -l "$labelsfile" -o "$outputfile" -standardizeInput -norm 1 -log -size "$cdbk_size" -a "$multiassign" -B "$model_dir/$cdbk_size.codebook"
+#done
