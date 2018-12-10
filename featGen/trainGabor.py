@@ -15,7 +15,7 @@ from sklearn.svm import SVC
 
 FBANK_feat = os.path.join('FBANK','binnedFeat.mat')
 FBANK_label = os.path.join('FBANK','binnedLabels.csv')
-ComParE_feat = os.path.join('openSMILEall_PCG.mat')
+ComParE_feat = os.path.join('baseline','openSMILEall_PCG.mat')
 BOAW_feat = os.path.join('baseline_boaw','feat','boawFeat.4096.arff')
 
 
