@@ -17,3 +17,4 @@ featGen/FBANK/*.mat
 featGen/FBANK/*.csv
 featGen/wav/*
 featGen/.ipynb_checkpoints/*
+featGen/**/*.mat
