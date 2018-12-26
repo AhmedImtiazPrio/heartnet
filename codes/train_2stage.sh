@@ -26,28 +26,19 @@ retrieve_last () {
 
 }
 
-for fold in "fold1" #"fold1" "fold2" "fold3"
+for fold in "fold2" #"fold1" "fold2" "fold3"
 do
 
     # Training with smaller batch_size
     batch_size=64
     echo "FOLD: $fold STAGE: 1 BS: $batch_size"
-    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs 1
+    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs 250
 
     # Re-training with larger batch_size
     batch_size=1024
     echo "FOLD: $fold STAGE: 2 BS: $batch_size"
     retrieve_last $result_csv
-    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs 1
-        --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"
+    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
+     600 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"
 
 done
-
-
-#
-#
-##retrieve_last $result_csv
-##
-##if [ ! -f "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5" ]; then
-##    echo "Warning: Weights file does not exist!"
-##fi
