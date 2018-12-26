@@ -34,7 +34,7 @@ do
         batch_size=64
         echo "FOLD: $fold STAGE: 1 BS: $batch_size"
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
-         250 --type "$type" --comment "FIR $type stage 1"
+         250 --type $type --comment "FIR $type stage 1"
 
         # Re-training with larger batch_size
         batch_size=1024
@@ -42,6 +42,6 @@ do
         retrieve_last $result_csv
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
          600 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"\
-         --type "$type" --comment "FIR $type stage 2"
+         --type $type --comment "FIR $type stage 2"
     done
 done

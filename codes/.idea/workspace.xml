@@ -18,16 +18,16 @@
       <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="246" column="56" lean-forward="false" selection-start-line="246" selection-start-column="56" selection-end-line="246" selection-end-column="56" />
+            <state relative-caret-position="393">
+              <caret line="191" column="46" lean-forward="false" selection-start-line="191" selection-start-column="46" selection-end-line="191" selection-end-column="46" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
-                <element signature="e#12929#12958#0" expanded="false" />
-                <element signature="e#14494#14562#0" expanded="false" />
-                <element signature="e#16333#16349#0" expanded="false" />
-                <element signature="e#16771#16801#0" expanded="false" />
-                <element signature="e#17846#17883#0" expanded="false" />
-                <element signature="e#20212#20250#0" expanded="false" />
+                <element signature="e#12939#12968#0" expanded="false" />
+                <element signature="e#14504#14572#0" expanded="false" />
+                <element signature="e#16343#16359#0" expanded="false" />
+                <element signature="e#16781#16811#0" expanded="false" />
+                <element signature="e#17856#17893#0" expanded="false" />
+                <element signature="e#20222#20260#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -36,8 +36,8 @@
       <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train_2stage.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="600">
-              <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+            <state relative-caret-position="660">
+              <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -119,8 +119,8 @@
         <option value="$PROJECT_DIR$/eval.py" />
         <option value="$PROJECT_DIR$/custom_layers.py" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
-        <option value="$PROJECT_DIR$/heartnet_v2.py" />
         <option value="$PROJECT_DIR$/train_2stage.sh" />
+        <option value="$PROJECT_DIR$/heartnet_v2.py" />
       </list>
     </option>
   </component>
@@ -362,7 +362,14 @@
       <option name="project" value="LOCAL" />
       <updated>1545816714869</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="2 stage training with 4 types and 4 folds">
+      <created>1545818252520</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1545818252520</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -411,7 +418,8 @@
     <MESSAGE value="fixed logging" />
     <MESSAGE value="Type 3 1024 retrain" />
     <MESSAGE value="2 stage training bash script complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="2 stage training bash script complete" />
+    <MESSAGE value="2 stage training with 4 types and 4 folds" />
+    <option name="LAST_COMMIT_MESSAGE" value="2 stage training with 4 types and 4 folds" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -426,12 +434,12 @@
           <caret line="30" column="92" lean-forward="false" selection-start-line="30" selection-start-column="92" selection-end-line="30" selection-end-column="92" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12929#12958#0" expanded="false" />
-            <element signature="e#14494#14562#0" expanded="false" />
-            <element signature="e#16333#16349#0" expanded="false" />
-            <element signature="e#16771#16801#0" expanded="false" />
-            <element signature="e#17846#17883#0" expanded="false" />
-            <element signature="e#20212#20250#0" expanded="false" />
+            <element signature="e#12939#12968#0" expanded="false" />
+            <element signature="e#14504#14572#0" expanded="false" />
+            <element signature="e#16343#16359#0" expanded="false" />
+            <element signature="e#16781#16811#0" expanded="false" />
+            <element signature="e#17856#17893#0" expanded="false" />
+            <element signature="e#20222#20260#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -466,12 +474,12 @@
           <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12929#12958#0" expanded="false" />
-            <element signature="e#14494#14562#0" expanded="false" />
-            <element signature="e#16333#16349#0" expanded="false" />
-            <element signature="e#16771#16801#0" expanded="false" />
-            <element signature="e#17846#17883#0" expanded="false" />
-            <element signature="e#20212#20250#0" expanded="false" />
+            <element signature="e#12939#12968#0" expanded="false" />
+            <element signature="e#14504#14572#0" expanded="false" />
+            <element signature="e#16343#16359#0" expanded="false" />
+            <element signature="e#16781#16811#0" expanded="false" />
+            <element signature="e#17856#17893#0" expanded="false" />
+            <element signature="e#20222#20260#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -514,12 +522,12 @@
           <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12929#12958#0" expanded="false" />
-            <element signature="e#14494#14562#0" expanded="false" />
-            <element signature="e#16333#16349#0" expanded="false" />
-            <element signature="e#16771#16801#0" expanded="false" />
-            <element signature="e#17846#17883#0" expanded="false" />
-            <element signature="e#20212#20250#0" expanded="false" />
+            <element signature="e#12939#12968#0" expanded="false" />
+            <element signature="e#14504#14572#0" expanded="false" />
+            <element signature="e#16343#16359#0" expanded="false" />
+            <element signature="e#16781#16811#0" expanded="false" />
+            <element signature="e#17856#17893#0" expanded="false" />
+            <element signature="e#20222#20260#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -546,12 +554,12 @@
           <caret line="124" column="30" lean-forward="true" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12929#12958#0" expanded="false" />
-            <element signature="e#14494#14562#0" expanded="false" />
-            <element signature="e#16333#16349#0" expanded="false" />
-            <element signature="e#16771#16801#0" expanded="false" />
-            <element signature="e#17846#17883#0" expanded="false" />
-            <element signature="e#20212#20250#0" expanded="false" />
+            <element signature="e#12939#12968#0" expanded="false" />
+            <element signature="e#14504#14572#0" expanded="false" />
+            <element signature="e#16343#16359#0" expanded="false" />
+            <element signature="e#16781#16811#0" expanded="false" />
+            <element signature="e#17856#17893#0" expanded="false" />
+            <element signature="e#20222#20260#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -824,24 +832,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="246" column="56" lean-forward="false" selection-start-line="246" selection-start-column="56" selection-end-line="246" selection-end-column="56" />
+        <state relative-caret-position="393">
+          <caret line="191" column="46" lean-forward="false" selection-start-line="191" selection-start-column="46" selection-end-line="191" selection-end-column="46" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#12929#12958#0" expanded="false" />
-            <element signature="e#14494#14562#0" expanded="false" />
-            <element signature="e#16333#16349#0" expanded="false" />
-            <element signature="e#16771#16801#0" expanded="false" />
-            <element signature="e#17846#17883#0" expanded="false" />
-            <element signature="e#20212#20250#0" expanded="false" />
+            <element signature="e#12939#12968#0" expanded="false" />
+            <element signature="e#14504#14572#0" expanded="false" />
+            <element signature="e#16343#16359#0" expanded="false" />
+            <element signature="e#16781#16811#0" expanded="false" />
+            <element signature="e#17856#17893#0" expanded="false" />
+            <element signature="e#20222#20260#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/train_2stage.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+        <state relative-caret-position="660">
+          <caret line="44" column="21" lean-forward="false" selection-start-line="44" selection-start-column="21" selection-end-line="44" selection-end-column="21" />
           <folding />
         </state>
       </provider>

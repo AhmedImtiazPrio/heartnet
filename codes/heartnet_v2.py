@@ -189,7 +189,7 @@ if __name__ == '__main__':
                                  "two classes present in the training data")
         parser.add_argument("--comment",
                             help = "Add comments to the log files")
-        parser.add_argument("--type")
+        parser.add_argument("--type", type=int)
 
         args = parser.parse_args()
         print("%s selected" % (args.fold))
