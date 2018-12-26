@@ -25,20 +25,23 @@ retrieve_last () {
     fi
 
 }
-
-for fold in "fold2" #"fold1" "fold2" "fold3"
+for type in 1 2 3 4
 do
+    for fold in "fold0" "fold1" "fold2" "fold3"
+    do
 
-    # Training with smaller batch_size
-    batch_size=64
-    echo "FOLD: $fold STAGE: 1 BS: $batch_size"
-    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs 250
+        # Training with smaller batch_size
+        batch_size=64
+        echo "FOLD: $fold STAGE: 1 BS: $batch_size"
+        python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
+         250 --type "$type" --comment "FIR $type stage 1"
 
-    # Re-training with larger batch_size
-    batch_size=1024
-    echo "FOLD: $fold STAGE: 2 BS: $batch_size"
-    retrieve_last $result_csv
-    python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
-     600 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"
-
+        # Re-training with larger batch_size
+        batch_size=1024
+        echo "FOLD: $fold STAGE: 2 BS: $batch_size"
+        retrieve_last $result_csv
+        python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
+         600 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"\
+         --type "$type" --comment "FIR $type stage 2"
+    done
 done

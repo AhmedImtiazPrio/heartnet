@@ -189,6 +189,7 @@ if __name__ == '__main__':
                                  "two classes present in the training data")
         parser.add_argument("--comment",
                             help = "Add comments to the log files")
+        parser.add_argument("--type")
 
         args = parser.parse_args()
         print("%s selected" % (args.fold))
@@ -239,6 +240,11 @@ if __name__ == '__main__':
             comment = args.comment
         else:
             comment = None
+        if args.type:
+            type = args.type
+        else:
+            type = 3
+        print("Type %d FIR selected as front-end" % type)
 
 
         #########################################################
@@ -250,6 +256,7 @@ if __name__ == '__main__':
         epochs = epochs
         batch_size = batch_size
         verbose = verbose
+        type = type
 
         model_dir = '/media/taufiq/Data/heart_sound/models/'
         fold_dir = '/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/folds_dec_2018/'
@@ -278,7 +285,7 @@ if __name__ == '__main__':
         FIR_train= True
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
-        type = 1
+
 
         lr =  0.0012843784 ## After bayesian optimization
 
