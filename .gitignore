@@ -3,3 +3,18 @@ Physionet
 non technical docs
 Technical docs
 codes/logs/*
+codes/.idea/*
+codes/.ipynb_checkpoints/*
+featGen/arff/*
+featGen/mfcc/*
+featGen/*.csv
+featGen/*.mat
+.fuse*
+*.m~
+featGen/.idea/*
+featGen/baseline_boaw/feat/*
+featGen/FBANK/*.mat
+featGen/FBANK/*.csv
+featGen/wav/*
+featGen/.ipynb_checkpoints/*
+featGen/**/*.mat

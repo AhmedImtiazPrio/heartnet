@@ -1,0 +1,23 @@
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in SMILExtract : openSMILE starting!
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in SMILExtract : config file is: /home/taufiq/Downloads/opensmile-2.3.0/config/ComParE_2016.conf
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in cComponentManager : successfully registered 96 component types.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in instance 'lldsink' : No filename given, disabling this sink component.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in instance 'lldhtksink' : No filename given, disabling this sink component.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in instance 'lldarffsink' : No filename given, disabling this sink component.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in instance 'csvsink' : No filename given, disabling this sink component.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in instance 'htksink' : No filename given, disabling this sink component.
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in cComponentManager : successfully finished createInstances
+                                 (48 component instances were finalised, 1 data memories were finalised)
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in cComponentManager : starting single thread processing loop
+[ 23.03.2018 - 11:23:44 ]
+    (MSG) [2] in cComponentManager : Processing finished! System ran for 3014 ticks.
