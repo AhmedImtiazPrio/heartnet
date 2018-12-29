@@ -190,6 +190,8 @@ if __name__ == '__main__':
         parser.add_argument("--comment",
                             help = "Add comments to the log files")
         parser.add_argument("--type", type=int)
+        parser.add_argument("--lr", type=float)
+
 
         args = parser.parse_args()
         print("%s selected" % (args.fold))
@@ -245,6 +247,10 @@ if __name__ == '__main__':
         else:
             type = 3
         print("Type %d FIR selected as front-end" % type)
+        if args.lr:
+            lr = args.lr
+        else:
+            lr = 0.0012843784
 
 
         #########################################################
