@@ -362,8 +362,8 @@ class log_macc(Callback):
                         continue
                     # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
 
-                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
-                    temp = y_pred[start_idx:start_idx + int(s) - 1]
+                    temp_ = y_val[start_idx:start_idx + int(s)]
+                    temp = y_pred[start_idx:start_idx + int(s)]
 
                     if (sum(temp == 0) > sum(temp == 1)):
                         pred.append(0)
