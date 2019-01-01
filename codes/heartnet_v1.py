@@ -34,7 +34,7 @@ from keras.utils import to_categorical
 # import matplotlib.pyplot as plt
 
 def results_log(results_path,log_dir,log_name,activation_function,addweights,kernel_size,maxnorm,
-                dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,lr_decay,num_dense,comment,num_filt):
+                dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,lr_decay,num_dense,comment,num_filt,opt=Adam):
     df = pd.read_csv(results_path)
     df1 = pd.read_csv(log_dir + log_name + '/training.csv')
     max_idx = df1['val_macc'].idxmax()
@@ -44,7 +44,7 @@ def results_log(results_path,log_dir,log_name,activation_function,addweights,ker
                  'Dropout -filters': dropout_rate,
                  'Dropout - dense': dropout_rate_dense,
                  'L2 - filters': l2_reg, 'L2- dense': l2_reg_dense,
-                 'Batch Size': batch_size, 'Optimizer': 'Adam', 'Learning Rate': lr,
+                 'Batch Size': batch_size, 'Optimizer': opt.__name__, 'Learning Rate': lr,
                  'BN momentum': bn_momentum, 'Lr decay': lr_decay,
                  'Best Val Acc Per Cardiac Cycle':
                      df1.loc[max_idx]['val_acc'] * 100,
