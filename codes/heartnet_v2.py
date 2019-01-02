@@ -190,6 +190,7 @@ if __name__ == '__main__':
         parser.add_argument("--comment",
                             help = "Add comments to the log files")
         parser.add_argument("--type", type=int)
+        parser.add_argument("--lr", type=float)
 
         args = parser.parse_args()
         print("%s selected" % (args.fold))
@@ -244,6 +245,10 @@ if __name__ == '__main__':
             type=args.type
         else:
             type=3
+        if args.lr:
+            lr= args.lr
+        else:
+            lr=0.0012843784
 
 
         #########################################################
@@ -284,7 +289,7 @@ if __name__ == '__main__':
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
-        lr =  0.0012843784 ## After bayesian optimization
+        # lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
         lr_decay =0.0001132885

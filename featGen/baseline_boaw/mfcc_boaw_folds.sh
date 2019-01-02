@@ -7,7 +7,7 @@ jvm_mem=15000m
 model_dir=./models/
 mkdir -p $model_dir
 
-fold_name="fold1"
+fold_name="fold0"
 mfcc_path="/media/taufiq/Data1/heart_sound/feature/mfcc/"
 
 trainfile=$mfcc_path/$fold_name.train.mfcc.csv
