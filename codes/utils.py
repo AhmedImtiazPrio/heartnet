@@ -62,8 +62,7 @@ def transition(x, concat_axis, nb_filter, kernel_size=5,
     return x
 
 
-def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate,
-               dropout_rate=None, weight_decay=1E-4):
+def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=None, weight_decay=1E-4):
     """Build a denseblock where the output of each
        conv_factory is fed to subsequent ones
     :param x: keras model
@@ -153,17 +152,14 @@ def DenseNet(x, depth, nb_dense_block, growth_rate, kernel_size=5,
         x, nb_filter = denseblock(x, concat_axis, nb_layers,
                                   nb_filter, growth_rate,
                                   dropout_rate=dropout_rate,
-                                  weight_decay=weight_decay,
-                                  kernel_size=kernel_size)
+                                  weight_decay=weight_decay)
         # add transition
         x = transition(x, nb_filter, dropout_rate=dropout_rate,
                        weight_decay=weight_decay,kernel_size=kernel_size)
 
     # The last denseblock does not have a transition
-    x, nb_filter = denseblock(x, concat_axis, nb_layers,
-                              nb_filter, growth_rate,
-                              dropout_rate=dropout_rate,
-                              weight_decay=weight_decay,kernel_size=kernel_size)
+    x, nb_filter = denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=dropout_rate,
+                              weight_decay=weight_decay)
 
     x = BatchNormalization(axis=concat_axis,
                            gamma_regularizer=l2(weight_decay),
