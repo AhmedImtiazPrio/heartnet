@@ -82,7 +82,7 @@ class Conv1D_zerophase(Layer):
         self.kernel_size = conv_utils.normalize_tuple(kernel_size, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
         self.padding = conv_utils.normalize_padding(padding)
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.dilation_rate = conv_utils.normalize_tuple(dilation_rate, rank, 'dilation_rate')
         self.activation = activations.get(activation)
         self.use_bias = use_bias
@@ -223,7 +223,7 @@ class Conv1D_zerophase_linear(Layer):
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
         self.padding = conv_utils.normalize_padding(padding)
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.dilation_rate = conv_utils.normalize_tuple(dilation_rate, rank, 'dilation_rate')
         self.activation = activations.get(activation)
         self.use_bias = use_bias
@@ -374,7 +374,7 @@ class Conv1D_linearphase(Layer):
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
         self.padding = conv_utils.normalize_padding(padding)
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.dilation_rate = conv_utils.normalize_tuple(dilation_rate, rank, 'dilation_rate')
         self.activation = activations.get(activation)
         self.use_bias = use_bias
@@ -515,7 +515,7 @@ class Conv1D_linearphaseType(Layer):
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
         self.padding = conv_utils.normalize_padding(padding)
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.dilation_rate = conv_utils.normalize_tuple(dilation_rate, rank, 'dilation_rate')
         self.activation = activations.get(activation)
         self.use_bias = use_bias
@@ -657,7 +657,7 @@ class DCT1D(Layer):
         self.n = n
         self.axis = axis
         self.norm = norm
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.input_spec = InputSpec(ndim=self.rank + 2)
         if norm is not None:
             if norm != 'ortho':
@@ -710,7 +710,7 @@ class Conv1D_gammatone(Layer):
         self.kernel_size = conv_utils.normalize_tuple(kernel_size, rank, 'kernel_size')
         self.strides = conv_utils.normalize_tuple(strides, rank, 'strides')
         self.padding = conv_utils.normalize_padding(padding)
-        self.data_format = conv_utils.normalize_data_format(data_format)
+        self.data_format = K.normalize_data_format(data_format)
         self.dilation_rate = conv_utils.normalize_tuple(dilation_rate, rank, 'dilation_rate')
         self.activation = activations.get(activation)
         self.use_bias = use_bias

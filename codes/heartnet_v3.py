@@ -279,7 +279,9 @@ if __name__ == '__main__':
         # lr =  0.0012843784 ## After bayesian optimization
 
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885
+        # lr_decay = 0
+        lr_decay =0.0005132885
+        # lr_decay =0.0001132885
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
