@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/utils.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
       <change beforePath="$PROJECT_DIR$/train_2stage.sh" afterPath="$PROJECT_DIR$/train_2stage.sh" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1992">
-              <caret line="296" column="0" lean-forward="true" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
+            <state relative-caret-position="-3023">
+              <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#14644#14712#0" expanded="false" />
@@ -32,11 +32,64 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="heartnet_v3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/heartnet_v3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1920">
+              <caret line="134" column="54" lean-forward="false" selection-start-line="134" selection-start-column="54" selection-end-line="134" selection-end-column="54" />
+              <folding>
+                <element signature="e#0#64#0" expanded="true" />
+                <element signature="e#4774#4791#0" expanded="false" />
+                <element signature="e#6300#6380#0" expanded="false" />
+                <element signature="e#13567#13635#0" expanded="false" />
+                <element signature="e#15406#15422#0" expanded="false" />
+                <element signature="e#15844#15874#0" expanded="false" />
+                <element signature="e#16919#16956#0" expanded="false" />
+                <element signature="e#19293#19331#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#30#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="irfanet34.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/irfanet34.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="342">
+              <caret line="80" column="69" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="80" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/custom_layers.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="645">
+              <caret line="70" column="69" lean-forward="false" selection-start-line="70" selection-start-column="69" selection-end-line="70" selection-end-column="69" />
+              <folding>
+                <element signature="e#0#64#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_2stage.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+            <state relative-caret-position="630">
+              <caret line="42" column="21" lean-forward="false" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -55,8 +108,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3150">
-              <caret line="220" column="29" lean-forward="false" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
+            <state relative-caret-position="409">
+              <caret line="41" column="75" lean-forward="true" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
               <folding />
             </state>
           </provider>
@@ -84,7 +137,6 @@
       <find>l2_reg</find>
       <find>dtype</find>
       <find>num_fil</find>
-      <find>results_log</find>
       <find>log_macc</find>
       <find>log</find>
       <find>drop</find>
@@ -96,6 +148,9 @@
       <find>print</find>
       <find>load_</find>
       <find>adam</find>
+      <find>activation_function</find>
+      <find>results_log</find>
+      <find>Conv2D</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,10 +162,12 @@
         <option value="$PROJECT_DIR$/draw_convnet.py" />
         <option value="$PROJECT_DIR$/AudioDataGenerator.py" />
         <option value="$PROJECT_DIR$/eval.py" />
-        <option value="$PROJECT_DIR$/custom_layers.py" />
-        <option value="$PROJECT_DIR$/heartnet_v1.py" />
-        <option value="$PROJECT_DIR$/train_2stage.sh" />
         <option value="$PROJECT_DIR$/heartnet_v2.py" />
+        <option value="$PROJECT_DIR$/heartnet_v1.py" />
+        <option value="$PROJECT_DIR$/heartnet_v3.py" />
+        <option value="$PROJECT_DIR$/custom_layers.py" />
+        <option value="$PROJECT_DIR$/train_2stage.sh" />
+        <option value="$PROJECT_DIR$/utils.py" />
       </list>
     </option>
   </component>
@@ -365,7 +422,14 @@
       <option name="project" value="LOCAL" />
       <updated>1545818706728</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="custom_layers: added scaling layer&#10;heartnet_v1: added opt.__name__&#10;heartnet_v3: new code for deeper network">
+      <created>1546338188501</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1546338188501</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -375,6 +439,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14322917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32983193" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -387,7 +452,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -415,7 +479,8 @@
     <MESSAGE value="Type 3 1024 retrain" />
     <MESSAGE value="2 stage training bash script complete" />
     <MESSAGE value="2 stage training with 4 types and 4 folds" />
-    <option name="LAST_COMMIT_MESSAGE" value="2 stage training with 4 types and 4 folds" />
+    <MESSAGE value="custom_layers: added scaling layer&#10;heartnet_v1: added opt.__name__&#10;heartnet_v3: new code for deeper network" />
+    <option name="LAST_COMMIT_MESSAGE" value="custom_layers: added scaling layer&#10;heartnet_v1: added opt.__name__&#10;heartnet_v3: new code for deeper network" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -424,36 +489,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="118" column="29" lean-forward="false" selection-start-line="118" selection-start-column="29" selection-end-line="118" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#14644#14712#0" expanded="false" />
-            <element signature="e#16483#16499#0" expanded="false" />
-            <element signature="e#16921#16951#0" expanded="false" />
-            <element signature="e#17996#18033#0" expanded="false" />
-            <element signature="e#20362#20400#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5280">
-          <caret line="627" column="68" lean-forward="false" selection-start-line="627" selection-start-column="68" selection-end-line="627" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/custom_layers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6840">
-          <caret line="463" column="15" lean-forward="false" selection-start-line="463" selection-start-column="15" selection-end-line="463" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AudioDataGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1155">
@@ -489,6 +524,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3915">
           <caret line="267" column="20" lean-forward="false" selection-start-line="267" selection-start-column="20" selection-end-line="267" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -519,6 +557,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3915">
           <caret line="267" column="20" lean-forward="true" selection-start-line="267" selection-start-column="20" selection-end-line="267" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -541,6 +582,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4590">
           <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -556,6 +600,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4590">
           <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -563,6 +610,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4590">
           <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -586,6 +636,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4590">
           <caret line="311" column="55" lean-forward="false" selection-start-line="311" selection-start-column="55" selection-end-line="311" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -601,6 +654,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5400">
           <caret line="360" column="0" lean-forward="false" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -737,21 +793,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/custom_layers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11715">
-          <caret line="789" column="34" lean-forward="false" selection-start-line="789" selection-start-column="34" selection-end-line="789" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3150">
-          <caret line="220" column="29" lean-forward="false" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Bayesian Optimization viz.ipynb">
       <provider selected="true" editor-type-id="ipnb-editor">
         <state>
@@ -802,18 +843,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train_2stage.sh">
+    <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
+        <state relative-caret-position="409">
+          <caret line="41" column="75" lean-forward="true" selection-start-line="41" selection-start-column="75" selection-end-line="41" selection-end-column="75" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/irfanet34.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="80" column="69" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="80" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/custom_layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="70" column="69" lean-forward="false" selection-start-line="70" selection-start-column="69" selection-end-line="70" selection-end-column="69" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1992">
-          <caret line="296" column="0" lean-forward="true" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
+        <state relative-caret-position="-3023">
+          <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#14644#14712#0" expanded="false" />
@@ -821,6 +880,41 @@
             <element signature="e#16921#16951#0" expanded="false" />
             <element signature="e#17996#18033#0" expanded="false" />
             <element signature="e#20362#20400#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/train_2stage.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="21" lean-forward="false" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1920">
+          <caret line="134" column="54" lean-forward="false" selection-start-line="134" selection-start-column="54" selection-end-line="134" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#4774#4791#0" expanded="false" />
+            <element signature="e#6300#6380#0" expanded="false" />
+            <element signature="e#13567#13635#0" expanded="false" />
+            <element signature="e#15406#15422#0" expanded="false" />
+            <element signature="e#15844#15874#0" expanded="false" />
+            <element signature="e#16919#16956#0" expanded="false" />
+            <element signature="e#19293#19331#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="7" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>

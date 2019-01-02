@@ -40,7 +40,7 @@ type=1
 fold="fold1"
 
         # Re-training with larger batch_size
-        batch_size=1024
+        batch_size=64
         echo "FOLD: $fold STAGE: 2 BS: $batch_size"
         retrieve_last $result_csv
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
