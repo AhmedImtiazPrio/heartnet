@@ -30,11 +30,14 @@ from keras import backend as K
 from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
     DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
-from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
+
+from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
+from utils import DenseNet
+
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
