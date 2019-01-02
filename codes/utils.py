@@ -1,5 +1,5 @@
 from keras.layers.core import Dropout, Activation
-from keras.layers.convolutional import Conv1D
+from keras.layers import Conv1D
 from keras.layers.pooling import AveragePooling1D
 from keras.layers.pooling import GlobalAveragePooling1D
 from keras.layers import Concatenate
@@ -13,7 +13,7 @@ def conv_factory(x, concat_axis=-1, nb_filter=16, kernel_size=5,
     :param x: Input keras network
     :param concat_axis: int -- index of contatenate axis
     :param nb_filter: int -- number of filters
-    :param dropout_rate: int -- dropout rate
+    :param dropout_rate: float 0~1 -- dropout rate
     :param weight_decay: int -- weight decay factor
     :returns: keras network with b_norm, relu and Conv1D added
     :rtype: keras network
@@ -23,7 +23,7 @@ def conv_factory(x, concat_axis=-1, nb_filter=16, kernel_size=5,
                            gamma_regularizer=l2(weight_decay),
                            beta_regularizer=l2(weight_decay))(x)
     x = Activation('relu')(x)
-    x = Conv1D(nb_filter, kernel_size,
+    x = Conv1D(nb_filter, kernel_size=kernel_size,
                kernel_initializer="he_uniform",
                padding="same",
                use_bias=False,
@@ -62,7 +62,7 @@ def transition(x, concat_axis, nb_filter, kernel_size=5,
     return x
 
 
-def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=None, weight_decay=1E-4):
+def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=None, weight_decay=1E-4, kernel_size=5):
     """Build a denseblock where the output of each
        conv_factory is fed to subsequent ones
     :param x: keras model
@@ -79,7 +79,7 @@ def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=N
     list_feat = [x]
 
     for i in range(nb_layers):
-        x = conv_factory(x, concat_axis, growth_rate,
+        x = conv_factory(x, concat_axis, growth_rate, kernel_size,
                          dropout_rate, weight_decay)
         list_feat.append(x)
         x = Concatenate(axis=concat_axis)(list_feat)
@@ -88,7 +88,7 @@ def denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=N
     return x, nb_filter
 
 
-def denseblock_altern(x, concat_axis, nb_layers, nb_filter, growth_rate,
+def denseblock_altern(x, concat_axis, nb_layers, nb_filter, growth_rate, kernel_size=5,
                       dropout_rate=None, weight_decay=1E-4):
     """Build a denseblock where the output of each conv_factory
        is fed to subsequent ones. (Alternative of a above)
@@ -106,7 +106,7 @@ def denseblock_altern(x, concat_axis, nb_layers, nb_filter, growth_rate,
     """
 
     for i in range(nb_layers):
-        merge_tensor = conv_factory(x, concat_axis, growth_rate,
+        merge_tensor = conv_factory(x, concat_axis, growth_rate, kernel_size,
                                     dropout_rate, weight_decay)
         x = Concatenate(axis=concat_axis)([merge_tensor, x])
         nb_filter += growth_rate
@@ -152,20 +152,21 @@ def DenseNet(x, depth, nb_dense_block, growth_rate, kernel_size=5,
         x, nb_filter = denseblock(x, concat_axis, nb_layers,
                                   nb_filter, growth_rate,
                                   dropout_rate=dropout_rate,
-                                  weight_decay=weight_decay)
+                                  weight_decay=weight_decay,
+                                  kernel_size=kernel_size)
         # add transition
-        x = transition(x, nb_filter, dropout_rate=dropout_rate,
+        x = transition(x, concat_axis, nb_filter, dropout_rate=dropout_rate,
                        weight_decay=weight_decay,kernel_size=kernel_size)
 
     # The last denseblock does not have a transition
-    x, nb_filter = denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=dropout_rate,
+    x, nb_filter = denseblock(x, concat_axis, nb_layers, nb_filter, growth_rate, dropout_rate=dropout_rate, kernel_size=kernel_size,
                               weight_decay=weight_decay)
 
     x = BatchNormalization(axis=concat_axis,
                            gamma_regularizer=l2(weight_decay),
                            beta_regularizer=l2(weight_decay))(x)
     x = Activation('relu')(x)
-    out = GlobalAveragePooling1D(data_format=K.image_data_format())(x)
+    # out = GlobalAveragePooling1D()(x)
     # out = Dense(nb_classes,
     #           activation='softmax',
     #           kernel_regularizer=l2(weight_decay),
@@ -174,4 +175,4 @@ def DenseNet(x, depth, nb_dense_block, growth_rate, kernel_size=5,
     # densenet = Model(inputs=[model_input], outputs=[x], name="DenseNet")
 
 
-    return out
+    return x

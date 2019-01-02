@@ -23,7 +23,7 @@ from keras.layers.merge import Concatenate
 from keras.models import Model
 from keras.regularizers import l2
 from keras.constraints import max_norm
-from keras.optimizers import SGD as opt  # Nadam, Adamax
+from keras.optimizers import Adam as opt  # Nadam, Adamax
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
@@ -126,6 +126,8 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
+    print(kernel_size)
+    merged = DenseNet(merged,depth=7,nb_dense_block=4,growth_rate=4,kernel_size=kernel_size,nb_filter=16,dropout_rate=dropout_rate)
     # merged = DCT1D()(merged)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
