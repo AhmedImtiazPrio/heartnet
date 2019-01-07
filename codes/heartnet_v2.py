@@ -262,7 +262,7 @@ if __name__ == '__main__':
         verbose = verbose
 
         model_dir = '/media/taufiq/Data1/heart_sound/models/'
-        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/'
+        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/folds_dec_2018/'
         log_name = foldname + ' ' + str(datetime.now())
         log_dir = '/media/taufiq/Data1/heart_sound/logs/'
         if not os.path.exists(model_dir + log_name):

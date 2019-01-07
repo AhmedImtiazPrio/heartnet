@@ -7,13 +7,15 @@ jvm_mem=15000m
 model_dir=./models/
 mkdir -p $model_dir
 
-fold_name="fold0"
+fold_name="fold1"
 mfcc_path="/media/taufiq/Data1/heart_sound/feature/mfcc/"
 
 trainfile=$mfcc_path/$fold_name.train.mfcc.csv
 trainlabels=$mfcc_path/$fold_name.train.labels.csv
 devfile=$mfcc_path/$fold_name.dev.mfcc.csv
 devlabels=$mfcc_path/$fold_name.dev.labels.csv
+testfile=$mfcc_path/interspeech.mfcc.csv
+testlabels=$mfcc_path/interspeech.labels.csv
 
 ### BOAW Parameters ###
 
@@ -35,3 +37,8 @@ multiassign=5
     rm -f "$outputfile"
     java -Xmx$jvm_mem -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$devfile" -l "$devlabels" -o "$outputfile" -standardizeInput -norm 1 -log -a "$multiassign" -b "$model_dir/$fold_name.$cdbk_size.codebook"
 
+## Generating features for testset using previous codebook
+
+    outputfile=./feat/interspeech.$cdbk_size.arff
+    rm -f "$outputfile"
+    java -Xmx$jvm_mem -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$testfile" -l "$testlabels" -o "$outputfile" -standardizeInput -norm 1 -log -a "$multiassign" -b "$model_dir/interspeech.$cdbk_size.codebook"

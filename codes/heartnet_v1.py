@@ -350,6 +350,7 @@ class log_macc(Callback):
             y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
             true = []
             pred = []
+            files= []
             start_idx = 0
 
             if self.decision == 'majority':
@@ -374,6 +375,9 @@ class log_macc(Callback):
                         true.append(0)
                     else:
                         true.append(1)
+
+                    if self.val_files is not None:
+                        files.append(self.val_files[start_idx])
 
                     start_idx = start_idx + int(s)
 
@@ -425,9 +429,10 @@ class log_macc(Callback):
             if self.val_files is not None:
                 true = np.asarray(true)
                 pred = np.asarray(pred)
+                files = np.asarray(files)
                 tpn = true == pred
-                for dataset in set(self.val_files):
-                    mask = self.val_files == dataset
+                for dataset in set(files):
+                    mask = files == dataset
                     logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
                     # mask = self.val_files=='x'
                     # TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
