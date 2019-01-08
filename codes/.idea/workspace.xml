@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
       <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
       <change beforePath="$PROJECT_DIR$/../featGen/baseline_boaw/mfcc_boaw_folds.sh" afterPath="$PROJECT_DIR$/../featGen/baseline_boaw/mfcc_boaw_folds.sh" />
-      <change beforePath="$PROJECT_DIR$/../featGen/trainGabor_noBagging.ipynb" afterPath="$PROJECT_DIR$/../featGen/trainGabor_noBagging.ipynb" />
+      <change beforePath="$PROJECT_DIR$/../featGen/boaw_create_folds.ipynb" afterPath="$PROJECT_DIR$/../featGen/boaw_create_folds.ipynb" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,25 +15,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-393">
-              <caret line="264" column="91" lean-forward="false" selection-start-line="264" selection-start-column="91" selection-end-line="264" selection-end-column="91" />
+            <state relative-caret-position="732">
+              <caret line="367" column="46" lean-forward="true" selection-start-line="367" selection-start-column="46" selection-end-line="367" selection-end-column="46" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#3814#3835#0" expanded="false" />
                 <element signature="e#5870#5887#0" expanded="false" />
                 <element signature="e#14558#14626#0" expanded="false" />
-                <element signature="e#16397#16413#0" expanded="false" />
-                <element signature="e#16835#16865#0" expanded="false" />
-                <element signature="e#17911#17948#0" expanded="false" />
+                <element signature="e#16429#16445#0" expanded="false" />
+                <element signature="e#16867#16897#0" expanded="false" />
+                <element signature="e#17943#17980#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="true">
+      <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_2stage.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="720">
@@ -129,15 +127,15 @@
         <option value="$PROJECT_DIR$/AudioDataGenerator.py" />
         <option value="$PROJECT_DIR$/eval.py" />
         <option value="$PROJECT_DIR$/custom_layers.py" />
-        <option value="$PROJECT_DIR$/heartnet_v2.py" />
         <option value="$PROJECT_DIR$/train_2stage.sh" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
+        <option value="$PROJECT_DIR$/heartnet_v2.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="25" />
-    <option name="width" value="947" />
+    <option name="x" value="972" />
+    <option name="width" value="948" />
     <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
@@ -376,10 +374,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="25" y="0" width="947" height="1080" extended-state="4" />
+    <frame x="972" y="0" width="948" height="1080" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2922423" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29193205" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32912722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -439,9 +437,9 @@
             <element signature="e#3814#3835#0" expanded="false" />
             <element signature="e#5870#5887#0" expanded="false" />
             <element signature="e#14558#14626#0" expanded="false" />
-            <element signature="e#16397#16413#0" expanded="false" />
-            <element signature="e#16835#16865#0" expanded="false" />
-            <element signature="e#17911#17948#0" expanded="false" />
+            <element signature="e#16429#16445#0" expanded="false" />
+            <element signature="e#16867#16897#0" expanded="false" />
+            <element signature="e#17943#17980#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -488,9 +486,9 @@
             <element signature="e#3814#3835#0" expanded="false" />
             <element signature="e#5870#5887#0" expanded="false" />
             <element signature="e#14558#14626#0" expanded="false" />
-            <element signature="e#16397#16413#0" expanded="false" />
-            <element signature="e#16835#16865#0" expanded="false" />
-            <element signature="e#17911#17948#0" expanded="false" />
+            <element signature="e#16429#16445#0" expanded="false" />
+            <element signature="e#16867#16897#0" expanded="false" />
+            <element signature="e#17943#17980#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -552,9 +550,9 @@
             <element signature="e#3814#3835#0" expanded="false" />
             <element signature="e#5870#5887#0" expanded="false" />
             <element signature="e#14558#14626#0" expanded="false" />
-            <element signature="e#16397#16413#0" expanded="false" />
-            <element signature="e#16835#16865#0" expanded="false" />
-            <element signature="e#17911#17948#0" expanded="false" />
+            <element signature="e#16429#16445#0" expanded="false" />
+            <element signature="e#16867#16897#0" expanded="false" />
+            <element signature="e#17943#17980#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -593,9 +591,9 @@
             <element signature="e#3814#3835#0" expanded="false" />
             <element signature="e#5870#5887#0" expanded="false" />
             <element signature="e#14558#14626#0" expanded="false" />
-            <element signature="e#16397#16413#0" expanded="false" />
-            <element signature="e#16835#16865#0" expanded="false" />
-            <element signature="e#17911#17948#0" expanded="false" />
+            <element signature="e#16429#16445#0" expanded="false" />
+            <element signature="e#16867#16897#0" expanded="false" />
+            <element signature="e#17943#17980#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -978,27 +976,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-393">
-          <caret line="264" column="91" lean-forward="false" selection-start-line="264" selection-start-column="91" selection-end-line="264" selection-end-column="91" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#3814#3835#0" expanded="false" />
-            <element signature="e#5870#5887#0" expanded="false" />
-            <element signature="e#14558#14626#0" expanded="false" />
-            <element signature="e#16397#16413#0" expanded="false" />
-            <element signature="e#16835#16865#0" expanded="false" />
-            <element signature="e#17911#17948#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/train_2stage.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="732">
+          <caret line="367" column="46" lean-forward="true" selection-start-line="367" selection-start-column="46" selection-end-line="367" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#3814#3835#0" expanded="false" />
+            <element signature="e#5870#5887#0" expanded="false" />
+            <element signature="e#14558#14626#0" expanded="false" />
+            <element signature="e#16429#16445#0" expanded="false" />
+            <element signature="e#16867#16897#0" expanded="false" />
+            <element signature="e#17943#17980#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

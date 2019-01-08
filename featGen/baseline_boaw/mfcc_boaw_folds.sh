@@ -41,4 +41,4 @@ multiassign=5
 
     outputfile=./feat/interspeech.$cdbk_size.arff
     rm -f "$outputfile"
-    java -Xmx$jvm_mem -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$testfile" -l "$testlabels" -o "$outputfile" -standardizeInput -norm 1 -log -a "$multiassign" -b "$model_dir/interspeech.$cdbk_size.codebook"
+    java -Xmx$jvm_mem -jar -XX:-UseGCOverheadLimit openXBOW.jar -i "$testfile" -l "$testlabels" -o "$outputfile" -standardizeInput -norm 1 -log -a "$multiassign" -b "$model_dir/$fold_name.$cdbk_size.codebook"
