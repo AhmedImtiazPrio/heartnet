@@ -25,19 +25,19 @@ retrieve_last () {
     fi
 
 }
-for type in 1 2 3 4
-do
+#for type in 1 2 3 4
+#do
     for fold in "fold0" "fold1" "fold2" "fold3"
     do
 
-#type=1
+type=3
 #fold="fold1"
 
         # Training with smaller batch_size
         batch_size=64
         echo "FOLD: $fold STAGE: 1 BS: $batch_size"
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
-         200 --type $type --comment "FIR $type stage 1"
+         200 --type $type --comment "Gammatone stage 1"
 
 
 
@@ -47,6 +47,6 @@ do
         retrieve_last $result_csv
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
          400 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"\
-         --type $type --comment "FIR $type stage 2" --lr 0.000012843784
+         --type $type --comment "Gammatone stage 2" --lr 0.000012843784
     done
-done
+#done
