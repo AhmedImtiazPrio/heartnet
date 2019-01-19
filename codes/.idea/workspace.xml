@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/eval.ipynb" afterPath="$PROJECT_DIR$/eval.ipynb" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
-      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
       <change beforePath="$PROJECT_DIR$/train_2stage.sh" afterPath="$PROJECT_DIR$/train_2stage.sh" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,8 +34,8 @@
       <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/train_2stage.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" column="42" lean-forward="false" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+            <state relative-caret-position="570">
+              <caret line="38" column="41" lean-forward="false" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -1009,8 +1006,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train_2stage.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="42" lean-forward="false" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+        <state relative-caret-position="570">
+          <caret line="38" column="41" lean-forward="false" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
           <folding />
         </state>
       </provider>

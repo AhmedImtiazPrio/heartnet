@@ -25,9 +25,9 @@ retrieve_last () {
     fi
 
 }
-for type in 1 2 3 4
+for type in 2 3 4
 do
-    for fold in "fold0" "fold1" "fold2" "fold3"
+    for fold in "fold1" "fold1" "fold2" "fold3"
     do
 
 #type=3
