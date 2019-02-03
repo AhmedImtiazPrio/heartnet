@@ -6,7 +6,8 @@ import tensorflow as tf
 from keras.utils import conv_utils
 from keras.layers import activations, initializers, regularizers, constraints
 import numpy as np
-from scipy.fftpack import dct
+import warnings
+# from scipy.fftpack import dct
 
 
 class Conv1D_zerophase(Layer):
@@ -447,7 +448,21 @@ class Conv1D_linearphaseType(Layer):
         super(Conv1D_linearphaseType, self).__init__(**kwargs)
         self.rank = rank
         self.filters = filters
-        self.kernel_size_=kernel_size
+        # self.kernel_size_=kernel_size
+        if type > 4:
+            raise ValueError('FIR type should be between 1-4')
+        else:
+            self.type = type
+
+        ## FIR type and Kernel Size Coherence Check
+        if not type % 2 and kernel_size % 2:
+            warnings.warn("Type %d FIR kernel size specified as %d. Using %d instead." % (type,kernel_size,kernel_size-1))
+            kernel_size = kernel_size - 1
+        elif type % 2 and not kernel_size % 2:
+            warnings.warn(
+            "Type %d FIR kernel size specified as %d. Using %d instead." % (type, kernel_size, kernel_size + 1))
+            kernel_size = kernel_size + 1
+
         if kernel_size % 2:
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2 + 1, rank, 'kernel_size')
         else:
@@ -466,10 +481,6 @@ class Conv1D_linearphaseType(Layer):
         self.kernel_constraint = constraints.get(kernel_constraint)
         self.bias_constraint = constraints.get(bias_constraint)
         self.input_spec = InputSpec(ndim=self.rank + 2)
-        if type > 4:
-            raise ValueError('FIR type should be between 1-4')
-        else:
-            self.type = type
 
     def build(self, input_shape):
         if self.data_format == 'channels_first':
