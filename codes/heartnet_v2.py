@@ -68,7 +68,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
 
 def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
              eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True,type=3):
+             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True,type=1):
 
     input = Input(shape=(2500, 1))
 
@@ -111,21 +111,27 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     ## Conv1D_linearphase Anti-Symmetric
     #
-    input1 = Conv1D_linearphaseType(1 ,60, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b1[31:]],
+
+    if type % 2:
+        weight_idx = 30
+    else:
+        weight_idx = 31
+
+    input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b1[weight_idx:]],
                     padding='same',trainable=FIR_train, type = type)(input)
-    input2 = Conv1D_linearphaseType(1, 60, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b2[31:]],
+    input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b2[weight_idx:]],
                     padding='same',trainable=FIR_train, type = type)(input)
-    input3 = Conv1D_linearphaseType(1, 60, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b3[31:]],
+    input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b3[weight_idx:]],
                     padding='same',trainable=FIR_train, type = type)(input)
-    input4 = Conv1D_linearphaseType(1, 60, use_bias=False,
-                    kernel_initializer=initializers.he_normal(random_seed),
-                    # weights=[b4[31:]],
+    input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                    # kernel_initializer=initializers.he_normal(random_seed),
+                    weights=[b4[weight_idx:]],
                     padding='same',trainable=FIR_train, type = type)(input)
 
     #Conv1D_gammatone
