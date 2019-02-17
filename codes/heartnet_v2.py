@@ -371,7 +371,7 @@ if __name__ == '__main__':
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size,
                              # histogram_freq = 50,
-                             write_grads=True,
+                             # write_grads=True,
                              # embeddings_freq=99,
                              # embeddings_layer_names=embedding_layer_names,
                              # embeddings_data=x_val,

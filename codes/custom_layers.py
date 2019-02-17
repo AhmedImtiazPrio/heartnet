@@ -462,7 +462,7 @@ class Conv1D_linearphaseType(Layer):
             warnings.warn(
             "Type %d FIR kernel size specified as %d. Using %d instead." % (type, kernel_size, kernel_size + 1))
             kernel_size = kernel_size + 1
-
+        self.kernel_size_ = kernel_size
         if kernel_size % 2:
             self.kernel_size = conv_utils.normalize_tuple(kernel_size // 2 + 1, rank, 'kernel_size')
         else:

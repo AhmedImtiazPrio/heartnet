@@ -152,8 +152,11 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = DenseNet(merged, depth=7, nb_dense_block=4, growth_rate=4, kernel_size=kernel_size, nb_filter=16,
+    merged = DenseNet(merged, depth=10, nb_dense_block=1, growth_rate=4,
+                      kernel_size=kernel_size, nb_filter=16,
                       dropout_rate=dropout_rate)
+    # 7,4,4,5,16; 7,1,4,5,16
+
     # merged = DCT1D()(merged)
     merged = Flatten()(merged)
     merged = Dense(num_dense,
@@ -298,7 +301,7 @@ if __name__ == '__main__':
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
-        # lr =  0.0012843784 ## After bayesian optimization
+        # lr =  0.00125 ## After bayesian optimization
 
         ###### lr_decay optimization ######
         lr_decay =0.0001132885
@@ -374,7 +377,7 @@ if __name__ == '__main__':
         tensbd = TensorBoard(log_dir=log_dir + log_name,
                              batch_size=batch_size,
                              # histogram_freq = 50,
-                             write_grads=True,
+                             # write_grads=True,
                              # embeddings_freq=99,
                              # embeddings_layer_names=embedding_layer_names,
                              # embeddings_data=x_val,

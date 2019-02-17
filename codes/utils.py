@@ -1,4 +1,6 @@
-from keras.layers.core import Dropout, Activation
+from keras.layers.core import Activation
+from keras.layers.core import Dropout
+# from keras.layers.core import SpatialDropout1D as Dropout
 from keras.layers import Conv1D
 from keras.layers.pooling import AveragePooling1D
 from keras.layers.pooling import GlobalAveragePooling1D
