@@ -1,9 +1,9 @@
 from __future__ import print_function, division, absolute_import
-# import tensorflow as tf
-# from keras.backend.tensorflow_backend import set_session
-# config = tf.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.4
-# set_session(tf.Session(config=config))
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+config = tf.ConfigProto()
+config.gpu_options.per_process_gpu_memory_fraction = 0.49
+set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
 # import dill
 from AudioDataGenerator import AudioDataGenerator
@@ -152,7 +152,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = DenseNet(merged, depth=10, nb_dense_block=1, growth_rate=4,
+    merged = DenseNet(merged, depth=3*14+4, nb_dense_block=1, growth_rate=1,
                       kernel_size=kernel_size, nb_filter=16,
                       dropout_rate=dropout_rate)
     # 7,4,4,5,16; 7,1,4,5,16
@@ -237,7 +237,7 @@ if __name__ == '__main__':
             print("Training with %d samples per minibatch" % (args.batch_size))
             batch_size = args.batch_size
         else:
-            batch_size = 1024
+            batch_size = 64
             print("Training with %d minibatches" % (batch_size))
 
         if args.verbose:
