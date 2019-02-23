@@ -482,29 +482,45 @@ class _Iterator(object):
         seed: Random seeding for data shuffling.
     """
 
-    def __init__(self, n, target_label, batch_size, shuffle, seed):  # add target y to init(s)
+    def __init__(self, n, target_label, meta_label, batch_size, shuffle, seed):  # add target y to init(s)
 
         self.target_label = target_label
+        self.meta_label = meta_label
         self.n = n
         self.shuffle = shuffle
         self.batch_index = 0
         self.total_batches_seen = 0
         self.lock = threading.Lock()
         self.index_generator = self._flow_index(batch_size, shuffle=shuffle, seed=seed)
-        self.current_idx = [0] * len(np.unique(self.y[self.target_label]))
-        self.exhaustion = [False] * len(np.unique(self.y[self.target_label]))
-        self.labels = np.unique(self.y[self.target_label])  # unique labels in y[target_label]
-        self.chunk_size = int(batch_size / len(self.labels))
-        print('Chunk size selected as %d' % self.chunk_size)
-        if not all(np.bincount(self.y[self.target_label]) >= self.chunk_size):
-            warnings.warn('Number of samples for label %s is smaller than chunk size %d' %
-                          (str(self.labels[np.bincount(self.y[self.target_label])
-                                           < self.chunk_size]), self.chunk_size))
+        if self.meta_label is not None:
+            self.current_idx = [0] * len(np.unique(self.meta_label))
+            self.exhaustion = [False] * len(np.unique(self.meta_label))
+            self.labels = np.unique(self.meta_label)  # unique labels in y[target_label]
+            self.chunk_size = int(batch_size / len(self.labels))
+            print('Chunk size selected as %d' % self.chunk_size)
+            if not all(np.bincount(self.meta_label) >= self.chunk_size):
+                warnings.warn('Number of samples for label %s is smaller than chunk size %d' %
+                              (str(self.labels[np.bincount(self.meta_label)
+                                               < self.chunk_size]), self.chunk_size))
+        else:
+            self.current_idx = [0] * len(np.unique(self.y[self.target_label]))
+            self.exhaustion = [False] * len(np.unique(self.y[self.target_label]))
+            self.labels = np.unique(self.y[self.target_label])  # unique labels in y[target_label]
+            self.chunk_size = int(batch_size / len(self.labels))
+            print('Chunk size selected as %d' % self.chunk_size)
+            if not all(np.bincount(self.y[self.target_label]) >= self.chunk_size):
+                warnings.warn('Number of samples for label %s is smaller than chunk size %d' %
+                              (str(self.labels[np.bincount(self.y[self.target_label])
+                                               < self.chunk_size]), self.chunk_size))
 
     def reset(self):
         self.batch_index = 0
-        self.exhaustion = [False] * len(np.unique(self.y[self.target_label]))
-        self.current_idx = [0] * len(np.unique(self.y[self.target_label]))
+        if self.meta_label is not None:
+            self.exhaustion = [False] * len(np.unique(self.meta_label))
+            self.current_idx = [0] * len(np.unique(self.meta_label))
+        else:
+            self.exhaustion = [False] * len(np.unique(self.y[self.target_label]))
+            self.current_idx = [0] * len(np.unique(self.y[self.target_label]))
 
     def _flow_index(self, batch_size=32, shuffle=False, seed=None):
         # Ensure self.batch_index is 0.
@@ -516,7 +532,12 @@ class _Iterator(object):
             if self.batch_index == 0:
                 label_idx = []
                 for idx, each in enumerate(self.labels):
-                    label_idx.append(np.hstack(np.where(self.y[self.target_label] == each)))
+                    
+                    if self.meta_label is not None:
+                        label_idx.append(np.hstack(np.where(self.meta_label == each)))
+                    else:
+                        label_idx.append(np.hstack(np.where(self.y[self.target_label] == each)))
+                        
                     if shuffle:
                         label_idx[idx] = np.random.permutation(label_idx[idx])  # permute for first batch
                 label_count = [len(each) for each in label_idx]
@@ -580,7 +601,7 @@ class _NumpyArrayIterator(_Iterator):
             validation_split is set in AudioDataGenerator.
     """
 
-    def __init__(self, x, y, target_label, flag, audio_data_generator,
+    def __init__(self, x, y, target_label, meta_label, flag, audio_data_generator,
                  batch_size=32, shuffle=False, seed=None,
                  data_format=None,
                  save_to_dir=None, save_prefix='', save_format='png',
@@ -635,7 +656,7 @@ class _NumpyArrayIterator(_Iterator):
         self.save_to_dir = save_to_dir
         self.save_prefix = save_prefix
         self.save_format = save_format
-        super(_NumpyArrayIterator, self).__init__(x.shape[0], target_label, batch_size, shuffle, seed)
+        super(_NumpyArrayIterator, self).__init__(x.shape[0], target_label, meta_label, batch_size, shuffle, seed)
 
     def _get_batches_of_transformed_samples(self, index_array):
         batch_x = np.zeros(tuple([len(index_array)] + list(self.x.shape)[1:]),
@@ -761,7 +782,7 @@ class BalancedAudioDataGenerator(AudioDataGenerator):
                                                          noise=noise,
                                                          validation_split=validation_split)
 
-    def flow(self, x, y=None, target_label=0, batch_size=32, shuffle=True, seed=None,
+    def flow(self, x, y=None, target_label=0, meta_label=None, batch_size=32, shuffle=True, seed=None,
              save_to_dir=None, save_prefix='', save_format='png', subset=None):
         """Takes numpy data & label arrays, and generates batches of
             augmented/normalized data.
@@ -784,7 +805,11 @@ class BalancedAudioDataGenerator(AudioDataGenerator):
         # Returns
             An Iterator yielding tuples of `(x, y)` where `x` is a numpy array of image data and
              `y` is a numpy array of corresponding labels."""
-        y = y.copy()
+        try: # for python 3.3+
+            y = y.copy()
+        except:
+            import copy
+            y = copy.deepcopy(y)
         if self.noise:
             shuffle = True
             warnings.warn('This AudioDataGenerator specifies '
@@ -796,20 +821,27 @@ class BalancedAudioDataGenerator(AudioDataGenerator):
         ## handle if y is not a list
         if not type(y) == list and y is not None:
             y = [y]
-        ## handle y type
-        try:
-            if (y[target_label].shape[1] > 1):
-                flag = 1
-                y[target_label] = np.argmax(y[target_label], axis=-1)
-            else:
-                flag = 2
-                y[target_label] = np.argmax(y[target_label], axis=-1)
-        except:
-            flag = 3
+
+        if meta_label is not None:
+            warnings.warn('`meta_labels` specified, will use meta_labels instead of target_label')
+            flag=0
+            if not len(meta_label)==len(y[target_label]):
+                raise ValueError('length of `meta_label` should be equal to `y`')
+        else:
+            ## handle y type
+            try:
+                if (y[target_label].shape[1] > 1):
+                    flag = 1
+                    y[target_label] = np.argmax(y[target_label], axis=-1)
+                else:
+                    flag = 2
+                    y[target_label] = np.argmax(y[target_label], axis=-1)
+            except:
+                flag = 3
 
         # everything is of shape (n,)
         return _NumpyArrayIterator(
-            x=x, y=y, target_label=target_label, flag=flag, audio_data_generator=self,
+            x=x, y=y, target_label=target_label, meta_label=meta_label, flag=flag, audio_data_generator=self,
             batch_size=batch_size,
             shuffle=shuffle,
             seed=seed,
