@@ -6,7 +6,7 @@ from __future__ import print_function, division, absolute_import
 # set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
 # import dill
-from AudioDataGenerator import AudioDataGenerator
+from AudioDataGenerator import AudioDataGenerator, BalancedAudioDataGenerator
 import os
 import numpy as np
 np.random.seed(1)
@@ -381,7 +381,7 @@ if __name__ == '__main__':
 
         ######### Data Generator ############
 
-        datagen = AudioDataGenerator(
+        datagen = BalancedAudioDataGenerator(
                                      shift=.1,
                                      # roll_range=.1,
                                      # fill_mode='reflect',
@@ -400,8 +400,17 @@ if __name__ == '__main__':
         #     # samplewise_std_normalization=True,
         # )
 
-        model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
-                            steps_per_epoch=len(x_train) // batch_size,
+        meta_labels = np.asarray([ord(each) - 97 for each in train_files])
+        for idx, each in enumerate(np.unique(train_files)):
+            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
+        # print(np.unique(meta_labels[y_train[:, 0] == 1]))
+
+        flow = datagen.flow(x_train, y_train, meta_label=meta_labels,
+                            batch_size=batch_size, shuffle=True,
+                            seed=random_seed)
+        model.fit_generator(flow,
+                            # steps_per_epoch=len(x_train) // batch_size,
+                            steps_per_epoch=len(train_files[np.asarray(train_files)=='a']) // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
