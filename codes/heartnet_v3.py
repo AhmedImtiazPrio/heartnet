@@ -256,7 +256,7 @@ if __name__ == '__main__':
         if args.type:
             type=args.type
         else:
-            type=3
+            type=1
         if args.lr:
             lr= args.lr
         else:

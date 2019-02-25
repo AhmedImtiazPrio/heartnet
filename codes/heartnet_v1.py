@@ -472,12 +472,10 @@ class show_lr(Callback):
         print('Learning rate:')
         print(float(K.get_value(self.model.optimizer.lr)))
 
-def lr_schedule(epoch):
-    if epoch <= 5:
-        lr_rate = 1e-3
-    else:
-        lr_rate = 1e-4 - epoch * 1e-8
-    return lr_rate
+def lr_schedule(epoch,lr):
+    if epoch == 60 :
+        lr /= 10.
+    return lr
 
 if __name__ == '__main__':
     try:

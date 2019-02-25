@@ -30,7 +30,7 @@ from keras import backend as K
 from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
     DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
-from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
+from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log, lr_schedule
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
@@ -231,14 +231,14 @@ if __name__ == '__main__':
             print("Training with %d samples per minibatch" % (args.batch_size))
             batch_size = args.batch_size
         else:
-            batch_size = 1024
+            batch_size = 64
             print("Training with %d minibatches" % (batch_size))
 
         if args.verbose:
             verbose = args.verbose
             print("Verbosity level %d" % (verbose))
         else:
-            verbose = 2
+            verbose = 1
         if args.classweights:
             addweights = True
         else:
@@ -250,7 +250,7 @@ if __name__ == '__main__':
         if args.type:
             type=args.type
         else:
-            type=3
+            type=1
         if args.lr:
             lr= args.lr
         else:
@@ -405,18 +405,19 @@ if __name__ == '__main__':
             meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
         # print(np.unique(meta_labels[y_train[:, 0] == 1]))
 
-        flow = datagen.flow(x_train, y_train, meta_label=meta_labels,
+        flow = datagen.flow(x_train, y_train,
+                            meta_label=meta_labels,
                             batch_size=batch_size, shuffle=True,
                             seed=random_seed)
         model.fit_generator(flow,
                             # steps_per_epoch=len(x_train) // batch_size,
-                            steps_per_epoch=len(train_files[np.asarray(train_files)=='a']) // flow.chunk_size,
+                            steps_per_epoch= sum(np.asarray(train_files) == 'a') // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
-                            callbacks=[modelcheckpnt,
+                            callbacks=[modelcheckpnt, LearningRateScheduler(lr_schedule,1),
                                        log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
