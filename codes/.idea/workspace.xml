@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v1.py" afterPath="$PROJECT_DIR$/heartnet_v1.py" />
       <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v3.py" afterPath="$PROJECT_DIR$/heartnet_v3.py" />
-      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,17 +17,24 @@
       <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="61" column="38" lean-forward="false" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+            <state relative-caret-position="23">
+              <caret line="256" column="25" lean-forward="true" selection-start-line="256" selection-start-column="17" selection-end-line="256" selection-end-column="27" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#3855#3876#0" expanded="false" />
-                <element signature="e#14706#14774#0" expanded="false" />
-                <element signature="e#16587#16603#0" expanded="false" />
-                <element signature="e#17025#17055#0" expanded="false" />
-                <element signature="e#18690#18727#0" expanded="false" />
+                <element signature="e#14755#14823#0" expanded="false" />
+                <element signature="e#16636#16652#0" expanded="false" />
+                <element signature="e#17074#17104#0" expanded="false" />
+                <element signature="e#18780#18817#0" expanded="false" />
               </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="model.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model.png">
+          <provider selected="true" editor-type-id="images">
+            <state />
           </provider>
         </entry>
       </file>
@@ -96,8 +100,8 @@
       <file leaf-file-name="heartnet_v1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="475" column="16" lean-forward="false" selection-start-line="475" selection-start-column="16" selection-end-line="475" selection-end-column="16" />
+            <state relative-caret-position="448">
+              <caret line="421" column="78" lean-forward="false" selection-start-line="421" selection-start-column="78" selection-end-line="421" selection-end-column="78" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#5693#7244#0" expanded="false" />
@@ -168,8 +172,8 @@
         <option value="$PROJECT_DIR$/utils.py" />
         <option value="$PROJECT_DIR$/AudioDataGenerator.py" />
         <option value="$PROJECT_DIR$/heartnet_v3.py" />
-        <option value="$PROJECT_DIR$/heartnet_v2.py" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
+        <option value="$PROJECT_DIR$/heartnet_v2.py" />
       </list>
     </option>
   </component>
@@ -496,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550984236709</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="heartnetv1 lr_scheduler&#10;v2 using lr drop on 60 epoch&#10;v3 default type1">
+      <created>1551084646860</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1551084646860</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -545,7 +556,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="TYPE setting in custom layer LP-tConv&#10;heartnetv2 gammatone" />
     <MESSAGE value="Custom layers conv1D multiply float fix&#10;heartnet v2 with type 3" />
     <MESSAGE value="Gammatone test" />
     <MESSAGE value="random init LP-tConv" />
@@ -570,7 +580,8 @@
     <MESSAGE value="Hyperopt run1 complete&#10;heartnetv3 DenseNet 3*14+4,1,1" />
     <MESSAGE value="Hyperopt bayesian optimization: 4,3,5&#10;heartnetv3 optimized run&#10;AudioDataGenerator added BalancedDataGenerator" />
     <MESSAGE value="heartnet v2 added balancedbatchgenerator" />
-    <option name="LAST_COMMIT_MESSAGE" value="heartnet v2 added balancedbatchgenerator" />
+    <MESSAGE value="heartnetv1 lr_scheduler&#10;v2 using lr drop on 60 epoch&#10;v3 default type1" />
+    <option name="LAST_COMMIT_MESSAGE" value="heartnetv1 lr_scheduler&#10;v2 using lr drop on 60 epoch&#10;v3 default type1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -579,21 +590,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="124" column="30" lean-forward="false" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#3855#3876#0" expanded="false" />
-            <element signature="e#14706#14774#0" expanded="false" />
-            <element signature="e#16587#16603#0" expanded="false" />
-            <element signature="e#17025#17055#0" expanded="false" />
-            <element signature="e#18690#18727#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3915">
@@ -623,10 +619,10 @@
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#3855#3876#0" expanded="false" />
-            <element signature="e#14706#14774#0" expanded="false" />
-            <element signature="e#16587#16603#0" expanded="false" />
-            <element signature="e#17025#17055#0" expanded="false" />
-            <element signature="e#18690#18727#0" expanded="false" />
+            <element signature="e#14755#14823#0" expanded="false" />
+            <element signature="e#16636#16652#0" expanded="false" />
+            <element signature="e#17074#17104#0" expanded="false" />
+            <element signature="e#18780#18817#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1050,10 +1046,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="475" column="16" lean-forward="false" selection-start-line="475" selection-start-column="16" selection-end-line="475" selection-end-column="16" />
+        <state relative-caret-position="448">
+          <caret line="421" column="78" lean-forward="false" selection-start-line="421" selection-start-column="78" selection-end-line="421" selection-end-column="78" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#5693#7244#0" expanded="false" />
@@ -1067,15 +1068,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="61" column="38" lean-forward="false" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+        <state relative-caret-position="23">
+          <caret line="256" column="25" lean-forward="true" selection-start-line="256" selection-start-column="17" selection-end-line="256" selection-end-column="27" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#3855#3876#0" expanded="false" />
-            <element signature="e#14706#14774#0" expanded="false" />
-            <element signature="e#16587#16603#0" expanded="false" />
-            <element signature="e#17025#17055#0" expanded="false" />
-            <element signature="e#18690#18727#0" expanded="false" />
+            <element signature="e#14755#14823#0" expanded="false" />
+            <element signature="e#16636#16652#0" expanded="false" />
+            <element signature="e#17074#17104#0" expanded="false" />
+            <element signature="e#18780#18817#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -296,9 +296,9 @@ if __name__ == '__main__':
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         # lr =  0.0012843784 ## After bayesian optimization
-
+        # lr = lr*(batch_size/64)
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885
+        lr_decay =0.0001132885*(batch_size/64)
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
@@ -417,7 +417,8 @@ if __name__ == '__main__':
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
-                            callbacks=[modelcheckpnt, LearningRateScheduler(lr_schedule,1),
+                            callbacks=[modelcheckpnt,
+                                       # LearningRateScheduler(lr_schedule,1),
                                        log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
