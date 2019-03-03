@@ -1,12 +1,12 @@
 from __future__ import print_function, division, absolute_import
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.49
-set_session(tf.Session(config=config))
+# import tensorflow as tf
+# from keras.backend.tensorflow_backend import set_session
+# config = tf.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.49
+# set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
 # import dill
-from AudioDataGenerator import AudioDataGenerator
+from AudioDataGenerator import AudioDataGenerator, BalancedAudioDataGenerator
 import os
 import numpy as np
 np.random.seed(1)
@@ -152,8 +152,8 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = DenseNet(merged, depth=3*4+4, nb_dense_block=3, growth_rate=5,
-                      kernel_size=5, nb_filter=16,
+    merged = DenseNet(merged, depth=3*1+4, nb_dense_block=2, growth_rate=4,
+                      kernel_size=5, nb_filter=4,
                       dropout_rate=dropout_rate)
     # 7,4,4,5,16; 7,1,4,5,16
 
@@ -244,7 +244,7 @@ if __name__ == '__main__':
             verbose = args.verbose
             print("Verbosity level %d" % (verbose))
         else:
-            verbose = 2
+            verbose = 1
         if args.classweights:
             addweights = True
         else:
@@ -260,7 +260,7 @@ if __name__ == '__main__':
         if args.lr:
             lr= args.lr
         else:
-            lr=0.0012843784
+            lr=0.001#2843784
 
 
         #########################################################
@@ -304,7 +304,7 @@ if __name__ == '__main__':
         # lr =  0.00125 ## After bayesian optimization
 
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885
+        lr_decay =0.0001132885*(batch_size/64)
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
@@ -387,7 +387,7 @@ if __name__ == '__main__':
 
         ######### Data Generator ############
 
-        datagen = AudioDataGenerator(
+        datagen = BalancedAudioDataGenerator(
                                      shift=.1,
                                      # roll_range=.1,
                                      # fill_mode='reflect',
@@ -406,8 +406,18 @@ if __name__ == '__main__':
         #     # samplewise_std_normalization=True,
         # )
 
-        model.fit_generator(datagen.flow(x_train, y_train, batch_size, shuffle=True, seed=random_seed),
-                            steps_per_epoch=len(x_train) // batch_size,
+        meta_labels = np.asarray([ord(each) - 97 for each in train_files])
+        for idx, each in enumerate(np.unique(train_files)):
+            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
+        # print(np.unique(meta_labels[y_train[:, 0] == 1]))
+
+        flow = datagen.flow(x_train, y_train,
+                            meta_label=meta_labels,
+                            batch_size=batch_size, shuffle=True,
+                            seed=random_seed)
+        model.fit_generator(flow,
+                            # steps_per_epoch=len(x_train) // batch_size,
+                            steps_per_epoch=sum(np.asarray(train_files) == 'a') // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,

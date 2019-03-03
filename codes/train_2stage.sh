@@ -25,9 +25,9 @@ retrieve_last () {
     fi
 
 }
-for type in 1 2 3 4
+for type in 2 3 4 #1
 do
-    for fold in "fold0" "fold1" "fold2" "fold3"
+    for fold in "fold0" #"fold1" "fold2" "fold3"
     do
 
 #type=3
@@ -37,7 +37,7 @@ do
         batch_size=64
         echo "FOLD: $fold STAGE: 1 BS: $batch_size"
         python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
-         200 --type $type --comment "FIR $type DoubleBalanced Train-a length"
+         300 --type $type --comment "FIR $type DoubleBalanced Train-a length"
 
         # Re-training with larger batch_size
 #        batch_size=1024
