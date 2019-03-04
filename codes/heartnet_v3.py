@@ -23,7 +23,7 @@ from keras.layers.merge import Concatenate
 from keras.models import Model
 from keras.regularizers import l2
 from keras.constraints import max_norm
-from keras.optimizers import Adam  # Nadam, Adamax
+from keras.optimizers import Adam  as opt# Nadam, Adamax
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
@@ -31,7 +31,7 @@ from keras.utils import plot_model
 from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
     DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
 from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log
-from utils import DenseNet
+from utils import DenseNet, LRdecayScheduler
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
@@ -175,7 +175,9 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     if load_path:  # If path for loading model was specified
         model.load_weights(filepath=load_path, by_name=False)
 
-    adam = Adam(lr=lr, decay=lr_decay)
+    adam = opt(lr=lr,
+               # decay=lr_decay,
+               )
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
@@ -260,7 +262,7 @@ if __name__ == '__main__':
         if args.lr:
             lr= args.lr
         else:
-            lr=0.001#2843784
+            lr=0.00125#2843784
 
 
         #########################################################
@@ -293,7 +295,7 @@ if __name__ == '__main__':
         kernel_size = 5
         maxnorm = 10000.
         dropout_rate = 0.5
-        dropout_rate_dense = 0.
+        dropout_rate_dense = 0.1
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
@@ -385,6 +387,17 @@ if __name__ == '__main__':
                              write_images=False)
         csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
 
+
+        def lr_schedule(epoch, lr):
+            if epoch == 7:
+                lr = 4.0555E-4
+            return lr
+
+        def decay_schedule(epoch, decay):
+            if epoch == 7:
+                decay = 0.0001132885
+            return decay
+
         ######### Data Generator ############
 
         datagen = BalancedAudioDataGenerator(
@@ -423,9 +436,13 @@ if __name__ == '__main__':
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
-                            callbacks=[modelcheckpnt,
-                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
-                                       tensbd, csv_logger],
+                            callbacks=[
+                                        LearningRateScheduler(lr_schedule),
+                                        LRdecayScheduler(decay_schedule),
+                                        modelcheckpnt,
+                                        log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
+                                        tensbd, csv_logger,
+                                       ],
                             validation_data=(x_val, y_val),
                             initial_epoch=initial_epoch,
                             )

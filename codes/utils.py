@@ -8,6 +8,34 @@ from keras.layers import Concatenate
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 import keras.backend as K
+from keras.callbacks import Callback
+import numpy as np
+
+
+class LRdecayScheduler(Callback):
+
+    def __init__(self, schedule, verbose=0):
+        super(LRdecayScheduler, self).__init__()
+        self.schedule = schedule
+        self.verbose = verbose
+
+    def on_epoch_begin(self, epoch, logs=None):
+        if not hasattr(self.model.optimizer, 'decay'):
+            raise ValueError('Optimizer must have a "decay" attribute.')
+        lr_decay = float(K.get_value(self.model.optimizer.decay))
+        try:  # new API
+            lr_decay = self.schedule(epoch, lr_decay)
+        except TypeError:  # old API for backward compatibility
+            lr_decay = self.schedule(epoch)
+        if not isinstance(lr_decay, (float, np.float32, np.float64)):
+            raise ValueError('The output of the "schedule" function '
+                             'should be float.')
+        if lr_decay > 0.:
+            K.set_value(self.model.optimizer.decay, lr_decay)
+            self.model.optimizer.initial_decay =  lr_decay
+        if self.verbose > 0:
+            print('\nEpoch %05d: LRdecayScheduler setting decay '
+                  'rate to %s.' % (epoch + 1, lr_decay))
 
 def conv_factory(x, concat_axis=-1, nb_filter=16, kernel_size=5,
                  dropout_rate=None, weight_decay=1E-4):
