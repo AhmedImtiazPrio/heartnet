@@ -2,7 +2,7 @@ from keras.layers.core import Activation
 from keras.layers.core import Dropout
 # from keras.layers.core import SpatialDropout1D as Dropout
 from keras.layers import Conv1D
-from keras.layers.pooling import AveragePooling1D
+from keras.layers.pooling import AveragePooling1D, MaxPooling1D
 from keras.layers.pooling import GlobalAveragePooling1D
 from keras.layers import Concatenate
 from keras.layers.normalization import BatchNormalization
@@ -196,7 +196,7 @@ def DenseNet(x, depth, nb_dense_block, growth_rate, kernel_size=5,
                            gamma_regularizer=l2(weight_decay),
                            beta_regularizer=l2(weight_decay))(x)
     x = Activation('relu')(x)
-    # out = GlobalAveragePooling1D()(x)
+    x = GlobalAveragePooling1D()(x)
     # out = Dense(nb_classes,
     #           activation='softmax',
     #           kernel_regularizer=l2(weight_decay),

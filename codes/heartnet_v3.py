@@ -176,7 +176,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
         model.load_weights(filepath=load_path, by_name=False)
 
     adam = opt(lr=lr,
-               # decay=lr_decay,
+               decay=lr_decay,
                )
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
@@ -391,11 +391,15 @@ if __name__ == '__main__':
         def lr_schedule(epoch, lr):
             if epoch == 7:
                 lr = 4.0555E-4
+            if epoch == 9:
+                lr = 3.4631E-4
+            if epoch == 22:
+                lr = 1.7764E-4
             return lr
 
         def decay_schedule(epoch, decay):
-            if epoch == 7:
-                decay = 0.0001132885
+            if epoch == 8:
+                decay = 0.000091132885
             return decay
 
         ######### Data Generator ############
@@ -438,7 +442,7 @@ if __name__ == '__main__':
                             shuffle=True,
                             callbacks=[
                                         LearningRateScheduler(lr_schedule),
-                                        LRdecayScheduler(decay_schedule),
+                                        # LRdecayScheduler(decay_schedule),
                                         modelcheckpnt,
                                         log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
                                         tensbd, csv_logger,

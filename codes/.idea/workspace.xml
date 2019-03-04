@@ -4,6 +4,7 @@
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/heartnet_v3.py" afterPath="$PROJECT_DIR$/heartnet_v3.py" />
+      <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
       <change beforePath="$PROJECT_DIR$/utils.py" afterPath="$PROJECT_DIR$/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,15 +46,25 @@
       <file leaf-file-name="heartnet_v3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="396" column="25" lean-forward="false" selection-start-line="396" selection-start-column="25" selection-end-line="396" selection-end-column="25" />
+            <state relative-caret-position="675">
+              <caret line="179" column="16" lean-forward="true" selection-start-line="179" selection-start-column="16" selection-end-line="179" selection-end-column="16" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#3894#3915#0" expanded="false" />
-                <element signature="e#14998#15066#0" expanded="false" />
-                <element signature="e#17567#17597#0" expanded="false" />
-                <element signature="e#19427#19464#0" expanded="false" />
+                <element signature="e#14996#15064#0" expanded="false" />
+                <element signature="e#17684#17714#0" expanded="false" />
+                <element signature="e#19546#19583#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="clr_callback.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clr_callback.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1260">
+              <caret line="84" column="22" lean-forward="true" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -61,8 +72,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="37" column="56" lean-forward="true" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
+            <state relative-caret-position="698">
+              <caret line="198" column="35" lean-forward="true" selection-start-line="198" selection-start-column="35" selection-end-line="198" selection-end-column="35" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -100,15 +111,6 @@
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="trainGabor_noBagging.ipynb" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../featGen/trainGabor_noBagging.ipynb">
-          <provider selected="true" editor-type-id="ipnb-editor">
-            <state>
-              <selected id="0" />
             </state>
           </provider>
         </entry>
@@ -551,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551613975401</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="heartnet_v3 - decay scheduling&#10;utils - decay scheduler">
+      <created>1551677215760</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1551677215760</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -600,7 +609,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="random init LP-tConv" />
     <MESSAGE value="FIR init LP-tConv Type 2" />
     <MESSAGE value="FIR init LP-tConv Type 4" />
     <MESSAGE value="FIR init LP-tConv Type 1" />
@@ -625,7 +633,8 @@
     <MESSAGE value="heartnetv1 lr_scheduler&#10;v2 using lr drop on 60 epoch&#10;v3 default type1" />
     <MESSAGE value="heartnet testbench - fusion/TSNE/test&#10;train2stage - 4 fold 4 type doublebalanced train" />
     <MESSAGE value="heartnet testbench - legacy support&#10;heartnet_v3 - balanced training&#10;custom - legacy added" />
-    <option name="LAST_COMMIT_MESSAGE" value="heartnet testbench - legacy support&#10;heartnet_v3 - balanced training&#10;custom - legacy added" />
+    <MESSAGE value="heartnet_v3 - decay scheduling&#10;utils - decay scheduler" />
+    <option name="LAST_COMMIT_MESSAGE" value="heartnet_v3 - decay scheduling&#10;utils - decay scheduler" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -634,21 +643,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="124" column="30" lean-forward="true" selection-start-line="124" selection-start-column="30" selection-end-line="124" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-            <element signature="e#3855#3876#0" expanded="false" />
-            <element signature="e#14755#14823#0" expanded="false" />
-            <element signature="e#16636#16652#0" expanded="false" />
-            <element signature="e#17074#17104#0" expanded="false" />
-            <element signature="e#18780#18817#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/custom_layers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3915">
@@ -1094,24 +1088,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/clr_callback.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="84" column="22" lean-forward="true" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="396" column="25" lean-forward="false" selection-start-line="396" selection-start-column="25" selection-end-line="396" selection-end-column="25" />
+        <state relative-caret-position="675">
+          <caret line="179" column="16" lean-forward="true" selection-start-line="179" selection-start-column="16" selection-end-line="179" selection-end-column="16" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#3894#3915#0" expanded="false" />
-            <element signature="e#14998#15066#0" expanded="false" />
-            <element signature="e#17567#17597#0" expanded="false" />
-            <element signature="e#19427#19464#0" expanded="false" />
+            <element signature="e#14996#15064#0" expanded="false" />
+            <element signature="e#17684#17714#0" expanded="false" />
+            <element signature="e#19546#19583#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="56" lean-forward="true" selection-start-line="37" selection-start-column="56" selection-end-line="37" selection-end-column="56" />
+        <state relative-caret-position="698">
+          <caret line="198" column="35" lean-forward="true" selection-start-line="198" selection-start-column="35" selection-end-line="198" selection-end-column="35" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
