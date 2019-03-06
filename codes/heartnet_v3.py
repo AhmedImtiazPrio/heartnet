@@ -152,8 +152,8 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    merged = DenseNet(merged, depth=3*1+4, nb_dense_block=2, growth_rate=4,
-                      kernel_size=5, nb_filter=4,
+    merged = DenseNet(merged, depth=3*4+4, nb_dense_block=3, growth_rate=5,
+                      kernel_size=5, nb_filter=16,
                       dropout_rate=dropout_rate)
     # 7,4,4,5,16; 7,1,4,5,16
 
@@ -441,7 +441,7 @@ if __name__ == '__main__':
                             verbose=verbose,
                             shuffle=True,
                             callbacks=[
-                                        LearningRateScheduler(lr_schedule),
+                                        # LearningRateScheduler(lr_schedule),
                                         # LRdecayScheduler(decay_schedule),
                                         modelcheckpnt,
                                         log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
