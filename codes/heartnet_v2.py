@@ -127,19 +127,19 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
         input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
                         # kernel_initializer=initializers.he_normal(random_seed),
                         weights=[b1[weight_idx:]],
-                        padding='same',trainable=FIR_train, type = type_)(input)
+                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
         input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
                         # kernel_initializer=initializers.he_normal(random_seed),
                         weights=[b2[weight_idx:]],
-                        padding='same',trainable=FIR_train, type = type_)(input)
+                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
         input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
                         # kernel_initializer=initializers.he_normal(random_seed),
                         weights=[b3[weight_idx:]],
-                        padding='same',trainable=FIR_train, type = type_)(input)
+                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
         input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
                         # kernel_initializer=initializers.he_normal(random_seed),
                         weights=[b4[weight_idx:]],
-                        padding='same',trainable=FIR_train, type = type_)(input)
+                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
 
     #Conv1D_gammatone
 
