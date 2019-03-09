@@ -3,12 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d57f8ad3-7a50-41ee-8336-b88b7d8e6788" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/custom_layers.py" afterPath="$PROJECT_DIR$/custom_layers.py" />
       <change beforePath="$PROJECT_DIR$/heartnet testbench.ipynb" afterPath="$PROJECT_DIR$/heartnet testbench.ipynb" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v2.py" afterPath="$PROJECT_DIR$/heartnet_v2.py" />
-      <change beforePath="$PROJECT_DIR$/heartnet_v3.py" afterPath="$PROJECT_DIR$/heartnet_v3.py" />
       <change beforePath="$PROJECT_DIR$/model.png" afterPath="$PROJECT_DIR$/model.png" />
       <change beforePath="$PROJECT_DIR$/train_2stage.sh" afterPath="$PROJECT_DIR$/train_2stage.sh" />
-      <change beforePath="$PROJECT_DIR$/utils.py" afterPath="$PROJECT_DIR$/utils.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,11 +17,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="heartnet_v2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="96" column="54" lean-forward="false" selection-start-line="96" selection-start-column="54" selection-end-line="96" selection-end-column="54" />
+            <state relative-caret-position="300">
+              <caret line="101" column="35" lean-forward="false" selection-start-line="101" selection-start-column="35" selection-end-line="101" selection-end-column="35" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
                 <element signature="e#16812#16828#0" expanded="false" />
@@ -34,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="custom_layers.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/custom_layers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="398">
-              <caret line="733" column="41" lean-forward="false" selection-start-line="733" selection-start-column="41" selection-end-line="733" selection-end-column="41" />
+            <state relative-caret-position="712">
+              <caret line="594" column="32" lean-forward="true" selection-start-line="594" selection-start-column="32" selection-end-line="594" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -85,8 +83,8 @@
       <file leaf-file-name="train_2stage.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train_2stage.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="705">
-              <caret line="47" column="72" lean-forward="true" selection-start-line="47" selection-start-column="72" selection-end-line="47" selection-end-column="72" />
+            <state relative-caret-position="405">
+              <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -203,11 +201,11 @@
         <option value="$PROJECT_DIR$/../../../Sleep/codes/EOG TSNE.ipynb" />
         <option value="$PROJECT_DIR$/AudioDataGenerator.py" />
         <option value="$PROJECT_DIR$/heartnet_v1.py" />
-        <option value="$PROJECT_DIR$/custom_layers.py" />
         <option value="$PROJECT_DIR$/utils.py" />
         <option value="$PROJECT_DIR$/heartnet_v3.py" />
-        <option value="$PROJECT_DIR$/train_2stage.sh" />
         <option value="$PROJECT_DIR$/heartnet_v2.py" />
+        <option value="$PROJECT_DIR$/train_2stage.sh" />
+        <option value="$PROJECT_DIR$/custom_layers.py" />
       </list>
     </option>
   </component>
@@ -569,7 +567,14 @@
       <option name="project" value="LOCAL" />
       <updated>1551704366448</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="heartnet v2 - support for gamma and zerophase&#10;heartnet_v3 - Densenet Arch&#10;utils - global avg pooling removed">
+      <created>1551871153968</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1551871153968</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -618,7 +623,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="FIR init LP-tConv Type 4" />
     <MESSAGE value="FIR init LP-tConv Type 1" />
     <MESSAGE value="Removed smoothing from results_log" />
     <MESSAGE value="code refactor" />
@@ -643,7 +647,8 @@
     <MESSAGE value="heartnet testbench - legacy support&#10;heartnet_v3 - balanced training&#10;custom - legacy added" />
     <MESSAGE value="heartnet_v3 - decay scheduling&#10;utils - decay scheduler" />
     <MESSAGE value="heartnet_v3 - lr schedule 3 steps&#10;utils - global avg pooling" />
-    <option name="LAST_COMMIT_MESSAGE" value="heartnet_v3 - lr schedule 3 steps&#10;utils - global avg pooling" />
+    <MESSAGE value="heartnet v2 - support for gamma and zerophase&#10;heartnet_v3 - Densenet Arch&#10;utils - global avg pooling removed" />
+    <option name="LAST_COMMIT_MESSAGE" value="heartnet v2 - support for gamma and zerophase&#10;heartnet_v3 - Densenet Arch&#10;utils - global avg pooling removed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1051,14 +1056,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/custom_layers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="398">
-          <caret line="733" column="41" lean-forward="false" selection-start-line="733" selection-start-column="41" selection-end-line="733" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
@@ -1108,22 +1105,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train_2stage.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="705">
-          <caret line="47" column="72" lean-forward="true" selection-start-line="47" selection-start-column="72" selection-end-line="47" selection-end-column="72" />
+        <state relative-caret-position="405">
+          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/heartnet_v2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="96" column="54" lean-forward="false" selection-start-line="96" selection-start-column="54" selection-end-line="96" selection-end-column="54" />
+        <state relative-caret-position="300">
+          <caret line="101" column="35" lean-forward="false" selection-start-line="101" selection-start-column="35" selection-end-line="101" selection-end-column="35" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
             <element signature="e#16812#16828#0" expanded="false" />
             <element signature="e#17250#17280#0" expanded="false" />
             <element signature="e#18956#18993#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/custom_layers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="712">
+          <caret line="594" column="32" lean-forward="true" selection-start-line="594" selection-start-column="32" selection-end-line="594" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>

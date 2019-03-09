@@ -444,23 +444,23 @@ class Conv1D_linearphaseType(Layer):
     def __init__(self, filters, kernel_size, rank=1, strides=1, padding='valid', data_format='channels_last',
                  dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform',
                  bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None,
-                 kernel_constraint=None, bias_constraint=None, type = 1, **kwargs):
+                 kernel_constraint=None, bias_constraint=None, type_ = 1, **kwargs):
         super(Conv1D_linearphaseType, self).__init__(**kwargs)
         self.rank = rank
         self.filters = filters
         # self.kernel_size_=kernel_size
-        if type > 4:
+        if type_ > 4:
             raise ValueError('FIR type should be between 1-4')
         else:
-            self.type = type
+            self.type_ = type_
 
         ## FIR type and Kernel Size Coherence Check
-        if not type % 2 and kernel_size % 2:
-            warnings.warn("Type %d FIR kernel size specified as %d. Using %d instead." % (type,kernel_size,kernel_size-1))
+        if not type_ % 2 and kernel_size % 2:
+            warnings.warn("Type %d FIR kernel size specified as %d. Using %d instead." % (type_,kernel_size,kernel_size-1))
             kernel_size = kernel_size - 1
-        elif type % 2 and not kernel_size % 2:
+        elif type_ % 2 and not kernel_size % 2:
             warnings.warn(
-            "Type %d FIR kernel size specified as %d. Using %d instead." % (type, kernel_size, kernel_size + 1))
+            "Type %d FIR kernel size specified as %d. Using %d instead." % (type_, kernel_size, kernel_size + 1))
             kernel_size = kernel_size + 1
         self.kernel_size_ = kernel_size
         if kernel_size % 2:
@@ -517,7 +517,7 @@ class Conv1D_linearphaseType(Layer):
             flipped = tf.reverse(self.kernel, axis=[0])
         else:
             flipped = tf.reverse(self.kernel[1:, :, :], axis=[0])
-        if self.type > 2:
+        if self.type_ > 2:
             flipped = tf.multiply(-1., flipped)
         #         print (flipped)
         conv_kernel = tf.concat([flipped, self.kernel], axis=0)
@@ -591,7 +591,8 @@ class Conv1D_linearphaseType(Layer):
             'bias_regularizer': regularizers.serialize(self.bias_regularizer),
             'activity_regularizer': regularizers.serialize(self.activity_regularizer),
             'kernel_constraint': constraints.serialize(self.kernel_constraint),
-            'bias_constraint': constraints.serialize(self.bias_constraint)
+            'bias_constraint': constraints.serialize(self.bias_constraint),
+            'type_' : self.type_
         }
         base_config = super(Conv1D_linearphaseType, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
@@ -601,15 +602,15 @@ class Conv1D_linearphaseType_legacy(Layer):
     def __init__(self, filters, kernel_size, rank=1, strides=1, padding='valid', data_format='channels_last',
                  dilation_rate=1, activation=None, use_bias=True, kernel_initializer='glorot_uniform',
                  bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None,
-                 kernel_constraint=None, bias_constraint=None, type = 1, **kwargs):
+                 kernel_constraint=None, bias_constraint=None, type_ = 1, **kwargs):
         super(Conv1D_linearphaseType_legacy, self).__init__(**kwargs)
         self.rank = rank
         self.filters = filters
         # self.kernel_size_=kernel_size
-        if type > 4:
+        if type_ > 4:
             raise ValueError('FIR type should be between 1-4')
         else:
-            self.type = type
+            self.type_ = type_
 
         self.kernel_size_ = kernel_size
         if kernel_size % 2:
@@ -666,7 +667,7 @@ class Conv1D_linearphaseType_legacy(Layer):
             flipped = tf.reverse(self.kernel, axis=[0])
         else:
             flipped = tf.reverse(self.kernel[1:, :, :], axis=[0])
-        if self.type > 2:
+        if self.type_ > 2:
             flipped = tf.multiply(-1., flipped)
         #         print (flipped)
         conv_kernel = tf.concat([flipped, self.kernel], axis=0)
@@ -749,10 +750,10 @@ class Conv1D_linearphaseType_legacy(Layer):
 
 class DCT1D(Layer):
 
-    def __init__(self, type=2, n=None, axis=-2, norm=None, rank=1, data_format='channels_last',**kwargs):
+    def __init__(self, type_=2, n=None, axis=-2, norm=None, rank=1, data_format='channels_last',**kwargs):
         super(DCT1D, self).__init__(**kwargs)
         self.rank = rank
-        self.type = type
+        self.type_ = type_
         self.n = n
         self.axis = axis
         self.norm = norm
@@ -774,7 +775,7 @@ class DCT1D(Layer):
     def call(self, inputs):
 
         x = tf.transpose(inputs, [0, 2, 1])
-        x = tf.spectral.dct(x, type=self.type, n=self.n, axis=-1, norm=self.norm)
+        x = tf.spectral.dct(x, type_=self.type_, n=self.n, axis=-1, norm=self.norm)
         outputs = tf.transpose(x, [0, 2, 1])
         return outputs
 
@@ -782,7 +783,7 @@ class DCT1D(Layer):
         config = {
             'rank': self.rank,
             'data_format': self.data_format,
-            'type': self.type,
+            'type_': self.type_,
             'n': self.n,
             'axis': self.axis,
             'norm': self.norm,
