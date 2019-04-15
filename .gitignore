@@ -18,3 +18,4 @@ featGen/FBANK/*.csv
 featGen/wav/*
 featGen/.ipynb_checkpoints/*
 featGen/**/*.mat
+featGen/models

@@ -9,8 +9,10 @@ from __future__ import print_function, division, absolute_import
 from AudioDataGenerator import AudioDataGenerator, BalancedAudioDataGenerator
 import os
 import numpy as np
+
 np.random.seed(1)
 from tensorflow import set_random_seed
+
 set_random_seed(1)
 import pandas as pd
 import tables
@@ -28,26 +30,28 @@ from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
+from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase, \
     DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
 from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log, lr_schedule
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import seaborn as sns
+from utils import idx_parts2cc
+
 sns.set()
 
-def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
 
+def branch(input_tensor, num_filt, kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+           eps, bn_momentum, activation_function, dropout_rate, subsam, trainable):
     num_filt1, num_filt2 = num_filt
     t = Conv1D(num_filt1, kernel_size=kernel_size,
-                kernel_initializer=initializers.he_normal(seed=random_seed),
-                padding=padding,
-                use_bias=bias,
-                kernel_constraint=max_norm(maxnorm),
-                trainable=trainable,
-                kernel_regularizer=l2(l2_reg))(input_tensor)
+               kernel_initializer=initializers.he_normal(seed=random_seed),
+               padding=padding,
+               use_bias=bias,
+               kernel_constraint=max_norm(maxnorm),
+               trainable=trainable,
+               kernel_regularizer=l2(l2_reg))(input_tensor)
     t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
     t = Activation(activation_function)(t)
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
@@ -66,10 +70,13 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     # t = Flatten()(t)
     return t
 
-def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
-             eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True,type_=1):
 
+def heartnet(load_path, activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5,
+             dropout_rate_dense=0.0,
+             eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0, lr=0.0012843784, lr_decay=0.0001132885,
+             maxnorm=10000.,
+             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20, FIR_train=False, trainable=True,
+             type_=1):
     input = Input(shape=(2500, 1))
 
     coeff_path = '/media/taufiq/Data1/heart_sound/heartnetTransfer/filterbankcoeff60.mat'
@@ -92,67 +99,65 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
 
     if type(type_) == str and type_ == 'gamma':
 
-        input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
+        input1 = Conv1D_gammatone(kernel_size=81, filters=1, fsHz=1000, use_bias=False, padding='same')(input)
+        input2 = Conv1D_gammatone(kernel_size=81, filters=1, fsHz=1000, use_bias=False, padding='same')(input)
+        input3 = Conv1D_gammatone(kernel_size=81, filters=1, fsHz=1000, use_bias=False, padding='same')(input)
+        input4 = Conv1D_gammatone(kernel_size=81, filters=1, fsHz=1000, use_bias=False, padding='same')(input)
 
     elif type(type_) == str and type_ == 'zero':
 
-        input1 = Conv1D_zerophase(1 ,61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b1],
-                        padding='same',trainable=FIR_train)(input)
+        input1 = Conv1D_zerophase(1, 61, use_bias=False,
+                                  # kernel_initializer=initializers.he_normal(random_seed),
+                                  weights=[b1],
+                                  padding='same', trainable=FIR_train)(input)
         input2 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b2],
-                        padding='same',trainable=FIR_train)(input)
+                                  # kernel_initializer=initializers.he_normal(random_seed),
+                                  weights=[b2],
+                                  padding='same', trainable=FIR_train)(input)
         input3 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b3],
-                        padding='same',trainable=FIR_train)(input)
+                                  # kernel_initializer=initializers.he_normal(random_seed),
+                                  weights=[b3],
+                                  padding='same', trainable=FIR_train)(input)
         input4 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b4],
-                        padding='same',trainable=FIR_train)(input)
+                                  # kernel_initializer=initializers.he_normal(random_seed),
+                                  weights=[b4],
+                                  padding='same', trainable=FIR_train)(input)
 
 
-    else:   ## LinearphaseType
+    else:  ## LinearphaseType
         type_ = int(type_)
         if type_ % 2:
             weight_idx = 30
         else:
             weight_idx = 31
 
-        input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b1[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
+        input1 = Conv1D_linearphaseType(1, 61, use_bias=False,
+                                        # kernel_initializer=initializers.he_normal(random_seed),
+                                        weights=[b1[weight_idx:]],
+                                        padding='same', trainable=FIR_train, FIR_type=type_)(input)
         input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b2[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
+                                        # kernel_initializer=initializers.he_normal(random_seed),
+                                        weights=[b2[weight_idx:]],
+                                        padding='same', trainable=FIR_train, FIR_type=type_)(input)
         input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b3[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
+                                        # kernel_initializer=initializers.he_normal(random_seed),
+                                        weights=[b3[weight_idx:]],
+                                        padding='same', trainable=FIR_train, FIR_type=type_)(input)
         input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b4[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
+                                        # kernel_initializer=initializers.he_normal(random_seed),
+                                        weights=[b4[weight_idx:]],
+                                        padding='same', trainable=FIR_train, FIR_type=type_)(input)
 
-    #Conv1D_gammatone
+    # Conv1D_gammatone
 
-
-
-    t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t2 = branch(input2,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t3 = branch(input3,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t4 = branch(input4,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
+    t1 = branch(input1, num_filt, kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
+    t2 = branch(input2, num_filt, kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
+    t3 = branch(input3, num_filt, kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
+    t4 = branch(input4, num_filt, kernel_size, random_seed, padding, bias, maxnorm, l2_reg,
+                eps, bn_momentum, activation_function, dropout_rate, subsam, trainable)
 
     merged = Concatenate(axis=-1)([t1, t2, t3, t4])
     # merged = DCT1D()(merged)
@@ -177,6 +182,7 @@ def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False,
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     return model
 
+
 if __name__ == '__main__':
     try:
         ########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
@@ -198,7 +204,7 @@ if __name__ == '__main__':
                             help="if True, class weights are added according to the ratio of the "
                                  "two classes present in the training data")
         parser.add_argument("--comment",
-                            help = "Add comments to the log files")
+                            help="Add comments to the log files")
         parser.add_argument("--type")
         parser.add_argument("--lr", type=float)
 
@@ -252,14 +258,13 @@ if __name__ == '__main__':
         else:
             comment = None
         if args.type:
-            type_=args.type
+            type_ = args.type
         else:
-            type_=1
+            type_ = 1
         if args.lr:
-            lr= args.lr
+            lr = args.lr
         else:
-            lr=0.0012843784
-
+            lr = 0.0012843784
 
         #########################################################
 
@@ -295,19 +300,17 @@ if __name__ == '__main__':
         padding = 'valid'
         activation_function = 'relu'
         subsam = 2
-        FIR_train= True
+        FIR_train = True
         trainable = True
         decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
 
         # lr =  0.0012843784 ## After bayesian optimization
         # lr = lr*(batch_size/64)
         ###### lr_decay optimization ######
-        lr_decay =0.0001132885*(batch_size/64)
+        lr_decay = 0.0001132885 * (batch_size / 64)
         # lr_decay =3.64370733503E-06
         # lr_decay =3.97171548784E-08
         ###################################
-
-
 
         lr_reduce_factor = 0.5
         patience = 4  # for reduceLR
@@ -350,19 +353,38 @@ if __name__ == '__main__':
         y_train = to_categorical(y_train, num_classes=2)
         y_val = to_categorical(y_val, num_classes=2)
 
-        ############### Write metadata for embedding visualizer ############
+        ############### val removal ############
 
-        # metadata_file = write_meta(y_val,log_dir)
+        print('After Train partition with fraction')
+        print(x_train.shape, y_train.shape, train_parts.shape, train_files.shape)
+
+        train_parts = train_parts[np.nonzero(train_parts)]  ## Some have zero cardiac cycle
+        val_parts = val_parts[np.nonzero(val_parts)]
+        train_files = np.asarray(train_files)
+
+        frac = .8
+        np.random.seed(random_seed)
+        part_idx = np.random.permutation(range(len(train_parts)))
+        part_idx = part_idx[:int(len(train_parts) * frac)]
+        cc_idx = idx_parts2cc(part_idx, train_parts)
+
+        train_parts = train_parts[part_idx]
+        train_files = train_files[cc_idx]
+        x_train = x_train[cc_idx]
+        y_train = y_train[cc_idx]
+
+        print('After Test partition with fraction', frac)
+        print(x_train.shape, y_train.shape, train_parts.shape, train_files.shape)
 
         ############## Create a model ############
 
-        model = heartnet(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
+        model = heartnet(load_path, activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable, type_)
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
         model_json = model.to_json()
-        with open(model_dir + log_name+"/model.json", "w") as json_file:
+        with open(model_dir + log_name + "/model.json", "w") as json_file:
             json_file.write(model_json)
         # embedding_layer_names =set(layer.name
         #                     for layer in model.layers
@@ -387,15 +409,15 @@ if __name__ == '__main__':
         ######### Data Generator ############
 
         datagen = BalancedAudioDataGenerator(
-                                     shift=.1,
-                                     # roll_range=.1,
-                                     # fill_mode='reflect',
-                                     # featurewise_center=True,
-                                     # zoom_range=.1,
-                                     # zca_whitening=True,
-                                     # samplewise_center=True,
-                                     # samplewise_std_normalization=True,
-                                     )
+            shift=.1,
+            # roll_range=.1,
+            # fill_mode='reflect',
+            # featurewise_center=True,
+            # zoom_range=.1,
+            # zca_whitening=True,
+            # samplewise_center=True,
+            # samplewise_std_normalization=True,
+        )
         # valgen = AudioDataGenerator(
         #     # fill_mode='reflect',
         #     # featurewise_center=True,
@@ -416,7 +438,7 @@ if __name__ == '__main__':
                             seed=random_seed)
         model.fit_generator(flow,
                             # steps_per_epoch=len(x_train) // batch_size,
-                            steps_per_epoch= sum(np.asarray(train_files) == 'a') // flow.chunk_size,
+                            steps_per_epoch=sum(np.asarray(train_files) == 'a') // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
@@ -424,7 +446,7 @@ if __name__ == '__main__':
                             shuffle=True,
                             callbacks=[modelcheckpnt,
                                        # LearningRateScheduler(lr_schedule,1),
-                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
+                                       log_macc(val_parts, decision=decision, verbose=verbose, val_files=val_files),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
                             initial_epoch=initial_epoch,
@@ -474,7 +496,7 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size,
                     lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
-                    num_dense=num_dense, comment=comment,num_filt=num_filt)
+                    num_dense=num_dense, comment=comment, num_filt=num_filt)
         # print(model.layers[1].get_weights())
         # with K.get_session() as sess:
         #     impulse_gammatone = sess.run(model.layers[1].impulse_gammatone())
@@ -491,7 +513,7 @@ if __name__ == '__main__':
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size,
                     lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
-                    num_dense=num_dense, comment=comment,num_filt=num_filt)
+                    num_dense=num_dense, comment=comment, num_filt=num_filt)
         model_json = model.to_json()
-        with open(model_dir + log_name+"/model.json", "w") as json_file:
+        with open(model_dir + log_name + "/model.json", "w") as json_file:
             json_file.write(model_json)

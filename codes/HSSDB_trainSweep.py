@@ -245,7 +245,7 @@ if __name__ == '__main__':
             verbose = args.verbose
             print("Verbosity level %d" % (verbose))
         else:
-            verbose = 1
+            verbose = 0
         if args.classweights:
             addweights = True
         else:
@@ -354,6 +354,7 @@ if __name__ == '__main__':
         print('Before Test partition')
         print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, train_parts.shape, test_parts.shape)
 
+        test_files = np.repeat('g',len(test_files),axis=0)
         random_seed = 1
         np.random.seed(random_seed)
         part_idx = np.random.permutation(range(len(test_parts)))
@@ -384,8 +385,8 @@ if __name__ == '__main__':
         model = heartnet(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable, type_)
-        model.summary()
-        plot_model(model, to_file='model.png', show_shapes=True)
+        # model.summary()
+        # plot_model(model, to_file='model.png', show_shapes=True)
         model_json = model.to_json()
         with open(model_dir + log_name+"/model.json", "w") as json_file:
             json_file.write(model_json)
@@ -427,7 +428,7 @@ if __name__ == '__main__':
 
         meta_labels = np.asarray([ord(each) - 97 for each in train_files])
         for idx, each in enumerate(np.unique(train_files)):
-            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
+            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 7 + idx
         # print(np.unique(meta_labels[y_train[:, 0] == 1]))
 
         flow = datagen.flow(x_train, y_train,
@@ -497,8 +498,7 @@ if __name__ == '__main__':
                     num_dense=num_dense, comment=comment,num_filt=num_filt)
 
         pred = model.predict(x_test)
-        pred = cc2parts(pred,test_parts)
-        print(calc_metrics(true=cc2parts(y_test,test_parts),pred=pred))
+        print(calc_metrics(true=cc2parts(y_test,test_parts),pred=cc2parts(pred,test_parts)))
 
 
     except KeyboardInterrupt:
