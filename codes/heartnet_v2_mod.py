@@ -37,7 +37,7 @@ from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import seaborn as sns
-from utils import idx_parts2cc
+from utils import load_data, parts2cc, get_weights, idx_parts2cc
 
 sns.set()
 
@@ -317,79 +317,85 @@ if __name__ == '__main__':
         cooldown = 0  # for reduceLR
         res_thresh = 0.5  # threshold for turning probability values into decisions
 
-        ############## Importing data ############
+        ################# Load Train and Test ####################
 
-        feat = tables.open_file(fold_dir + foldname + '.mat')
-        x_train = feat.root.trainX[:]
-        y_train = feat.root.trainY[0, :]
-        x_val = feat.root.valX[:]
-        y_val = feat.root.valY[0, :]
-        train_parts = feat.root.train_parts[:]
-        val_parts = feat.root.val_parts[0, :]
+        foldname = 'fold1+compare'
+        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/'
 
-        ############## Relabeling ################
+        x_train, y_train, train_files, train_parts, q_train, \
+        x_val, y_val, val_files, val_parts, q_val = load_data(foldname, fold_dir, quality=True)
 
-        for i in range(0, y_train.shape[0]):
-            if y_train[i] == -1:
-                y_train[i] = 0  ## Label 0 for normal 1 for abnormal
-        for i in range(0, y_val.shape[0]):
-            if y_val[i] == -1:
-                y_val[i] = 0
+        test_parts = train_parts[0][np.asarray(train_files) == 'x']
+        test_parts = np.concatenate([test_parts, val_parts[np.asarray(val_files) == 'x']], axis=0)
+        train_files = parts2cc(train_files, train_parts[0])
+        val_files = parts2cc(val_files, val_parts)
+        x_test = x_train[train_files == 'x']
+        x_test = np.concatenate([x_test, x_val[val_files == 'x']])
+        y_test = y_train[train_files == 'x']
+        y_test = np.concatenate([y_test, y_val[val_files == 'x']])
+        test_files = np.concatenate([train_files[train_files == 'x'],
+                                     val_files[val_files == 'x']])
+        q_test = np.concatenate([q_train[train_files == 'x'],
+                                 q_val[val_files == 'x']])
 
-        ############# Parse Database names ########
+        del x_train, y_train, train_files, train_parts, q_train, \
+            x_val, y_val, val_files, val_parts, q_val
 
-        train_files = []
-        for each in feat.root.train_files[:][0]:
-            train_files.append(chr(each))
-        print(len(train_files))
-        val_files = []
-        for each in feat.root.val_files[:][0]:
-            val_files.append(chr(each))
-        print(len(val_files))
-
-        ################### Reshaping ############
-
-        x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
-        y_train = to_categorical(y_train, num_classes=2)
-        y_val = to_categorical(y_val, num_classes=2)
-
-        ############### val removal ############
-
-        print('After Train partition with fraction')
-        print(x_train.shape, y_train.shape, train_parts.shape, train_files.shape)
+        foldname = 'fold0_noFIR'
+        x_train, y_train, train_files, train_parts, q_train, \
+        x_val, y_val, val_files, val_parts, q_val = load_data(foldname, quality=True)  # also return recording quality
 
         train_parts = train_parts[np.nonzero(train_parts)]  ## Some have zero cardiac cycle
         val_parts = val_parts[np.nonzero(val_parts)]
-        train_files = np.asarray(train_files)
+        test_parts = test_parts[np.nonzero(test_parts)]
 
-        frac = .8
+        # del x_train, y_train, train_files, train_parts
+
+        ################# Test to Train ####################
+
+        test_files = np.repeat('g', len(test_files), axis=0)
+        random_seed = 1
+        frac = .3
         np.random.seed(random_seed)
-        part_idx = np.random.permutation(range(len(train_parts)))
-        part_idx = part_idx[:int(len(train_parts) * frac)]
-        cc_idx = idx_parts2cc(part_idx, train_parts)
+        part_idx = np.random.permutation(range(len(test_parts)))
+        part_idx = part_idx[:int(len(test_parts) * frac)]
+        cc_idx = idx_parts2cc(part_idx, test_parts)
 
-        train_parts = train_parts[part_idx]
-        train_files = train_files[cc_idx]
-        x_train = x_train[cc_idx]
-        y_train = y_train[cc_idx]
+        train_parts = np.concatenate([train_parts, test_parts[part_idx]], axis=0)
+        # train_parts = test_parts[part_idx]
+        test_parts = np.delete(test_parts, part_idx, axis=0)
+        # val_parts = np.concatenate([val_parts, test_parts], axis=0)
+
+        train_files = np.concatenate([train_files, test_files[cc_idx]], axis=0)
+        # train_files = test_files[cc_idx]
+        test_files = np.delete(test_files, cc_idx, axis=0)
+        # val_files = np.concatenate([val_files, test_files], axis=0)
+
+        x_train = np.concatenate([x_train, x_test[cc_idx]], axis=0)
+        # x_train = x_test[cc_idx]
+        x_test = np.delete(x_test, cc_idx, axis=0)
+        # x_val = np.concatenate([x_val, x_test], axis=0)
+
+        y_train = np.concatenate([y_train, y_test[cc_idx]], axis=0)
+        # y_train = y_test[cc_idx]
+        y_test = np.delete(y_test, cc_idx, axis=0)
+        # y_val = np.concatenate([y_val, y_test], axis=0)
 
         print('After Test partition with fraction', frac)
-        print(x_train.shape, y_train.shape, train_parts.shape, train_files.shape)
+        print(x_train.shape, x_test.shape, y_train.shape, y_test.shape, train_parts.shape, test_parts.shape)
 
-        ############## Create a model ############
+        ############## Create a model and load weights ############
 
+        type_ = 'gamma'
         model = heartnet(load_path, activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable, type_)
         model.summary()
-        plot_model(model, to_file='model.png', show_shapes=True)
-        model_json = model.to_json()
-        with open(model_dir + log_name + "/model.json", "w") as json_file:
-            json_file.write(model_json)
-        # embedding_layer_names =set(layer.name
-        #                     for layer in model.layers
-        #                     if (layer.name.startswith('dense_')))
-        # print(embedding_layer_names)
+
+        log = "fold0_noFIR 2019-03-09 01:34:03.547265"  # gammatone
+        weights = get_weights(log, min_epoch=100, min_metric=.7)
+        model.load_weights(os.path.join(model_dir + log, weights['val_macc']))
+
 
         ####### Define Callbacks ######
 
@@ -410,27 +416,15 @@ if __name__ == '__main__':
 
         datagen = BalancedAudioDataGenerator(
             shift=.1,
-            # roll_range=.1,
-            # fill_mode='reflect',
-            # featurewise_center=True,
-            # zoom_range=.1,
-            # zca_whitening=True,
-            # samplewise_center=True,
-            # samplewise_std_normalization=True,
         )
-        # valgen = AudioDataGenerator(
-        #     # fill_mode='reflect',
-        #     # featurewise_center=True,
-        #     # zoom_range=.2,
-        #     # zca_whitening=True,
-        #     # samplewise_center=True,
-        #     # samplewise_std_normalization=True,
-        # )
+
+        # meta_label = np.argmax(y_train,axis=-1)
+        # print(np.bincount(meta_label))
 
         meta_labels = np.asarray([ord(each) - 97 for each in train_files])
         for idx, each in enumerate(np.unique(train_files)):
-            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
-        # print(np.unique(meta_labels[y_train[:, 0] == 1]))
+            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 7 + idx
+
 
         flow = datagen.flow(x_train, y_train,
                             meta_label=meta_labels,
@@ -438,7 +432,8 @@ if __name__ == '__main__':
                             seed=random_seed)
         model.fit_generator(flow,
                             # steps_per_epoch=len(x_train) // batch_size,
-                            steps_per_epoch=sum(np.asarray(train_files) == 'a') // flow.chunk_size,
+                            steps_per_epoch= sum(np.asarray(meta_labels) == 6) // flow.chunk_size,
+                            # steps_per_epoch=sum(meta_labels == 0) // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
@@ -446,9 +441,9 @@ if __name__ == '__main__':
                             shuffle=True,
                             callbacks=[modelcheckpnt,
                                        # LearningRateScheduler(lr_schedule,1),
-                                       log_macc(val_parts, decision=decision, verbose=verbose, val_files=val_files),
+                                       log_macc(test_parts, decision=decision, verbose=verbose, val_files=test_files),
                                        tensbd, csv_logger],
-                            validation_data=(x_val, y_val),
+                            validation_data=(x_test, y_test),
                             initial_epoch=initial_epoch,
                             )
 
