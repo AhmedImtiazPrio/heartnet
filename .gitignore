@@ -4,6 +4,10 @@ non technical docs
 Technical docs
 codes/logs/*
 codes/.idea/*
+codes/*.eps
+codes/*.mat
+codes/*.png
+codes/*.csv
 codes/.ipynb_checkpoints/*
 featGen/arff/*
 featGen/mfcc/*
