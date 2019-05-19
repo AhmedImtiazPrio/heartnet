@@ -23,3 +23,4 @@ featGen/wav/*
 featGen/.ipynb_checkpoints/*
 featGen/**/*.mat
 featGen/models
+**/.idea
