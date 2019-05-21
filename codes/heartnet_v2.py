@@ -38,8 +38,8 @@ from utils import *
 
 if __name__ == '__main__':
 
-    ########## Parser for arguments (HS, random_seed, load_path, epochs, batch_size)
-    parser = argparse.ArgumentParser(description='Specify fold to process')
+    ### Parser for arguments (HS, random_seed, load_path, epochs, batch_size)
+    parser = argparse.ArgumentParser()
     parser.add_argument("HS",
                         help="input HS tensor")
     parser.add_argument("--seed", type=int,
@@ -52,9 +52,6 @@ if __name__ == '__main__':
                         help="number of minibatches to take during each backwardpass preferably multiple of 2")
     parser.add_argument("--verbose", type=int, choices=[1, 2],
                         help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
-    parser.add_argument("--classweights", type=bool,
-                        help="if True, class weights are added according to the ratio of the "
-                             "two classes present in the training data")
     parser.add_argument("--comment",
                         help = "Add comments to the log files")
     parser.add_argument("--type")
@@ -101,10 +98,6 @@ if __name__ == '__main__':
         print("Verbosity level %d" % (verbose))
     else:
         verbose = 1
-    if args.classweights:
-        addweights = True
-    else:
-        addweights = False
     if args.comment:
         comment = args.comment
     else:
@@ -237,7 +230,7 @@ if __name__ == '__main__':
         ############### log results in csv ###############
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    activation_function=activation_function, addweights=addweights,
+                    activation_function=activation_function, addweights=False,
                     kernel_size=kernel_size, maxnorm=maxnorm,
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size,
@@ -249,7 +242,7 @@ if __name__ == '__main__':
     ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    activation_function=activation_function, addweights=addweights,
+                    activation_function=activation_function, addweights=False,
                     kernel_size=kernel_size, maxnorm=maxnorm,
                     dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size,

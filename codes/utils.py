@@ -373,11 +373,11 @@ def load_data(HS, data_dir, _categorical=True, quality=False):
     ############# Parse Database names ########
 
     train_subset = []
-    for each in feat.root.train_subset[:][0]:
+    for each in feat.root.train_files[:][0]:
         train_subset.append(chr(each))
     print(len(train_subset))
     val_subset = []
-    for each in feat.root.val_subset[:][0]:
+    for each in feat.root.val_files[:][0]:
         val_subset.append(chr(each))
     print(len(val_subset))
 
