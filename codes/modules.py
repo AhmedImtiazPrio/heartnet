@@ -45,7 +45,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
 
 def heartnetTop(activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5,
              eps=1.1e-5, kernel_size=5, l2_reg=0.0, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), FIR_train=False,trainable=True,FIR_type=1):
+             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), FIR_train=False,trainable=True,FIR_type=1,**kwargs):
     """
     Heartnet Topmodel (without dense layers)
     :return: Keras model object

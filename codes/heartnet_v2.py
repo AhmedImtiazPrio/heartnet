@@ -34,7 +34,7 @@ from keras.constraints import max_norm
 from keras.optimizers import Adam
 from keras.layers import Dense,Flatten,Dropout
 from keras import initializers
-from utils import *
+from utils import load_data
 
 if __name__ == '__main__':
 
@@ -125,86 +125,68 @@ if __name__ == '__main__':
 
     ### Init Params
 
-    num_filt = (8, 4)
-    num_dense = 20
-    bn_momentum = 0.99
-    eps = 1.1e-5
-    bias = False
-    l2_reg = 0.04864911065093751
-    l2_reg_dense = 0.
-    kernel_size = 5
-    maxnorm = 10000.
-    dropout_rate = 0.5
-    dropout_rate_dense = 0.
-    padding = 'valid'
-    activation_function = 'relu'
-    subsam = 2
-    FIR_train= True
-    trainable = True
-    decision = 'majority'
-    lr_decay =0.0001132885*(batch_size/64)
+    params = {
 
+        'num_filt': (8, 4),
+        'num_dense': 20,
+        'bn_momentum': 0.99,
+        'eps': 1.1e-5,
+        'bias': False,
+        'l2_reg': 0.04864911065093751,
+        'l2_reg_dense': 0.,
+        'kernel_size': 5,
+        'maxnorm': 10000.,
+        'dropout_rate': 0.5,
+        'dropout_rate_dense': 0.,
+        'padding': 'valid',
+        'activation_function': 'relu',
+        'subsam': 2,
+        'FIR_train': True,
+        'trainable': True,
+        'decision': 'majority',
+        'lr':lr,
+        'lr_decay': 0.0001132885*(batch_size/64),
+        'random_seed':random_seed
+
+    }
 
     x_train,y_train,train_subset,train_parts,x_val,y_val,val_subset,val_parts = load_data(HS,data_dir)
 
-    topModel = heartnetTop(activation_function=activation_function, bn_momentum=bn_momentum, bias=bias,
-                      dropout_rate=dropout_rate, kernel_size=kernel_size, l2_reg=l2_reg,
-                      maxnorm=maxnorm,padding=padding,subsam=subsam,num_filt=num_filt, FIR_train=FIR_train,
-                      trainable=trainable,FIR_type=FIR_type, random_seed=random_seed)
+    topModel = heartnetTop(**params)
     out = Flatten()(topModel.output)
-    out = Dense(num_dense,
-                   activation=activation_function,
-                   kernel_initializer=initializers.he_normal(seed=random_seed),
-                   use_bias=bias,
-                   kernel_constraint=max_norm(maxnorm),
-                   kernel_regularizer=l2(l2_reg_dense))(out)
-    out = Dropout(rate=dropout_rate_dense, seed=random_seed)(out)
+    out = Dense(20,activation=params['activation_function'],
+                kernel_initializer=initializers.he_normal(seed=random_seed),
+                use_bias=True,kernel_regularizer=l2(params['l2_reg_dense']))(out)
+    out = Dropout(rate=params['dropout_rate_dense'], seed=random_seed)(out)
     out = Dense(2, activation='softmax')(out)
     model = Model(inputs=topModel.input, outputs=out)
 
-    if load_path:  # If path for loading model was specified
+    if load_path:
         model.load_weights(filepath=load_path, by_name=False)
 
-    adam = Adam(lr=lr, decay=lr_decay)
+    adam = Adam(lr=params['lr'], decay=params['lr_decay'])
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-    model.summary()
-    plot_model(model, to_file='model.png', show_shapes=True)
+    if verbose:
+        model.summary()
+    plot_model(model, to_file=os.path.join(model_dir,log_name,'model.png'),show_shapes=True)
     model_json = model.to_json()
     with open(os.path.join(model_dir,log_name,'model.json'), "w") as json_file:
         json_file.write(model_json)
 
     modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
                                     monitor='val_acc', save_best_only=False, mode='max')
-    tensbd = TensorBoard(log_dir=log_dir + log_name,
+    tensbd = TensorBoard(log_dir=os.path.join(log_dir,log_name),
                          batch_size=batch_size,
                          write_images=False)
-    csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
+    csv_logger = CSVLogger(os.path.join(log_dir,log_name,'training.csv'))
 
     ######### Data Generator ############
 
-    datagen = BalancedAudioDataGenerator(
-                                 shift=.1,
-                                 # roll_range=.1,
-                                 # fill_mode='reflect',
-                                 # featurewise_center=True,
-                                 # zoom_range=.1,
-                                 # zca_whitening=True,
-                                 # samplewise_center=True,
-                                 # samplewise_std_normalization=True,
-                                 )
-    # valgen = AudioDataGenerator(
-    #     # fill_mode='reflect',
-    #     # featurewise_center=True,
-    #     # zoom_range=.2,
-    #     # zca_whitening=True,
-    #     # samplewise_center=True,
-    #     # samplewise_std_normalization=True,
-    # )
+    datagen = BalancedAudioDataGenerator(shift=.1)
 
     meta_labels = np.asarray([ord(each) - 97 for each in train_subset])
     for idx, each in enumerate(np.unique(train_subset)):
         meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_subset) == each))] = 6 + idx
-    # print(np.unique(meta_labels[y_train[:, 0] == 1]))
 
     flow = datagen.flow(x_train, y_train,
                         meta_label=meta_labels,
@@ -212,42 +194,21 @@ if __name__ == '__main__':
                         seed=random_seed)
     try:
         model.fit_generator(flow,
-                            # steps_per_epoch=len(x_train) // batch_size,
                             steps_per_epoch= sum(np.asarray(train_subset) == 'a') // flow.chunk_size,
-                            # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
                             verbose=verbose,
                             shuffle=True,
                             callbacks=[modelcheckpnt,
-                                       # LearningRateScheduler(lr_schedule,1),
-                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_subset),
+                                       log_macc(val_parts, decision=params['decision'],verbose=verbose, val_files=val_subset),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
                             initial_epoch=initial_epoch,
                             )
 
-        ############### log results in csv ###############
-        plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    activation_function=activation_function, addweights=False,
-                    kernel_size=kernel_size, maxnorm=maxnorm,
-                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
-                    l2_reg_dense=l2_reg_dense, batch_size=batch_size,
-                    lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
-                    num_dense=num_dense, comment=comment,num_filt=num_filt)
-
+                    addweights=False,**params)
 
     except KeyboardInterrupt:
-    ############ If ended in advance ###########
-        plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    activation_function=activation_function, addweights=False,
-                    kernel_size=kernel_size, maxnorm=maxnorm,
-                    dropout_rate=dropout_rate, dropout_rate_dense=dropout_rate_dense, l2_reg=l2_reg,
-                    l2_reg_dense=l2_reg_dense, batch_size=batch_size,
-                    lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
-                    num_dense=num_dense, comment=comment,num_filt=num_filt)
-        model_json = model.to_json()
-        with open(model_dir + log_name+"/model.json", "w") as json_file:
-            json_file.write(model_json)
+                    addweights=False,**params)
