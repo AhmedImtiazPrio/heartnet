@@ -24,3 +24,6 @@ baselines/.ipynb_checkpoints/*
 baselines/**/*.mat
 baselines/models
 **/.idea
+data/*
+models/*
+logs/*

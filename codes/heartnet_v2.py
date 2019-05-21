@@ -34,264 +34,193 @@ from keras.constraints import max_norm
 from keras.optimizers import Adam
 from keras.layers import Dense,Flatten,Dropout
 from keras import initializers
+from utils import *
 
 if __name__ == '__main__':
+
+    ########## Parser for arguments (HS, random_seed, load_path, epochs, batch_size)
+    parser = argparse.ArgumentParser(description='Specify fold to process')
+    parser.add_argument("HS",
+                        help="input HS tensor")
+    parser.add_argument("--seed", type=int,
+                        help="Random seed for the random number generator (defaults to 1)")
+    parser.add_argument("--loadmodel",
+                        help="load previous model checkpoint for retraining (Enter absolute path)")
+    parser.add_argument("--epochs", type=int,
+                        help="Number of epochs for training")
+    parser.add_argument("--batch_size", type=int,
+                        help="number of minibatches to take during each backwardpass preferably multiple of 2")
+    parser.add_argument("--verbose", type=int, choices=[1, 2],
+                        help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
+    parser.add_argument("--classweights", type=bool,
+                        help="if True, class weights are added according to the ratio of the "
+                             "two classes present in the training data")
+    parser.add_argument("--comment",
+                        help = "Add comments to the log files")
+    parser.add_argument("--type")
+    parser.add_argument("--lr", type=float)
+
+    args = parser.parse_args()
+    print("%s selected" % (args.HS))
+    HS = args.HS
+
+    if args.seed:  # if random seed is specified
+        print("Random seed specified as %d" % (args.seed))
+        random_seed = args.seed
+    else:
+        random_seed = 1
+
+    if args.loadmodel:  # If a previously trained model is loaded for retraining
+        load_path = args.loadmodel  #### path to model to be loaded
+
+        idx = load_path.find("weights")
+        initial_epoch = int(load_path[idx + 8:idx + 8 + 4])
+
+        print("%s model loaded\nInitial epoch is %d" % (args.loadmodel, initial_epoch))
+    else:
+        print("no model specified, using initializer to initialize weights")
+        initial_epoch = 0
+        load_path = False
+
+    if args.epochs:  # if number of training epochs is specified
+        print("Training for %d epochs" % (args.epochs))
+        epochs = args.epochs
+    else:
+        epochs = 200
+        print("Training for %d epochs" % (epochs))
+
+    if args.batch_size:  # if batch_size is specified
+        print("Training with %d samples per minibatch" % (args.batch_size))
+        batch_size = args.batch_size
+    else:
+        batch_size = 64
+        print("Training with %d minibatches" % (batch_size))
+
+    if args.verbose:
+        verbose = args.verbose
+        print("Verbosity level %d" % (verbose))
+    else:
+        verbose = 1
+    if args.classweights:
+        addweights = True
+    else:
+        addweights = False
+    if args.comment:
+        comment = args.comment
+    else:
+        comment = None
+    if args.type:
+        FIR_type=args.type
+    else:
+        FIR_type=1
+    if args.lr:
+        lr= args.lr
+    else:
+        lr=0.0012843784
+
+
+    #########################################################
+
+    model_dir = os.path.join('..','models')
+    data_dir = os.path.join('..','data')
+    log_name = HS + ' ' + str(datetime.now())
+    log_dir = os.path.join('..','logs')
+    if not os.path.exists(os.path.join(model_dir,log_name)):
+        os.makedirs(os.path.join(model_dir,log_name))
+    checkpoint_name = os.path.join(model_dir,log_name,'weights.{epoch:04d}-{val_acc:.4f}.hdf5')
+    results_path = os.path.join('..','logs','resultsLog.csv')
+
+    ### Init Params
+
+    num_filt = (8, 4)
+    num_dense = 20
+    bn_momentum = 0.99
+    eps = 1.1e-5
+    bias = False
+    l2_reg = 0.04864911065093751
+    l2_reg_dense = 0.
+    kernel_size = 5
+    maxnorm = 10000.
+    dropout_rate = 0.5
+    dropout_rate_dense = 0.
+    padding = 'valid'
+    activation_function = 'relu'
+    subsam = 2
+    FIR_train= True
+    trainable = True
+    decision = 'majority'
+    lr_decay =0.0001132885*(batch_size/64)
+
+
+    x_train,y_train,train_subset,train_parts,x_val,y_val,val_subset,val_parts = load_data(HS,data_dir)
+
+    topModel = heartnetTop(activation_function=activation_function, bn_momentum=bn_momentum, bias=bias,
+                      dropout_rate=dropout_rate, kernel_size=kernel_size, l2_reg=l2_reg,
+                      maxnorm=maxnorm,padding=padding,subsam=subsam,num_filt=num_filt, FIR_train=FIR_train,
+                      trainable=trainable,FIR_type=FIR_type, random_seed=random_seed)
+    out = Flatten()(topModel.output)
+    out = Dense(num_dense,
+                   activation=activation_function,
+                   kernel_initializer=initializers.he_normal(seed=random_seed),
+                   use_bias=bias,
+                   kernel_constraint=max_norm(maxnorm),
+                   kernel_regularizer=l2(l2_reg_dense))(out)
+    out = Dropout(rate=dropout_rate_dense, seed=random_seed)(out)
+    out = Dense(2, activation='softmax')(out)
+    model = Model(inputs=topModel.input, outputs=out)
+
+    if load_path:  # If path for loading model was specified
+        model.load_weights(filepath=load_path, by_name=False)
+
+    adam = Adam(lr=lr, decay=lr_decay)
+    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+    model.summary()
+    plot_model(model, to_file='model.png', show_shapes=True)
+    model_json = model.to_json()
+    with open(os.path.join(model_dir,log_name,'model.json'), "w") as json_file:
+        json_file.write(model_json)
+
+    modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
+                                    monitor='val_acc', save_best_only=False, mode='max')
+    tensbd = TensorBoard(log_dir=log_dir + log_name,
+                         batch_size=batch_size,
+                         write_images=False)
+    csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
+
+    ######### Data Generator ############
+
+    datagen = BalancedAudioDataGenerator(
+                                 shift=.1,
+                                 # roll_range=.1,
+                                 # fill_mode='reflect',
+                                 # featurewise_center=True,
+                                 # zoom_range=.1,
+                                 # zca_whitening=True,
+                                 # samplewise_center=True,
+                                 # samplewise_std_normalization=True,
+                                 )
+    # valgen = AudioDataGenerator(
+    #     # fill_mode='reflect',
+    #     # featurewise_center=True,
+    #     # zoom_range=.2,
+    #     # zca_whitening=True,
+    #     # samplewise_center=True,
+    #     # samplewise_std_normalization=True,
+    # )
+
+    meta_labels = np.asarray([ord(each) - 97 for each in train_subset])
+    for idx, each in enumerate(np.unique(train_subset)):
+        meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_subset) == each))] = 6 + idx
+    # print(np.unique(meta_labels[y_train[:, 0] == 1]))
+
+    flow = datagen.flow(x_train, y_train,
+                        meta_label=meta_labels,
+                        batch_size=batch_size, shuffle=True,
+                        seed=random_seed)
     try:
-        ########## Parser for arguments (foldname, random_seed, load_path, epochs, batch_size)
-        parser = argparse.ArgumentParser(description='Specify fold to process')
-        parser.add_argument("fold",
-                            help="which fold to use from balanced folds generated in /media/taufiq/Data/"
-                                 "heart_sound/feature/potes_1DCNN/balancedCV/folds/")
-        parser.add_argument("--seed", type=int,
-                            help="Random seed for the random number generator (defaults to 1)")
-        parser.add_argument("--loadmodel",
-                            help="load previous model checkpoint for retraining (Enter absolute path)")
-        parser.add_argument("--epochs", type=int,
-                            help="Number of epochs for training")
-        parser.add_argument("--batch_size", type=int,
-                            help="number of minibatches to take during each backwardpass preferably multiple of 2")
-        parser.add_argument("--verbose", type=int, choices=[1, 2],
-                            help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
-        parser.add_argument("--classweights", type=bool,
-                            help="if True, class weights are added according to the ratio of the "
-                                 "two classes present in the training data")
-        parser.add_argument("--comment",
-                            help = "Add comments to the log files")
-        parser.add_argument("--type")
-        parser.add_argument("--lr", type=float)
-
-        args = parser.parse_args()
-        print("%s selected" % (args.fold))
-        foldname = args.fold
-
-        if args.seed:  # if random seed is specified
-            print("Random seed specified as %d" % (args.seed))
-            random_seed = args.seed
-        else:
-            random_seed = 1
-
-        if args.loadmodel:  # If a previously trained model is loaded for retraining
-            load_path = args.loadmodel  #### path to model to be loaded
-
-            idx = load_path.find("weights")
-            initial_epoch = int(load_path[idx + 8:idx + 8 + 4])
-
-            print("%s model loaded\nInitial epoch is %d" % (args.loadmodel, initial_epoch))
-        else:
-            print("no model specified, using initializer to initialize weights")
-            initial_epoch = 0
-            load_path = False
-
-        if args.epochs:  # if number of training epochs is specified
-            print("Training for %d epochs" % (args.epochs))
-            epochs = args.epochs
-        else:
-            epochs = 200
-            print("Training for %d epochs" % (epochs))
-
-        if args.batch_size:  # if batch_size is specified
-            print("Training with %d samples per minibatch" % (args.batch_size))
-            batch_size = args.batch_size
-        else:
-            batch_size = 64
-            print("Training with %d minibatches" % (batch_size))
-
-        if args.verbose:
-            verbose = args.verbose
-            print("Verbosity level %d" % (verbose))
-        else:
-            verbose = 1
-        if args.classweights:
-            addweights = True
-        else:
-            addweights = False
-        if args.comment:
-            comment = args.comment
-        else:
-            comment = None
-        if args.type:
-            type_=args.type
-        else:
-            type_=1
-        if args.lr:
-            lr= args.lr
-        else:
-            lr=0.0012843784
-
-
-        #########################################################
-
-        foldname = foldname
-        random_seed = random_seed
-        load_path = load_path
-        initial_epoch = initial_epoch
-        epochs = epochs
-        batch_size = batch_size
-        verbose = verbose
-
-        model_dir = os.path.join('..','models')
-        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/folds_dec_2018/'
-        log_name = foldname + ' ' + str(datetime.now())
-        log_dir = os.path.join('..','logs')
-        if not os.path.exists(os.path.join(model_dir,log_name)):
-            os.makedirs(os.path.join(model_dir,log_name))
-        checkpoint_name = os.path.join(model_dir,log_name,'weights.{epoch:04d}-{val_acc:.4f}.hdf5')
-        results_path = os.path.join('..','logs','resultsLog.csv')
-
-        num_filt = (8, 4)
-        num_dense = 20
-
-        bn_momentum = 0.99
-        eps = 1.1e-5
-        bias = False
-        l2_reg = 0.04864911065093751
-        l2_reg_dense = 0.
-        kernel_size = 5
-        maxnorm = 10000.
-        dropout_rate = 0.5
-        dropout_rate_dense = 0.
-        padding = 'valid'
-        activation_function = 'relu'
-        subsam = 2
-        FIR_train= True
-        trainable = True
-        decision = 'majority'  # Decision algorithm for inference over total recording ('majority','confidence')
-
-        # lr =  0.0012843784 ## After bayesian optimization
-        # lr = lr*(batch_size/64)
-        ###### lr_decay optimization ######
-        lr_decay =0.0001132885*(batch_size/64)
-        # lr_decay =3.64370733503E-06
-        # lr_decay =3.97171548784E-08
-        ###################################
-
-
-
-        lr_reduce_factor = 0.5
-        patience = 4  # for reduceLR
-        cooldown = 0  # for reduceLR
-        res_thresh = 0.5  # threshold for turning probability values into decisions
-
-        ############## Importing data ############
-
-        feat = tables.open_file(fold_dir + foldname + '.mat')
-        x_train = feat.root.trainX[:]
-        y_train = feat.root.trainY[0, :]
-        x_val = feat.root.valX[:]
-        y_val = feat.root.valY[0, :]
-        train_parts = feat.root.train_parts[:]
-        val_parts = feat.root.val_parts[0, :]
-
-        ############## Relabeling ################
-
-        for i in range(0, y_train.shape[0]):
-            if y_train[i] == -1:
-                y_train[i] = 0  ## Label 0 for normal 1 for abnormal
-        for i in range(0, y_val.shape[0]):
-            if y_val[i] == -1:
-                y_val[i] = 0
-
-        ############# Parse Database names ########
-
-        train_files = []
-        for each in feat.root.train_files[:][0]:
-            train_files.append(chr(each))
-        print(len(train_files))
-        val_files = []
-        for each in feat.root.val_files[:][0]:
-            val_files.append(chr(each))
-        print(len(val_files))
-
-        ################### Reshaping ############
-
-        x_train, y_train, x_val, y_val = reshape_folds(x_train, x_val, y_train, y_val)
-        y_train = to_categorical(y_train, num_classes=2)
-        y_val = to_categorical(y_val, num_classes=2)
-
-        ############### Write metadata for embedding visualizer ############
-
-        # metadata_file = write_meta(y_val,log_dir)
-
-        ############## Create a model ############
-
-        out = heartnetTop(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
-                         eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
-                         padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable, type_)
-        out = Flatten()(out)
-        out = Dense(num_dense,
-                       activation=activation_function,
-                       kernel_initializer=initializers.he_normal(seed=random_seed),
-                       use_bias=bias,
-                       kernel_constraint=max_norm(maxnorm),
-                       kernel_regularizer=l2(l2_reg_dense))(out)
-        out = Dropout(rate=dropout_rate_dense, seed=random_seed)(out)
-        out = Dense(2, activation='softmax')(out)
-        model = Model(inputs=input, outputs=out)
-
-        if load_path:  # If path for loading model was specified
-            model.load_weights(filepath=load_path, by_name=False)
-
-        adam = Adam(lr=lr, decay=lr_decay)
-        model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-
-        model.summary()
-        plot_model(model, to_file='model.png', show_shapes=True)
-        model_json = model.to_json()
-        with open(model_dir + log_name+"/model.json", "w") as json_file:
-            json_file.write(model_json)
-        # embedding_layer_names =set(layer.name
-        #                     for layer in model.layers
-        #                     if (layer.name.startswith('dense_')))
-        # print(embedding_layer_names)
-
-        ####### Define Callbacks ######
-
-        modelcheckpnt = ModelCheckpoint(filepath=checkpoint_name,
-                                        monitor='val_acc', save_best_only=False, mode='max')
-        tensbd = TensorBoard(log_dir=log_dir + log_name,
-                             batch_size=batch_size,
-                             # histogram_freq = 50,
-                             # write_grads=True,
-                             # embeddings_freq=99,
-                             # embeddings_layer_names=embedding_layer_names,
-                             # embeddings_data=x_val,
-                             # embeddings_metadata=metadata_file,
-                             write_images=False)
-        csv_logger = CSVLogger(log_dir + log_name + '/training.csv')
-
-        ######### Data Generator ############
-
-        datagen = BalancedAudioDataGenerator(
-                                     shift=.1,
-                                     # roll_range=.1,
-                                     # fill_mode='reflect',
-                                     # featurewise_center=True,
-                                     # zoom_range=.1,
-                                     # zca_whitening=True,
-                                     # samplewise_center=True,
-                                     # samplewise_std_normalization=True,
-                                     )
-        # valgen = AudioDataGenerator(
-        #     # fill_mode='reflect',
-        #     # featurewise_center=True,
-        #     # zoom_range=.2,
-        #     # zca_whitening=True,
-        #     # samplewise_center=True,
-        #     # samplewise_std_normalization=True,
-        # )
-
-        meta_labels = np.asarray([ord(each) - 97 for each in train_files])
-        for idx, each in enumerate(np.unique(train_files)):
-            meta_labels[np.where(np.logical_and(y_train[:, 0] == 1, np.asarray(train_files) == each))] = 6 + idx
-        # print(np.unique(meta_labels[y_train[:, 0] == 1]))
-
-        flow = datagen.flow(x_train, y_train,
-                            meta_label=meta_labels,
-                            batch_size=batch_size, shuffle=True,
-                            seed=random_seed)
         model.fit_generator(flow,
                             # steps_per_epoch=len(x_train) // batch_size,
-                            steps_per_epoch= sum(np.asarray(train_files) == 'a') // flow.chunk_size,
+                            steps_per_epoch= sum(np.asarray(train_subset) == 'a') // flow.chunk_size,
                             # max_queue_size=20,
                             use_multiprocessing=False,
                             epochs=epochs,
@@ -299,47 +228,11 @@ if __name__ == '__main__':
                             shuffle=True,
                             callbacks=[modelcheckpnt,
                                        # LearningRateScheduler(lr_schedule,1),
-                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
+                                       log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_subset),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
                             initial_epoch=initial_epoch,
                             )
-
-        ######### Run forest run!! ##########
-
-        # if addweights:  ## if input arg classweights was specified True
-        #
-        #     class_weight = compute_weight(y_train, np.unique(y_train))
-        #
-        #     model.fit(x_train, y_train,
-        #               batch_size=batch_size,
-        #               epochs=epochs,
-        #               shuffle=True,
-        #               verbose=verbose,
-        #               validation_data=(x_val, y_val),
-        #               callbacks=[modelcheckpnt,
-        #                          log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
-        #                          tensbd, csv_logger],
-        #               initial_epoch=initial_epoch,
-        #               class_weight=class_weight)
-        #
-        # else:
-        #
-        #     model.fit(x_train, y_train,
-        #               batch_size=batch_size,
-        #               epochs=epochs,
-        #               shuffle=True,
-        #               verbose=verbose,
-        #               validation_data=(x_val, y_val),
-        #               callbacks=[
-        #                         # CyclicLR(base_lr=0.0001132885,
-        #                         #          max_lr=0.0012843784,
-        #                         #          step_size=8*(x_train.shape[0]//batch_size),
-        #                         #          ),
-        #                         modelcheckpnt,
-        #                         log_macc(val_parts, decision=decision,verbose=verbose, val_files=val_files),
-        #                         tensbd, csv_logger],
-        #               initial_epoch=initial_epoch)
 
         ############### log results in csv ###############
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
@@ -350,15 +243,10 @@ if __name__ == '__main__':
                     l2_reg_dense=l2_reg_dense, batch_size=batch_size,
                     lr=lr, bn_momentum=bn_momentum, lr_decay=lr_decay,
                     num_dense=num_dense, comment=comment,num_filt=num_filt)
-        # print(model.layers[1].get_weights())
-        # with K.get_session() as sess:
-        #     impulse_gammatone = sess.run(model.layers[1].impulse_gammatone())
-        # plt.plot(impulse_gammatone)
-        # plt.show()
 
 
     except KeyboardInterrupt:
-        ############ If ended in advance ###########
+    ############ If ended in advance ###########
         plot_model(model, to_file=log_dir + log_name + '/model.png', show_shapes=True)
         results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
                     activation_function=activation_function, addweights=addweights,

@@ -342,12 +342,16 @@ def get_weights(log_name, min_metric=.7, min_epoch=50, verbose=1, log_dir='/medi
     return weights
 
 
-def load_data(foldname, fold_dir=None, _categorical=True, quality=False):
-    ## import data
-    if fold_dir is None:
-        fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/folds_dec_2018/'
-
-    feat = tables.open_file(fold_dir + foldname + '.mat')
+def load_data(HS, data_dir, _categorical=True, quality=False):
+    """
+    Helper function to load HS data
+    :param HS: data tensor
+    :param data_dir: data directory
+    :param _categorical: {True,False} if true labels to categorical
+    :param quality: {True,False} if true, also returns recording quality
+    :return: x_train, y_train, train_subset, train_parts, x_val, y_val, val_subset, val_parts
+    """
+    feat = tables.open_file(os.path.join(data_dir,HS+'.mat'))
     x_train = feat.root.trainX[:]
     y_train = feat.root.trainY[0, :]
     q_train = feat.root.trainY[1, :]
@@ -368,14 +372,14 @@ def load_data(foldname, fold_dir=None, _categorical=True, quality=False):
 
     ############# Parse Database names ########
 
-    train_files = []
-    for each in feat.root.train_files[:][0]:
-        train_files.append(chr(each))
-    print(len(train_files))
-    val_files = []
-    for each in feat.root.val_files[:][0]:
-        val_files.append(chr(each))
-    print(len(val_files))
+    train_subset = []
+    for each in feat.root.train_subset[:][0]:
+        train_subset.append(chr(each))
+    print(len(train_subset))
+    val_subset = []
+    for each in feat.root.val_subset[:][0]:
+        val_subset.append(chr(each))
+    print(len(val_subset))
 
     ################### Reshaping ############
 
@@ -386,11 +390,11 @@ def load_data(foldname, fold_dir=None, _categorical=True, quality=False):
         y_val = to_categorical(y_val, num_classes=2)
 
     if quality:
-        return x_train, y_train, train_files, train_parts, q_train, \
-               x_val, y_val, val_files, val_parts, q_val
+        return x_train, y_train, train_subset, train_parts, q_train, \
+               x_val, y_val, val_subset, val_parts, q_val
     else:
-        return x_train, y_train, train_files, train_parts, \
-               x_val, y_val, val_files, val_parts
+        return x_train, y_train, train_subset, train_parts, \
+               x_val, y_val, val_subset, val_parts
 
 
 def load_model(log_name, verbose=0,
@@ -443,7 +447,7 @@ def cc2parts(cc, parts):
         temp = cc[start_idx:start_idx + int(s)]
         try:
             labels.append(sum(temp) / len(temp))
-        except TypeError:  ## TypeError for string input in train_files
+        except TypeError:  ## TypeError for string input in train_subset
             labels.append(cc[start_idx])
         start_idx = start_idx + int(s)
     return np.asarray(labels)

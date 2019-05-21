@@ -1,16 +1,21 @@
 import os
-from keras.layers import Input, Conv1D, MaxPooling1D, Dense, Dropout, Flatten, Activation, AveragePooling1D
+from keras.layers import Input, Conv1D, MaxPooling1D, Dropout, Activation
 from keras import initializers
 from keras.layers.normalization import BatchNormalization
 from keras.layers.merge import Concatenate
 from keras.regularizers import l2
 from keras.constraints import max_norm
-from learnableFilterbanks import  Conv1D_zerophase,Conv1D_gammatone, Conv1D_linearphaseType
+from keras.models import Model
+from learnableFilterbanks import Conv1D_zerophase,Conv1D_gammatone, Conv1D_linearphaseType
 from utils import loadFIRparams
 
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
+    """
+    Branched CNN architecture
+    :return: Keras layer object
+    """
 
     num_filt1, num_filt2 = num_filt
     t = Conv1D(num_filt1, kernel_size=kernel_size,
@@ -37,9 +42,14 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = MaxPooling1D(pool_size=subsam)(t)
     return t
 
-def heartnetTop(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
-             eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True,FIR_type=1):
+
+def heartnetTop(activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5,
+             eps=1.1e-5, kernel_size=5, l2_reg=0.0, maxnorm=10000.,
+             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), FIR_train=False,trainable=True,FIR_type=1):
+    """
+    Heartnet Topmodel (without dense layers)
+    :return: Keras model object
+    """
 
     input = Input(shape=(2500, 1))
 
@@ -98,5 +108,6 @@ def heartnetTop(load_path,activation_function='relu', bn_momentum=0.99, bias=Fal
     t4 = branch(input4,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
            eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
 
-    model = Concatenate(axis=-1)([t1, t2, t3, t4])
+    output = Concatenate(axis=-1)([t1, t2, t3, t4])
+    model = Model(input,output)
     return model
