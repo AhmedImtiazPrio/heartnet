@@ -6,7 +6,7 @@ from __future__ import print_function, division, absolute_import
 # set_session(tf.Session(config=config))
 # from clr_callback import CyclicLR
 # import dill
-from AudioDataGenerator import AudioDataGenerator, BalancedAudioDataGenerator
+from AudioDataGenerator import BalancedAudioDataGenerator
 import os
 import numpy as np
 np.random.seed(1)
@@ -129,14 +129,14 @@ if __name__ == '__main__':
         batch_size = batch_size
         verbose = verbose
 
-        model_dir = '/media/taufiq/Data1/heart_sound/models/'
+        model_dir = os.path.join('..','models')
         fold_dir = '/media/taufiq/Data1/heart_sound/feature/segmented_noFIR/folds_dec_2018/'
         log_name = foldname + ' ' + str(datetime.now())
-        log_dir = '/media/taufiq/Data1/heart_sound/logs/'
-        if not os.path.exists(model_dir + log_name):
-            os.makedirs(model_dir + log_name)
-        checkpoint_name = model_dir + log_name + "/" + 'weights.{epoch:04d}-{val_acc:.4f}.hdf5'
-        results_path = '/media/taufiq/Data1/heart_sound/results_2class.csv'
+        log_dir = os.path.join('..','logs')
+        if not os.path.exists(os.path.join(model_dir,log_name)):
+            os.makedirs(os.path.join(model_dir,log_name))
+        checkpoint_name = os.path.join(model_dir,log_name,'weights.{epoch:04d}-{val_acc:.4f}.hdf5')
+        results_path = os.path.join('..','logs','resultsLog.csv')
 
         num_filt = (8, 4)
         num_dense = 20
