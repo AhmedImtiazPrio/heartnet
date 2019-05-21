@@ -16,166 +16,24 @@ import pandas as pd
 import tables
 from datetime import datetime
 import argparse
-from keras.layers import Input, Conv1D, MaxPooling1D, Dense, Dropout, Flatten, Activation, AveragePooling1D
-from keras import initializers
-from keras.layers.normalization import BatchNormalization
-from keras.layers.merge import Concatenate
-from keras.models import Model
-from keras.regularizers import l2
-from keras.constraints import max_norm
-from keras.optimizers import Adam  # Nadam, Adamax
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
 from keras import backend as K
 from keras.utils import plot_model
-from custom_layers import Conv1D_zerophase_linear, Conv1D_linearphase, Conv1D_zerophase,\
-    DCT1D, Conv1D_gammatone, Conv1D_linearphaseType
 from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log, lr_schedule
 from sklearn.metrics import confusion_matrix
 from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
-
-def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable):
-
-    num_filt1, num_filt2 = num_filt
-    t = Conv1D(num_filt1, kernel_size=kernel_size,
-                kernel_initializer=initializers.he_normal(seed=random_seed),
-                padding=padding,
-                use_bias=bias,
-                kernel_constraint=max_norm(maxnorm),
-                trainable=trainable,
-                kernel_regularizer=l2(l2_reg))(input_tensor)
-    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
-    t = Activation(activation_function)(t)
-    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = MaxPooling1D(pool_size=subsam)(t)
-    t = Conv1D(num_filt2, kernel_size=kernel_size,
-               kernel_initializer=initializers.he_normal(seed=random_seed),
-               padding=padding,
-               use_bias=bias,
-               trainable=trainable,
-               kernel_constraint=max_norm(maxnorm),
-               kernel_regularizer=l2(l2_reg))(t)
-    t = BatchNormalization(epsilon=eps, momentum=bn_momentum, axis=-1)(t)
-    t = Activation(activation_function)(t)
-    t = Dropout(rate=dropout_rate, seed=random_seed)(t)
-    t = MaxPooling1D(pool_size=subsam)(t)
-    # t = Flatten()(t)
-    return t
-
-def heartnet(load_path,activation_function='relu', bn_momentum=0.99, bias=False, dropout_rate=0.5, dropout_rate_dense=0.0,
-             eps=1.1e-5, kernel_size=5, l2_reg=0.0, l2_reg_dense=0.0,lr=0.0012843784, lr_decay=0.0001132885, maxnorm=10000.,
-             padding='valid', random_seed=1, subsam=2, num_filt=(8, 4), num_dense=20,FIR_train=False,trainable=True,type_=1):
-
-    input = Input(shape=(2500, 1))
-
-    coeff_path = '/media/taufiq/Data1/heart_sound/heartnetTransfer/filterbankcoeff60.mat'
-    coeff = tables.open_file(coeff_path)
-    b1 = coeff.root.b1[:]
-    b1 = np.hstack(b1)
-    b1 = np.reshape(b1, [b1.shape[0], 1, 1])
-
-    b2 = coeff.root.b2[:]
-    b2 = np.hstack(b2)
-    b2 = np.reshape(b2, [b2.shape[0], 1, 1])
-
-    b3 = coeff.root.b3[:]
-    b3 = np.hstack(b3)
-    b3 = np.reshape(b3, [b3.shape[0], 1, 1])
-
-    b4 = coeff.root.b4[:]
-    b4 = np.hstack(b4)
-    b4 = np.reshape(b4, [b4.shape[0], 1, 1])
-
-    if type(type_) == str and type_ == 'gamma':
-
-        input1 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input2 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input3 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-        input4 = Conv1D_gammatone(kernel_size=81,filters=1,fsHz=1000,use_bias=False,padding='same')(input)
-
-    elif type(type_) == str and type_ == 'zero':
-
-        input1 = Conv1D_zerophase(1 ,61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b1],
-                        padding='same',trainable=FIR_train)(input)
-        input2 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b2],
-                        padding='same',trainable=FIR_train)(input)
-        input3 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b3],
-                        padding='same',trainable=FIR_train)(input)
-        input4 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b4],
-                        padding='same',trainable=FIR_train)(input)
-
-
-    else:   ## LinearphaseType
-        type_ = int(type_)
-        if type_ % 2:
-            weight_idx = 30
-        else:
-            weight_idx = 31
-
-        input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b1[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
-        input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b2[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
-        input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b3[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
-        input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # kernel_initializer=initializers.he_normal(random_seed),
-                        weights=[b4[weight_idx:]],
-                        padding='same',trainable=FIR_train, FIR_type = type_)(input)
-
-    #Conv1D_gammatone
-
-
-
-    t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t2 = branch(input2,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t3 = branch(input3,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-    t4 = branch(input4,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
-           eps,bn_momentum,activation_function,dropout_rate,subsam,trainable)
-
-    merged = Concatenate(axis=-1)([t1, t2, t3, t4])
-    # merged = DCT1D()(merged)
-    merged = Flatten()(merged)
-    merged = Dense(num_dense,
-                   activation=activation_function,
-                   kernel_initializer=initializers.he_normal(seed=random_seed),
-                   use_bias=bias,
-                   kernel_constraint=max_norm(maxnorm),
-                   kernel_regularizer=l2(l2_reg_dense))(merged)
-    # merged = BatchNormalization(epsilon=eps,momentum=bn_momentum,axis=-1) (merged)
-    # merged = Activation(activation_function)(merged)
-    merged = Dropout(rate=dropout_rate_dense, seed=random_seed)(merged)
-    merged = Dense(2, activation='softmax')(merged)
-
-    model = Model(inputs=input, outputs=merged)
-
-    if load_path:  # If path for loading model was specified
-        model.load_weights(filepath=load_path, by_name=False)
-
-    adam = Adam(lr=lr, decay=lr_decay)
-    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
-    return model
+from modules import heartnetTop
+from keras.layers.merge import Concatenate
+from keras.models import Model
+from keras.regularizers import l2
+from keras.constraints import max_norm
+from keras.optimizers import Adam
+from keras.layers import Dense,Flatten,Dropout
+from keras import initializers
 
 if __name__ == '__main__':
     try:
@@ -356,9 +214,26 @@ if __name__ == '__main__':
 
         ############## Create a model ############
 
-        model = heartnet(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
+        out = heartnetTop(load_path,activation_function, bn_momentum, bias, dropout_rate, dropout_rate_dense,
                          eps, kernel_size, l2_reg, l2_reg_dense, lr, lr_decay, maxnorm,
                          padding, random_seed, subsam, num_filt, num_dense, FIR_train, trainable, type_)
+        out = Flatten()(out)
+        out = Dense(num_dense,
+                       activation=activation_function,
+                       kernel_initializer=initializers.he_normal(seed=random_seed),
+                       use_bias=bias,
+                       kernel_constraint=max_norm(maxnorm),
+                       kernel_regularizer=l2(l2_reg_dense))(out)
+        out = Dropout(rate=dropout_rate_dense, seed=random_seed)(out)
+        out = Dense(2, activation='softmax')(out)
+        model = Model(inputs=input, outputs=out)
+
+        if load_path:  # If path for loading model was specified
+            model.load_weights(filepath=load_path, by_name=False)
+
+        adam = Adam(lr=lr, decay=lr_decay)
+        model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+
         model.summary()
         plot_model(model, to_file='model.png', show_shapes=True)
         model_json = model.to_json()

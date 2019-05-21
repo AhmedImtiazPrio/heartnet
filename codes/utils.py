@@ -1,22 +1,19 @@
 from keras.layers.core import Activation
 from keras.layers.core import Dropout
-# from keras.layers.core import SpatialDropout1D as Dropout
 from keras.layers import Conv1D
 from keras.layers.pooling import AveragePooling1D, MaxPooling1D
 from keras.layers.pooling import GlobalAveragePooling1D
 from keras.layers import Concatenate
 from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
-import keras.backend as K
 from keras.callbacks import Callback
-import numpy as np
 import os
 import pandas as pd
 from sklearn.metrics import confusion_matrix,roc_auc_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 from heartnet_v1 import reshape_folds
-from custom_layers import *
+from learnableFilterbanks import *
 from keras.utils import to_categorical
 from keras.models import model_from_json
 import tables
@@ -48,6 +45,31 @@ class LRdecayScheduler(Callback):
         if self.verbose > 0:
             print('\nEpoch %05d: LRdecayScheduler setting decay '
                   'rate to %s.' % (epoch + 1, lr_decay))
+
+
+def loadFIRparams(coeff_path):
+    """
+    Utility function to load filterbank parameter matfile
+    :param path to load filterbank parameters from:
+    :return: filterbank parameters
+    """
+    coeff = tables.open_file(coeff_path)
+    b1 = coeff.root.b1[:]
+    b1 = np.hstack(b1)
+    b1 = np.reshape(b1, [b1.shape[0], 1, 1])
+
+    b2 = coeff.root.b2[:]
+    b2 = np.hstack(b2)
+    b2 = np.reshape(b2, [b2.shape[0], 1, 1])
+
+    b3 = coeff.root.b3[:]
+    b3 = np.hstack(b3)
+    b3 = np.reshape(b3, [b3.shape[0], 1, 1])
+
+    b4 = coeff.root.b4[:]
+    b4 = np.hstack(b4)
+    b4 = np.reshape(b4, [b4.shape[0], 1, 1])
+    return b1,b2,b3,b4
 
 def conv_factory(x, concat_axis=-1, nb_filter=16, kernel_size=5,
                  dropout_rate=None, weight_decay=1E-4):
