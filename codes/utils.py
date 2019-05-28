@@ -15,13 +15,13 @@ import csv
 
 def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,maxnorm,
                 dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,
-                lr_decay,num_dense,comment,num_filt,initializer,optimizer,verbose,**kwargs):
+                lr_decay,num_dense,comment,num_filt,initializer,optimizer,verbose,random_seed,subsam,**kwargs):
     """
     Session logger helper function
     """
 
     keys = [
-        'logname','weightInit','activation','kernelSize','numFilt','maxNorm','dropoutFilt','numDense','dropoutDense',
+        'logname','random_seed','weightInit','activation','kernelSize','subsam','numFilt','maxNorm','dropoutFilt','numDense','dropoutDense',
         'l2Filt','l2Dense','batchSize','optimizer','lr','bnMomentum','lrDecay','epoch',
         'trainCCacc','valCCacc','sens','spec','macc','prec','F1','comment'
               ]
@@ -47,7 +47,7 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
     F1 = dfNew.loc[max_idx]['val_F1'] * 100
 
     values = [
-        log_name,initializer.__name__,activation_function,kernel_size,num_filt,maxnorm,dropout_rate,num_dense,dropout_rate_dense,
+        log_name,random_seed,initializer.__name__,activation_function,kernel_size,subsam,num_filt,maxnorm,dropout_rate,num_dense,dropout_rate_dense,
         l2_reg,l2_reg_dense,batch_size,optimizer.__name__,lr,bn_momentum,lr_decay,epoch,trainAcc,valAcc,sens,spec,
         macc,prec,F1,comment
              ]
@@ -55,11 +55,11 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
     new_entry = dict(zip(keys,values))
     index, _ = df.shape
     new_entry = pd.DataFrame(new_entry, index=[index])
-    df2 = pd.concat([df, new_entry], axis=0)
-    df2.to_csv(results_path, index=False)
+    df = pd.concat([df, new_entry], axis=0)
+    df.to_csv(results_path, index=False)
 
     if verbose:
-        df2.tail()
+        df.tail()
 
     print("Saving to results.csv")
 

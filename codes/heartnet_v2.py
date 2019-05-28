@@ -168,10 +168,13 @@ if __name__ == '__main__':
 
     adam = optimizer(lr=params['lr'], decay=params['lr_decay'])
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
+
     if verbose:
         model.summary()
+
     plot_model(model, to_file=os.path.join(model_dir,log_name,'model.png'),show_shapes=True)
     model_json = model.to_json()
+
     with open(os.path.join(model_dir,log_name,'model.json'), "w") as json_file:
         json_file.write(model_json)
 
@@ -208,7 +211,9 @@ if __name__ == '__main__':
                             initial_epoch=initial_epoch,
                             )
 
-        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name,**params)
+        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name, batch_size=batch_size, verbose=verbose,
+                   comment=comment, **params)
 
     except KeyboardInterrupt:
-        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name,**params)
+        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name, batch_size=batch_size, verbose=verbose,
+                   comment=comment, **params)
