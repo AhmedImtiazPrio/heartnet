@@ -31,10 +31,10 @@ from keras.layers.merge import Concatenate
 from keras.models import Model
 from keras.regularizers import l2
 from keras.constraints import max_norm
-from keras.optimizers import Adam
+from keras.optimizers import Adam as optimizer
 from keras.layers import Dense,Flatten,Dropout
-from keras import initializers
-from utils import load_data
+from keras.initializers import he_normal as initializer
+from utils import load_data, sessionLog
 
 if __name__ == '__main__':
 
@@ -146,7 +146,9 @@ if __name__ == '__main__':
         'decision': 'majority',
         'lr':lr,
         'lr_decay': 0.0001132885*(batch_size/64),
-        'random_seed':random_seed
+        'random_seed':random_seed,
+        'initializer':initializer,
+        'optimizer':optimizer,
 
     }
 
@@ -155,7 +157,7 @@ if __name__ == '__main__':
     topModel = heartnetTop(**params)
     out = Flatten()(topModel.output)
     out = Dense(20,activation=params['activation_function'],
-                kernel_initializer=initializers.he_normal(seed=random_seed),
+                kernel_initializer=initializer(seed=random_seed),
                 use_bias=True,kernel_regularizer=l2(params['l2_reg_dense']))(out)
     out = Dropout(rate=params['dropout_rate_dense'], seed=random_seed)(out)
     out = Dense(2, activation='softmax')(out)
@@ -164,7 +166,7 @@ if __name__ == '__main__':
     if load_path:
         model.load_weights(filepath=load_path, by_name=False)
 
-    adam = Adam(lr=params['lr'], decay=params['lr_decay'])
+    adam = optimizer(lr=params['lr'], decay=params['lr_decay'])
     model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy'])
     if verbose:
         model.summary()
@@ -206,9 +208,7 @@ if __name__ == '__main__':
                             initial_epoch=initial_epoch,
                             )
 
-        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    addweights=False,**params)
+        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name,**params)
 
     except KeyboardInterrupt:
-        results_log(results_path=results_path, log_dir=log_dir, log_name=log_name,
-                    addweights=False,**params)
+        sessionLog(results_path=results_path, log_dir=log_dir, log_name=log_name,**params)

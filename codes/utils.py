@@ -11,7 +11,57 @@ from keras.models import model_from_json
 import tables
 from scipy.interpolate import interp1d
 from scipy import signal
+import csv
 
+def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,maxnorm,
+                dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,
+                lr_decay,num_dense,comment,num_filt,initializer,optimizer,verbose,**kwargs):
+    """
+    Session logger helper function
+    """
+
+    keys = [
+        'logname','weightInit','activation','kernelSize','numFilt','maxNorm','dropoutFilt','numDense','dropoutDense',
+        'l2Filt','l2Dense','batchSize','optimizer','lr','bnMomentum','lrDecay','epoch',
+        'trainCCacc','valCCacc','sens','spec','macc','prec','F1','comment'
+              ]
+
+    if os.path.isfile(results_path):
+        df = pd.read_csv(results_path)
+    else:
+        with open(results_path,'w') as writeFile:
+            writer = csv.writer(writeFile, lineterminator='\n')
+            writer.writerow(keys)
+        df = pd.read_csv(results_path)
+
+    dfNew = pd.read_csv(os.path.join(log_dir,log_name,'training.csv'))
+    max_idx = dfNew['val_macc'].idxmax()
+
+    epoch = dfNew.loc[[max_idx]]['epoch'].values[0]
+    trainAcc = dfNew.loc[max_idx]['acc'] * 100
+    valAcc = dfNew.loc[max_idx]['val_acc'] * 100
+    sens = dfNew.loc[max_idx]['val_sensitivity'] * 100
+    spec = dfNew.loc[max_idx]['val_specificity'] * 100
+    macc = dfNew.loc[max_idx]['val_macc'] * 100
+    prec = dfNew.loc[max_idx]['val_precision'] * 100
+    F1 = dfNew.loc[max_idx]['val_F1'] * 100
+
+    values = [
+        log_name,initializer.__name__,activation_function,kernel_size,num_filt,maxnorm,dropout_rate,num_dense,dropout_rate_dense,
+        l2_reg,l2_reg_dense,batch_size,optimizer.__name__,lr,bn_momentum,lr_decay,epoch,trainAcc,valAcc,sens,spec,
+        macc,prec,F1,comment
+             ]
+
+    new_entry = dict(zip(keys,values))
+    index, _ = df.shape
+    new_entry = pd.DataFrame(new_entry, index=[index])
+    df2 = pd.concat([df, new_entry], axis=0)
+    df2.to_csv(results_path, index=False)
+
+    if verbose:
+        df2.tail()
+
+    print("Saving to results.csv")
 
 class LRdecayScheduler(Callback):
     def __init__(self, schedule, verbose=0):

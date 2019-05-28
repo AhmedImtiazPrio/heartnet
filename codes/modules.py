@@ -8,6 +8,7 @@ from keras.constraints import max_norm
 from keras.models import Model
 from learnableFilterbanks import Conv1D_zerophase,Conv1D_gammatone, Conv1D_linearphaseType
 from utils import loadFIRparams
+from keras.initializers import he_normal as initializer
 
 
 def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
@@ -19,7 +20,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
 
     num_filt1, num_filt2 = num_filt
     t = Conv1D(num_filt1, kernel_size=kernel_size,
-                kernel_initializer=initializers.he_normal(seed=random_seed),
+                kernel_initializer=initializer(seed=random_seed),
                 padding=padding,
                 use_bias=bias,
                 kernel_constraint=max_norm(maxnorm),
@@ -30,7 +31,7 @@ def branch(input_tensor,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2
     t = Dropout(rate=dropout_rate, seed=random_seed)(t)
     t = MaxPooling1D(pool_size=subsam)(t)
     t = Conv1D(num_filt2, kernel_size=kernel_size,
-               kernel_initializer=initializers.he_normal(seed=random_seed),
+               kernel_initializer=initializer(seed=random_seed),
                padding=padding,
                use_bias=bias,
                trainable=trainable,

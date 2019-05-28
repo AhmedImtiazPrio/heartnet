@@ -27,3 +27,4 @@ baselines/models
 data/*
 models/*
 logs/*
+**/*.pyc
