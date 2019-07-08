@@ -66,6 +66,117 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
 
     print("Saving to results.csv")
 
+class log_macc(Callback):
+    '''
+    Keras Callback for custom metric logging
+    '''
+
+    def __init__(self, val_parts,decision='majority',verbose=0, val_files=None):
+        super(log_macc, self).__init__()
+        self.val_parts = val_parts
+        self.decision = decision
+        self.verbose = verbose
+        self.val_files = np.asarray(val_files)
+        # self.x_val = x_val
+        # self.y_val = y_val
+
+    def on_epoch_end(self, epoch, logs):
+        eps = 1.1e-5
+        if logs is not None:
+            y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
+            true = []
+            pred = []
+            files= []
+            start_idx = 0
+
+            if self.decision == 'majority':
+                y_pred = np.argmax(y_pred, axis=-1)
+                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
+
+                for s in self.val_parts:
+
+                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
+                        continue
+                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
+
+                    temp_ = y_val[start_idx:start_idx + int(s)]
+                    temp = y_pred[start_idx:start_idx + int(s)]
+
+                    if (sum(temp == 0) > sum(temp == 1)):
+                        pred.append(0)
+                    else:
+                        pred.append(1)
+
+                    if (sum(temp_ == 0) > sum(temp_ == 1)):
+                        true.append(0)
+                    else:
+                        true.append(1)
+
+                    if self.val_files is not None:
+                        files.append(self.val_files[start_idx])
+
+                    start_idx = start_idx + int(s)
+
+            if self.decision =='confidence':
+                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
+                for s in self.val_parts:
+                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
+                        continue
+                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
+                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
+                    if (sum(temp_ == 0) > sum(temp_ == 1)):
+                        true.append(0)
+                    else:
+                        true.append(1)
+                    temp = np.sum(y_pred[start_idx:start_idx + int(s) - 1],axis=0)
+                    pred.append(int(np.argmax(temp)))
+                    start_idx = start_idx + int(s)
+
+
+            TN, FP, FN, TP = confusion_matrix(true, pred, labels=[0,1]).ravel()
+            # TN = float(TN)
+            # TP = float(TP)
+            # FP = float(FP)
+            # FN = float(FN)
+            sensitivity = TP / (TP + FN + eps)
+            specificity = TN / (TN + FP + eps)
+            precision = TP / (TP + FP + eps)
+            F1 = 2 * (precision * sensitivity) / (precision + sensitivity + eps)
+            Macc = (sensitivity + specificity) / 2
+            logs['val_sensitivity'] = np.array(sensitivity)
+            logs['val_specificity'] = np.array(specificity)
+            logs['val_precision'] = np.array(precision)
+            logs['val_F1'] = np.array(F1)
+            logs['val_macc'] = np.array(Macc)
+            if self.verbose:
+                print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
+
+            #### Learning Rate for Adam ###
+
+            lr = self.model.optimizer.lr
+            if self.model.optimizer.initial_decay > 0:
+                lr *= (1. / (1. + self.model.optimizer.decay * K.cast(self.model.optimizer.iterations,
+                                                                      K.dtype(self.model.optimizer.decay))))
+            t = K.cast(self.model.optimizer.iterations, K.floatx()) + 1
+            lr_t = lr * (
+                    K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
+            logs['lr'] = np.array(float(K.get_value(lr_t)))
+
+            if self.val_files is not None:
+                true = np.asarray(true)
+                pred = np.asarray(pred)
+                files = np.asarray(files)
+                tpn = true == pred
+                for dataset in set(files):
+                    mask = files == dataset
+                    logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
+                    # mask = self.val_files=='x'
+                    # TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
+                    # sensitivity = TP / (TP + FN + eps)
+                    # specificity = TN / (TN + FP + eps)
+                    # logs['ComParE_UAR'] = (sensitivity + specificity) / 2
+
+
 class LRdecayScheduler(Callback):
     def __init__(self, schedule, verbose=0):
         super(LRdecayScheduler, self).__init__()
@@ -361,6 +472,16 @@ def predict_parts(model, data, labels, parts, filenames=None, verbose=1):
 
 
 def calc_metrics(true, pred, files=None, verbose=1, eps=1E-10, thresh=.5):
+    '''
+    Calculates sens, spec, prec, F1, Macc, MCC and auc metrics
+    :param true: ground truth
+    :param pred: predictions
+    :param files: filenames
+    :param verbose: verbosity
+    :param eps: epsilon
+    :param thresh: decision threshold
+    :return: pandas dataframe with
+    '''
     TN, FP, FN, TP = confusion_matrix(true, np.asarray(pred) > thresh, labels=[0, 1]).ravel()
     sensitivity = TP / (TP + FN + eps)
     specificity = TN / (TN + FP + eps)

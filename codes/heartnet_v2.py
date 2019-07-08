@@ -12,29 +12,19 @@ import numpy as np
 np.random.seed(1)
 from tensorflow import set_random_seed
 set_random_seed(1)
-import pandas as pd
-import tables
 from datetime import datetime
 import argparse
 from keras.callbacks import TensorBoard, Callback, ReduceLROnPlateau
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint, CSVLogger
-from keras import backend as K
-from keras.utils import plot_model
-from heartnet_v1 import log_macc, write_meta, compute_weight, reshape_folds, results_log, lr_schedule
-from sklearn.metrics import confusion_matrix
-from keras.utils import to_categorical
-import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
 from modules import heartnetTop
-from keras.layers.merge import Concatenate
 from keras.models import Model
 from keras.regularizers import l2
-from keras.constraints import max_norm
 from keras.optimizers import Adam as optimizer
 from keras.layers import Dense,Flatten,Dropout
 from keras.initializers import he_normal as initializer
-from utils import load_data, sessionLog
+from utils import load_data, sessionLog, log_macc
 
 if __name__ == '__main__':
 

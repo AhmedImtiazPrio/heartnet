@@ -55,7 +55,7 @@ def heartnetTop(activation_function='relu', bn_momentum=0.99, bias=False, dropou
     input = Input(shape=(2500, 1))
 
     coeff_path = os.path.join('..','data','filterbankInit','filterbankcoeff60.mat')
-    # b1,b2,b3,b4 = loadFIRparams(coeff_path)
+    b1,b2,b3,b4 = loadFIRparams(coeff_path)
 
     if type(FIR_type) == str and FIR_type == 'gamma':
 
@@ -67,16 +67,16 @@ def heartnetTop(activation_function='relu', bn_momentum=0.99, bias=False, dropou
     elif type(FIR_type) == str and FIR_type == 'zero':
 
         input1 = Conv1D_zerophase(1 ,61, use_bias=False,
-                        # weights=[b1],
+                        weights=[b1],
                         padding='same',trainable=FIR_train)(input)
         input2 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # weights=[b2],
+                        weights=[b2],
                         padding='same',trainable=FIR_train)(input)
         input3 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # weights=[b3],
+                        weights=[b3],
                         padding='same',trainable=FIR_train)(input)
         input4 = Conv1D_zerophase(1, 61, use_bias=False,
-                        # weights=[b4],
+                        weights=[b4],
                         padding='same',trainable=FIR_train)(input)
 
     ### Linearphase
@@ -88,16 +88,16 @@ def heartnetTop(activation_function='relu', bn_momentum=0.99, bias=False, dropou
             weight_idx = 31
 
         input1 = Conv1D_linearphaseType(1 ,61, use_bias=False,
-                        # weights=[b1[weight_idx:]],
+                        weights=[b1[weight_idx:]],
                         padding='same',trainable=FIR_train, FIR_type = FIR_type)(input)
         input2 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # weights=[b2[weight_idx:]],
+                        weights=[b2[weight_idx:]],
                         padding='same',trainable=FIR_train, FIR_type = FIR_type)(input)
         input3 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # weights=[b3[weight_idx:]],
+                        weights=[b3[weight_idx:]],
                         padding='same',trainable=FIR_train, FIR_type = FIR_type)(input)
         input4 = Conv1D_linearphaseType(1, 61, use_bias=False,
-                        # weights=[b4[weight_idx:]],
+                        weights=[b4[weight_idx:]],
                         padding='same',trainable=FIR_train, FIR_type = FIR_type)(input)
 
     t1 = branch(input1,num_filt,kernel_size,random_seed,padding,bias,maxnorm,l2_reg,
