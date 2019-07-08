@@ -1,14 +1,17 @@
 from keras.callbacks import Callback
 import os
 import pandas as pd
+import numpy as np
+from keras import backend as K
 from sklearn.metrics import confusion_matrix,roc_auc_score
 import matplotlib.pyplot as plt
 import seaborn as sns
-from heartnet_v1 import reshape_folds
-from learnableFilterbanks import *
+from learnableFilterbanks import Conv1D_linearphase,DCT1D,Conv1D_linearphaseType,\
+    Conv1D_gammatone,Conv1D_zerophase,Conv1D_linearphaseType_legacy
 from keras.utils import to_categorical
 from keras.models import model_from_json
 import tables
+from scipy.io import loadmat
 from scipy.interpolate import interp1d
 from scipy import signal
 import csv
@@ -213,7 +216,12 @@ def get_weights(log_name, min_metric=.7, min_epoch=50, verbose=1, log_dir='/medi
     return weights
 
 
-def load_data(HS, data_dir, _categorical=True, quality=False):
+def reshape_folds(x_train, x_val, y_train, y_val):
+    return np.expand_dims(x_train,axis=-1), np.expand_dims(y_train,axis=-1),\
+           np.expand_dims(x_val,axis=-1) , np.expand_dims(y_val,axis=-1)
+
+
+def load_data(HS, data_dir='../data', _categorical=True, quality=False):
     """
     Helper function to load HS data
     :param HS: data tensor
@@ -222,35 +230,25 @@ def load_data(HS, data_dir, _categorical=True, quality=False):
     :param quality: {True,False} if true, also returns recording quality
     :return: x_train, y_train, train_subset, train_parts, x_val, y_val, val_subset, val_parts
     """
-    feat = tables.open_file(os.path.join(data_dir,HS+'.mat'))
-    x_train = feat.root.trainX[:]
-    y_train = feat.root.trainY[0, :]
-    q_train = feat.root.trainY[1, :]
-    x_val = feat.root.valX[:]
-    y_val = feat.root.valY[0, :]
-    q_val = feat.root.valY[1, :]
-    train_parts = feat.root.train_parts[:]
-    val_parts = feat.root.val_parts[0, :]
+    feat = loadmat(os.path.join(data_dir,HS+'.mat'))
+    x_train = feat['trainX']
+    y_train = feat['trainY'][:,0]
+    q_train = feat['trainY'][:,1]
+    x_val = feat['valX']
+    y_val = feat['valY'][:,0]
+    q_val = feat['valY'][:,1]
+    train_parts = feat['trainParts']
+    val_parts = feat['valParts']
 
     ############## Relabeling ################
 
-    for i in range(0, y_train.shape[0]):
-        if y_train[i] == -1:
-            y_train[i] = 0  ## Label 0 for normal 1 for abnormal
-    for i in range(0, y_val.shape[0]):
-        if y_val[i] == -1:
-            y_val[i] = 0
+    y_train = np.asarray([int(each>0)for each in y_train])
+    y_val = np.asarray([int(each>0)for each in y_val])
 
-    ############# Parse Database names ########
+    ############# Parse Filenames ########
 
-    train_subset = []
-    for each in feat.root.train_files[:][0]:
-        train_subset.append(chr(each))
-    print(len(train_subset))
-    val_subset = []
-    for each in feat.root.val_files[:][0]:
-        val_subset.append(chr(each))
-    print(len(val_subset))
+    train_files = np.asarray([each[0][0] for each in feat['trainFiles']])
+    val_files = np.asarray([each[0][0] for each in feat['trainFiles']])
 
     ################### Reshaping ############
 
@@ -261,11 +259,11 @@ def load_data(HS, data_dir, _categorical=True, quality=False):
         y_val = to_categorical(y_val, num_classes=2)
 
     if quality:
-        return x_train, y_train, train_subset, train_parts, q_train, \
-               x_val, y_val, val_subset, val_parts, q_val
+        return x_train, y_train, train_files, train_parts, q_train, \
+               x_val, y_val, val_files, val_parts, q_val
     else:
-        return x_train, y_train, train_subset, train_parts, \
-               x_val, y_val, val_subset, val_parts
+        return x_train, y_train, train_files, train_parts, \
+               x_val, y_val, val_files, val_parts
 
 
 def load_model(log_name, verbose=0,

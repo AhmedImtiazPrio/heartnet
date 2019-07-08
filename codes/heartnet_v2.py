@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     model_dir = os.path.join('..','models')
     data_dir = os.path.join('..','data')
-    log_name = HS + ' ' + str(datetime.now())
+    log_name = HS + ' ' + str(datetime.now()).replace(':','-')
     log_dir = os.path.join('..','logs')
     if not os.path.exists(os.path.join(model_dir,log_name)):
         os.makedirs(os.path.join(model_dir,log_name))
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     if verbose:
         model.summary()
 
-    plot_model(model, to_file=os.path.join(model_dir,log_name,'model.png'),show_shapes=True)
+    # plot_model(model, to_file=os.path.join(model_dir,log_name,'model.png'),show_shapes=True)
     model_json = model.to_json()
 
     with open(os.path.join(model_dir,log_name,'model.json'), "w") as json_file:
