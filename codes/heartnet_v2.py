@@ -152,7 +152,9 @@ if __name__ == '__main__':
 
     }
 
-    x_train,y_train,train_subset,train_parts,x_val,y_val,val_subset,val_parts = load_data(HS,data_dir)
+    x_train,y_train,train_files,train_parts,x_val,y_val,val_files,val_parts = load_data(HS,data_dir)
+    train_subset = np.asarray([each[0] for each in train_files])
+    val_subset = np.asarray([each[0] for each in val_files])
 
     topModel = heartnetTop(**params)
     out = Flatten()(topModel.output)
