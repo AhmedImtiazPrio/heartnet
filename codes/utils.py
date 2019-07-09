@@ -15,6 +15,7 @@ from scipy.io import loadmat
 from scipy.interpolate import interp1d
 from scipy import signal
 import csv
+from collections import Counter
 
 def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,maxnorm,
                 dropout_rate,dropout_rate_dense,l2_reg,l2_reg_dense,batch_size,lr,bn_momentum,
@@ -86,6 +87,7 @@ class log_metrics(Callback):
                                                 self.validation_data[1],self.val_parts,
                                                 self.val_subset,self.verbose,self.soft)
 
+            print(Counter(subset))
             metrics = calc_metrics(true,pred,subset,verbose=1,thresh=.5,outputDict=True)
             logs.update(metrics)
 
@@ -272,8 +274,8 @@ def load_data(HS, data_dir='../data', _categorical=True, quality=False):
     x_val = feat['valX']
     y_val = feat['valY'][:,0]
     q_val = feat['valY'][:,1]
-    train_parts = feat['trainParts']
-    val_parts = feat['valParts']
+    train_parts = feat['trainParts'][:,0]
+    val_parts = feat['valParts'][:,0]
 
     ############## Relabeling ################
 
@@ -283,7 +285,7 @@ def load_data(HS, data_dir='../data', _categorical=True, quality=False):
     ############# Parse Filenames ########
 
     train_files = np.asarray([each[0][0] for each in feat['trainFiles']])
-    val_files = np.asarray([each[0][0] for each in feat['trainFiles']])
+    val_files = np.asarray([each[0][0] for each in feat['valFiles']])
 
     ################### Reshaping ############
 
