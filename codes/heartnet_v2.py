@@ -24,7 +24,7 @@ from keras.regularizers import l2
 from keras.optimizers import Adam as optimizer
 from keras.layers import Dense,Flatten,Dropout
 from keras.initializers import he_normal as initializer
-from utils import load_data, sessionLog, log_macc
+from utils import load_data, sessionLog, log_metrics
 
 if __name__ == '__main__':
 
@@ -133,7 +133,7 @@ if __name__ == '__main__':
         'subsam': 2,
         'FIR_train': True,
         'trainable': True,
-        'decision': 'majority',
+        'softFusion': False,
         'lr':lr,
         'lr_decay': 0.0001132885*(batch_size/64),
         'random_seed':random_seed,
@@ -197,7 +197,8 @@ if __name__ == '__main__':
                             verbose=verbose,
                             shuffle=True,
                             callbacks=[modelcheckpnt,
-                                       log_macc(val_parts, decision=params['decision'],verbose=verbose, val_files=val_subset),
+                                       log_metrics(val_parts, soft=params['softFusion'],
+                                                   verbose=verbose, val_subset=val_subset),
                                        tensbd, csv_logger],
                             validation_data=(x_val, y_val),
                             initial_epoch=initial_epoch,

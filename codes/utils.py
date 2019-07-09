@@ -66,88 +66,28 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
 
     print("Saving to results.csv")
 
-class log_macc(Callback):
+class log_metrics(Callback):
     '''
     Keras Callback for custom metric logging
     '''
 
-    def __init__(self, val_parts, val_files=None, decision='majority', verbose=0 ):
-        super(log_macc, self).__init__()
+    def __init__(self, val_parts, val_subset=None, soft=False, verbose=0 ):
+        super(log_metrics, self).__init__()
         self.val_parts = val_parts
-        if val_files is not None:
-            self.val_files = np.asarray(val_files)
-        self.decision = decision
+        if val_subset is not None:
+            self.val_subset = np.asarray(val_subset)
+        self.soft = soft
         self.verbose = verbose
 
     def on_epoch_end(self, epoch, logs):
         eps = 1.1e-5
         if logs is not None:
-            y_pred = self.model.predict(self.validation_data[0], verbose=self.verbose)
-            true = []
-            pred = []
-            files= []
-            start_idx = 0
-            if self.decision == 'majority':
-                y_pred = np.argmax(y_pred, axis=-1)
-                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
+            true,pred,subset = predict_parts(self.model,self.validation_data[0],
+                                                self.validation_data[1],self.val_parts,
+                                                self.val_subset,self.verbose,self.soft)
 
-                for s in self.val_parts:
-
-                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
-                        continue
-                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
-
-                    temp_ = y_val[start_idx:start_idx + int(s)]
-                    temp = y_pred[start_idx:start_idx + int(s)]
-
-                    if (sum(temp == 0) > sum(temp == 1)):
-                        pred.append(0)
-                    else:
-                        pred.append(1)
-
-                    if (sum(temp_ == 0) > sum(temp_ == 1)):
-                        true.append(0)
-                    else:
-                        true.append(1)
-
-                    if self.val_files is not None:
-                        files.append(self.val_files[start_idx])
-
-                    start_idx = start_idx + int(s)
-
-            if self.decision =='confidence':
-                y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
-                for s in self.val_parts:
-                    if not s:  ## for e00032 in validation0 there was no cardiac cycle
-                        continue
-                    # ~ print "part {} start {} stop {}".format(s,start_idx,start_idx+int(s)-1)
-                    temp_ = y_val[start_idx:start_idx + int(s) - 1]
-                    if (sum(temp_ == 0) > sum(temp_ == 1)):
-                        true.append(0)
-                    else:
-                        true.append(1)
-                    temp = np.sum(y_pred[start_idx:start_idx + int(s) - 1],axis=0)
-                    pred.append(int(np.argmax(temp)))
-                    start_idx = start_idx + int(s)
-
-
-            TN, FP, FN, TP = confusion_matrix(true, pred, labels=[0,1]).ravel()
-            # TN = float(TN)
-            # TP = float(TP)
-            # FP = float(FP)
-            # FN = float(FN)
-            sensitivity = TP / (TP + FN + eps)
-            specificity = TN / (TN + FP + eps)
-            precision = TP / (TP + FP + eps)
-            F1 = 2 * (precision * sensitivity) / (precision + sensitivity + eps)
-            Macc = (sensitivity + specificity) / 2
-            logs['val_sensitivity'] = np.array(sensitivity)
-            logs['val_specificity'] = np.array(specificity)
-            logs['val_precision'] = np.array(precision)
-            logs['val_F1'] = np.array(F1)
-            logs['val_macc'] = np.array(Macc)
-            if self.verbose:
-                print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
+            metrics = calc_metrics(true,pred,subset,verbose=1,thresh=.5,outputDict=True)
+            logs.update(metrics)
 
             #### Learning Rate for Adam ###
 
@@ -159,20 +99,6 @@ class log_macc(Callback):
             lr_t = lr * (
                     K.sqrt(1. - K.pow(self.model.optimizer.beta_2, t)) / (1. - K.pow(self.model.optimizer.beta_1, t)))
             logs['lr'] = np.array(float(K.get_value(lr_t)))
-
-            if self.val_files is not None:
-                true = np.asarray(true)
-                pred = np.asarray(pred)
-                files = np.asarray(files)
-                tpn = true == pred
-                for dataset in set(files):
-                    mask = files == dataset
-                    logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
-                    # mask = self.val_files=='x'
-                    # TN, FP, FN, TP = confusion_matrix(np.asarray(true)[mask], np.asarray(pred)[mask], labels=[0, 1]).ravel()
-                    # sensitivity = TP / (TP + FN + eps)
-                    # specificity = TN / (TN + FP + eps)
-                    # logs['ComParE_UAR'] = (sensitivity + specificity) / 2
 
 
 class LRdecayScheduler(Callback):
@@ -411,7 +337,13 @@ def load_model(log_name, verbose=0,
     return model
 
 
-def cc2parts(cc, parts):
+def parts2rec(cc, parts):
+    '''
+    Take labels from cardiac cycle level to recording level
+    :param cc: cardiac cycle level tensor
+    :param parts: vector conatining number of cc for each recording
+    :return: recording level tensor
+    '''
     if not len(cc) == sum(parts):
         raise ValueError('Number of CC elements are not equal to total number of parts')
 
@@ -424,14 +356,14 @@ def cc2parts(cc, parts):
             continue
         temp = cc[start_idx:start_idx + int(s)]
         try:
-            labels.append(sum(temp) / len(temp))
-        except TypeError:  ## TypeError for string input in train_subset
+            labels.append(np.mean(temp, axis=0))
+        except TypeError:  ## TypeError for string input in train_files
             labels.append(cc[start_idx])
         start_idx = start_idx + int(s)
     return np.asarray(labels)
 
 
-def parts2cc(partitioned, parts):
+def rec2parts(partitioned, parts):
     labels = []
     parts = parts[np.nonzero(parts)]
     for each, part in zip(partitioned, parts):
@@ -439,17 +371,11 @@ def parts2cc(partitioned, parts):
     return np.asarray(labels)
 
 
-def predict_parts2rec(model, data, labels, parts, filenames=None, verbose=1, soft=False):
+def predict_parts(model, data, labels, parts, filenames=None, verbose=1, soft=False):
     '''
     Helper function to get predictions for each recording
-    :param model:
-    :param data:
-    :param labels:
-    :param parts:
-    :param filenames:
-    :param verbose:
-    :param soft:
-    :return:
+    :param soft: True for softscore fusion, False for majority voting
+    :return: recording level prediction, ground truth and filenames
     '''
     y_pred = model.predict(data, verbose=verbose)
     true = []
@@ -479,7 +405,7 @@ def predict_parts2rec(model, data, labels, parts, filenames=None, verbose=1, sof
         start_idx = start_idx + int(s)
 
     if soft:
-        pred = cc2parts(y_pred, parts)
+        pred = parts2rec(y_pred, parts)
     return pred, true, files
 
 def eerPred(true,pred,verbose=1):
@@ -496,18 +422,17 @@ def eerPred(true,pred,verbose=1):
     return pred
 
 
-
-def calc_metrics(true,pred,files=None,verbose=1,eps=1E-10,thresh=.5):
+def calc_metrics(true,pred,subset=None,verbose=1,eps=1E-10,thresh=.5,outputDict=False):
     '''
-        Calculates sens, spec, prec, F1, Macc, MCC and auc metrics
-        :param true: ground truth
-        :param pred: predictions
-        :param files: filenames
-        :param verbose: verbosity
-        :param eps: epsilon
-        :param thresh: decision threshold
-        :return: pandas dataframe with
-        '''
+    Calculates sens, spec, prec, F1, Macc, MCC and auc metrics
+    :param true: ground truth
+    :param pred: predictions
+    :param subset: subset names
+    :param verbose: verbosity
+    :param eps: epsilon
+    :param thresh: decision threshold
+    :return: pandas dataframe with
+    '''
     if thresh=='EER':
         TN, FP, FN, TP = confusion_matrix(true, eerPred(true,pred), labels=[0,1]).ravel()
     else:
@@ -529,19 +454,22 @@ def calc_metrics(true,pred,files=None,verbose=1,eps=1E-10,thresh=.5):
     logs['val_mcc'] = np.array(MCC).astype(np.float64)
     if verbose:
         print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
-    if files is not None:
+    if subset is not None:
         true = np.asarray(true)
         pred = np.asarray(pred) > .5
-        files = np.asarray(files)
+        subset = np.asarray(subset)
         tpn = true == pred
         avg = 0
-        for dataset in np.unique(files):
-            mask = files == dataset
-            avg = avg + np.sum(tpn[mask])/np.sum(mask)/len(np.unique(files))
+        for dataset in np.unique(subset):
+            mask = subset == dataset
+            avg = avg + np.sum(tpn[mask])/np.sum(mask)/len(np.unique(subset))
             logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
         logs['acc_avg'] = avg
-    df = pd.Series(logs)
-    return df
+    if outputDict:
+        return logs
+    else:
+        df = pd.Series(logs)
+        return df
 
 
 def log_fusion(logs, data, labels, fusion_weights=None, min_epoch=20, min_metric=.7,
@@ -762,7 +690,7 @@ def plot_log_metrics(log, metrics=['acc_a', 'acc_e'], labels=None, smoothing=0.1
     return ax
 
 
-def idx_parts2cc(partidx, parts):
+def idx_rec2parts(partidx, parts):
     if type(partidx) == int:
         partidx = [partidx]
 
