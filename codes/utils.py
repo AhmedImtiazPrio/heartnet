@@ -215,7 +215,13 @@ def display_activations(activation_maps):
     plt.show()
 
 
-def smooth(scalars, weight):  # Weight between 0 and 1
+def smooth(scalars, weight):
+    '''
+    Smoothing function
+    :param scalars: list of scalars
+    :param weight: between 0 and 1
+    :return: smoothed output
+    '''
     last = scalars[0]  # First value in the plot (first timestep)
     smoothed = list()
     for point in scalars:
