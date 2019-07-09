@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import numpy as np
 from keras import backend as K
-from sklearn.metrics import confusion_matrix,roc_auc_score
+from sklearn.metrics import confusion_matrix,roc_auc_score,roc_curve
 import matplotlib.pyplot as plt
 import seaborn as sns
 from learnableFilterbanks import Conv1D_linearphase,DCT1D,Conv1D_linearphaseType,\
@@ -71,14 +71,13 @@ class log_macc(Callback):
     Keras Callback for custom metric logging
     '''
 
-    def __init__(self, val_parts,decision='majority',verbose=0, val_files=None):
+    def __init__(self, val_parts, val_files=None, decision='majority', verbose=0 ):
         super(log_macc, self).__init__()
         self.val_parts = val_parts
+        if val_files is not None:
+            self.val_files = np.asarray(val_files)
         self.decision = decision
         self.verbose = verbose
-        self.val_files = np.asarray(val_files)
-        # self.x_val = x_val
-        # self.y_val = y_val
 
     def on_epoch_end(self, epoch, logs):
         eps = 1.1e-5
@@ -88,7 +87,6 @@ class log_macc(Callback):
             pred = []
             files= []
             start_idx = 0
-
             if self.decision == 'majority':
                 y_pred = np.argmax(y_pred, axis=-1)
                 y_val = np.transpose(np.argmax(self.validation_data[1], axis=-1))
@@ -441,7 +439,18 @@ def parts2cc(partitioned, parts):
     return np.asarray(labels)
 
 
-def predict_parts(model, data, labels, parts, filenames=None, verbose=1):
+def predict_parts2rec(model, data, labels, parts, filenames=None, verbose=1, soft=False):
+    '''
+    Helper function to get predictions for each recording
+    :param model:
+    :param data:
+    :param labels:
+    :param parts:
+    :param filenames:
+    :param verbose:
+    :param soft:
+    :return:
+    '''
     y_pred = model.predict(data, verbose=verbose)
     true = []
     pred = []
@@ -468,28 +477,48 @@ def predict_parts(model, data, labels, parts, filenames=None, verbose=1):
         if filenames is not None:
             files.append(filenames[start_idx])
         start_idx = start_idx + int(s)
+
+    if soft:
+        pred = cc2parts(y_pred, parts)
     return pred, true, files
 
+def eerPred(true,pred,verbose=1):
+    '''
+    Calculate equal error rate predictions
+    '''
+    if pred.ndim > 1:
+            pred = pred[:,-1]
+    fpr,tpr,thresh = roc_curve(true,pred)
+    diff = abs(tpr-(1-fpr))
+    pred = pred > thresh[np.where(diff == min(diff))[0]]
+    if verbose:
+        print('Threshold selected as %f'%thresh[np.where(diff == min(diff))[0]])
+    return pred
 
-def calc_metrics(true, pred, files=None, verbose=1, eps=1E-10, thresh=.5):
+
+
+def calc_metrics(true,pred,files=None,verbose=1,eps=1E-10,thresh=.5):
     '''
-    Calculates sens, spec, prec, F1, Macc, MCC and auc metrics
-    :param true: ground truth
-    :param pred: predictions
-    :param files: filenames
-    :param verbose: verbosity
-    :param eps: epsilon
-    :param thresh: decision threshold
-    :return: pandas dataframe with
-    '''
-    TN, FP, FN, TP = confusion_matrix(true, np.asarray(pred) > thresh, labels=[0, 1]).ravel()
+        Calculates sens, spec, prec, F1, Macc, MCC and auc metrics
+        :param true: ground truth
+        :param pred: predictions
+        :param files: filenames
+        :param verbose: verbosity
+        :param eps: epsilon
+        :param thresh: decision threshold
+        :return: pandas dataframe with
+        '''
+    if thresh=='EER':
+        TN, FP, FN, TP = confusion_matrix(true, eerPred(true,pred), labels=[0,1]).ravel()
+    else:
+        TN, FP, FN, TP = confusion_matrix(true, np.asarray(pred) > thresh, labels=[0,1]).ravel()
     sensitivity = TP / (TP + FN + eps)
     specificity = TN / (TN + FP + eps)
     precision = TP / (TP + FP + eps)
     F1 = 2 * (precision * sensitivity) / (precision + sensitivity + eps)
     Macc = (sensitivity + specificity) / 2
-    MCC = (TP * TN - FP * FN) / ((TP + FP) * (FN + TN) * (FP + TN) * (TP + FN)) ** .5
-    auc = roc_auc_score(true, pred)
+    MCC = (TP*TN-FP*FN)/((TP+FP)*(FN+TN)*(FP+TN)*(TP+FN))**.5
+    auc = roc_auc_score(true,pred)
     logs = dict()
     logs['val_sensitivity'] = np.array(sensitivity)
     logs['val_specificity'] = np.array(specificity)
@@ -499,17 +528,17 @@ def calc_metrics(true, pred, files=None, verbose=1, eps=1E-10, thresh=.5):
     logs['auc'] = np.array(auc)
     logs['val_mcc'] = np.array(MCC).astype(np.float64)
     if verbose:
-        print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP, Macc, F1))
+        print("TN:{},FP:{},FN:{},TP:{},Macc:{},F1:{}".format(TN, FP, FN, TP,Macc,F1))
     if files is not None:
         true = np.asarray(true)
-        pred = np.asarray(pred)
+        pred = np.asarray(pred) > .5
         files = np.asarray(files)
         tpn = true == pred
         avg = 0
-        for dataset in set(files):
+        for dataset in np.unique(files):
             mask = files == dataset
-            avg = avg + np.sum(tpn[mask]) / np.sum(mask) / len(set(files))
-            logs['acc_' + dataset] = np.sum(tpn[mask]) / np.sum(mask)
+            avg = avg + np.sum(tpn[mask])/np.sum(mask)/len(np.unique(files))
+            logs['acc_'+dataset] = np.sum(tpn[mask])/np.sum(mask)
         logs['acc_avg'] = avg
     df = pd.Series(logs)
     return df
