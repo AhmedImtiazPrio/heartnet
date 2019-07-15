@@ -15,12 +15,12 @@ states=[];
 
 %% Initialize paths
 
-datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
-labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
-savedir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/';
-exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
+datapath=['../data/training/training-' 'a'+folder_idx '/'];
+labelpath=['../data/training/' 'training-' 'a'+folder_idx '/REFERENCE-SQI.csv'];
+savedir='../potes_1DCNN/';
+exclude_text='../data/training/Recordings need to be removed in training-e.txt';
 
-addpath(genpath('/media/taufiq/Data/heart_sound/Heart_Sound/codes/cristhian.potes-204/'));
+addpath(genpath('../cristhian.potes-204/'));
 d=dir([datapath,'*.wav']);
 num_files=size(d,1);
 
@@ -83,7 +83,7 @@ for file_idx=1:num_files
                     Springer_B_matrix, Springer_pi_vector,...
                     Springer_total_obs_distribution, false);
                
-    [idx_states , last_idx]=get_states(assigned_states); %idx_states ncc x 4 matrix 
+    [idx_states , last_idx]=get_states_python(assigned_states); %idx_states ncc x 4 matrix 
                                 % containing starting index of segments 
     
 %% Dividing signals into filter banks
@@ -115,50 +115,8 @@ for file_idx=1:num_files
     
 end
 
-%% Save Data
+% %% Save Data
     sname=[savedir 'training-' 'a'+folder_idx '_noFIR' '.mat'];
     disp(['Saving ' sname])
     save(sname, 'X', 'Y', 'states', 'file_name');
-end
-    
-%% function to extract state index
-function [idx_states,last_idx] = get_states(assigned_states)
-    indx = find(abs(diff(assigned_states))>0); % find the locations with changed states
-
-    if assigned_states(1)>0   % for some recordings, there are state zeros at the beginning of assigned_states
-        switch assigned_states(1)
-            case 4
-                K=1;
-            case 3
-                K=2;
-            case 2
-                K=3;
-            case 1
-                K=4;
-        end
-    else
-        switch assigned_states(indx(1)+1)
-            case 4
-                K=1;
-            case 3
-                K=2;
-            case 2
-                K=3;
-            case 1
-                K=0;
-        end
-        K=K+1;
-    end
-
-    indx2                = indx(K:end); % K controls the starting cycle
-                                        % of the segment. Starting cycle
-                                        % is always kept 1 through the 
-                                        % switch cases (!)
-                                        
-    rem                  = mod(length(indx2),4);
-    last_idx             = length(indx2)-rem+1;
-    indx2(last_idx:end) = []; % clipping the partial segments in the end
-    idx_states           = reshape(indx2,4,length(indx2)/4)'; % idx_states 
-                            % reshaped into a no.segments X 4 sized matrix
-                            % containing state indices
-end
+ end
