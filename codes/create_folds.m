@@ -26,7 +26,7 @@ for idx=1:size(exclude,1)
                                                       % filenames
     norlist(contains(norlist,exclude(idx)))=[];  
 end
-% list_main=[norlist;abnorlist];
+list_main=[norlist;abnorlist];
 %% exclude validation set1 lists
 for idx=1:size(valid0,1)
     norlist(contains(norlist,valid0(idx)))=[]; 
@@ -46,7 +46,7 @@ for it=1:fold
     norlist(I)=[];
     fID=fopen([fold_path 'validation' '1'+it-1 '.txt'],'w'); % save validation filenames
                                                             % in text files
-    fprintf(fID,'%s\n',valid{it});
+    fprintf(fID,'%s\n',valid{it}{:});
     fclose(fID);
 end
 
@@ -62,7 +62,7 @@ for idx=1:size(valid0,1)  % Create corresponding training set for valid0
 end
 
 fID=fopen([fold_path 'train0' '.txt'],'w');     % save physionet validation filenames
-fprintf(fID,'%s\n',train0);
+fprintf(fID,'%s\n',train0{:});
 fclose(fID);
 
 train=cell(3,1);
@@ -72,6 +72,6 @@ for it=1:fold
         train{it}(contains(train{it},valid{it}(idx)))=[];
     end
     fID=fopen([fold_path 'train' '1'+it-1 '.txt'],'w'); 
-    fprintf(fID,'%s\n',train{it,1});
+    fprintf(fID,'%s\n',train{it}{:});
     fclose(fID);
 end
