@@ -3,7 +3,7 @@ clc
 rng('default')
 fold = 3; % number of normal/abnormals in new folds
 datapath='../potes_1DCNN/';
-fold_path='../potes_1DCNN/balancedCV/';
+fold_path='../potes_1DCNN/balancedCV/textfile/';
 fold_save='../potes_1DCNN/balancedCV/folds/';
 
 %% Accumulating all the data together / Loading data
@@ -12,7 +12,7 @@ if ~(exist([datapath 'data_all_gt.mat'], 'file') == 2)
                                % checks if data has been accumulated before
     data=[];
     labels=[];
-    cc_idx=[];      %cardiac cycle indices
+    cycle_idx=[];      %cardiac cycle indices
     filenames=[];   %filenames of each segment
     val_parts=[];   %number of cc per recording
     train_parts=[];  %number of cc per recording
@@ -22,7 +22,7 @@ if ~(exist([datapath 'data_all_gt.mat'], 'file') == 2)
     load(loadfile);
     data=[data;X];
     labels=[labels;Y];
-    cc_idx=[cc_idx;states];
+    cycle_idx=[cycle_idx;states];
     filenames=[filenames;file_name];
     end
     save([datapath 'data_all_gt.mat'],'data','labels','cc_idx','filenames')
@@ -53,8 +53,8 @@ for i=0:fold,
         filestrain = [filestrain; filenames(filenames==train(idx))];
         filestrainnew=convertStringsToChars(filestrain(:));  
         
-        cc_train  = [cc_train;cc_idx(filenames==train(idx))];
-          train_parts = [train_parts;sum(filenames==train(idx))];
+        cc_train  = [cc_train;cycle_idx(filenames==train(idx))];
+        train_parts = [train_parts;sum(filenames==train(idx))];
     end
     %% Partition validation data
     loadfile=[fold_path 'validation' num2str(i) '.txt'];
@@ -66,7 +66,7 @@ for i=0:fold,
         filesval = [filesval; filenames(filenames==val(idx))];
         filesvalnew=convertStringsToChars(filesval(:));
         
-        cc_val  = [cc_val;cc_idx(filenames==val(idx))];
+        cc_val  = [cc_val;cycle_idx(filenames==val(idx))];
         val_parts = [val_parts;sum(filenames==val(idx))];
     end  
     
