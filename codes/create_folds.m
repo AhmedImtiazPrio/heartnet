@@ -2,11 +2,11 @@ clear
 clc
 rng('default')
 fold = 3; % number of normal/abnormals in new folds
-datapath='/media/taufiq/Data1/heart_sound/feature/potes_1DCNN/';
-valid_path='/media/taufiq/Data1/Heart_Sound/Physionet/validation/RECORDS';
-abnorpath='/media/taufiq/Data1/Heart_Sound/Physionet/training/';
-exclude_text='/media/taufiq/Data1/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
-fold_path='/media/taufiq/Data1/heart_sound/feature/potes_1DCNN/balancedCV/'
+datapath='../potes_1DCNN/';
+valid_path='../data/validation/RECORDS';
+abnorpath='../data/training/';
+exclude_text='../data/training/Recordings need to be removed in training-e.txt';
+fold_path='../potes_1DCNN/balancedCV/textfile/'
 
 %% Import physionet validation lsit
 valid0 = importlist(valid_path);
@@ -36,7 +36,7 @@ end
 num_samples=floor(length(abnorlist)/fold); %number of folds
 abnorlist=datasample(abnorlist,length(abnorlist),'Replace',false); %randomize abnorlist
 norlist=datasample(norlist,length(norlist),'Replace',false);    %randomize norlist
-valid=cell(fold,1);
+valid=[];
 for it=1:fold
     [Y,I]=datasample(abnorlist,num_samples,'Replace',false); % Take random samples
     valid{it}=Y;                                             % Store names
@@ -66,12 +66,12 @@ fprintf(fID,'%s\n',train0);
 fclose(fID);
 
 train=cell(3,1);
-for it=1:fold,
+for it=1:fold
     train{it}=list_main;
     for  idx=1:size(valid{it},1)
         train{it}(contains(train{it},valid{it}(idx)))=[];
     end
     fID=fopen([fold_path 'train' '1'+it-1 '.txt'],'w'); 
-    fprintf(fID,'%s\n',train{it});
+    fprintf(fID,'%s\n',train{it,1});
     fclose(fID);
 end
