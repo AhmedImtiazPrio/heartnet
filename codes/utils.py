@@ -57,7 +57,7 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
              ]
     new_entry = dict(zip(keys,values))
     index, _ = df.shape
-    new_entry = pd.DataFrame(new_entry, index=[index])
+    new_entry = pd.DataFrame.from_dict(new_entry)
     df = pd.concat([df, new_entry], axis=0)
     df.to_csv(results_path, index=False)
 
