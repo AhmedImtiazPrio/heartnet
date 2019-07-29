@@ -51,13 +51,13 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
     F1 = dfNew.loc[max_idx]['val_F1'] * 100
 
     values = [
-        log_name,random_seed,initializer.__name__,activation_function,kernel_size,subsam,num_filt,maxnorm,dropout_rate,num_dense,dropout_rate_dense,
+        log_name,random_seed,initializer.__name__,activation_function,kernel_size,subsam,str(num_filt),maxnorm,dropout_rate,num_dense,dropout_rate_dense,
         l2_reg,l2_reg_dense,batch_size,optimizer.__name__,lr,bn_momentum,lr_decay,epoch,trainAcc,valAcc,sens,spec,
         macc,prec,F1,comment
              ]
     new_entry = dict(zip(keys,values))
     index, _ = df.shape
-    new_entry = pd.DataFrame.from_dict(new_entry)
+    new_entry = pd.DataFrame(new_entry,index=[index])
     df = pd.concat([df, new_entry], axis=0)
     df.to_csv(results_path, index=False)
 
@@ -86,7 +86,6 @@ class log_metrics(Callback):
                                                 self.validation_data[1],self.val_parts,
                                                 self.val_subset,self.verbose,self.soft)
 
-            print(Counter(subset))
             metrics = calc_metrics(true,pred,subset,verbose=1,thresh=.5,outputDict=True)
             logs.update(metrics)
 
