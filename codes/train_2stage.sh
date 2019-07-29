@@ -27,17 +27,15 @@ retrieve_best () {
 
 for type in 'zero' 1 2 3 4 'gamma'
 do
-    for fold in "fold0" #"fold1" "fold2" "fold3"
+    for fold in "fold0" "fold1" "fold2" "fold3"
     do
 
-#type=3
-#fold="fold1"
         batch_size=64
         # Training with smaller batch_size
         if [ ! $type == "zero" ]; then
 
             echo "FOLD: $fold STAGE: 1 BS: $batch_size"
-            python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
+            python train.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
              300 --type $type --comment "FIR $type DoubleBalanced Train-a"
 
         fi
@@ -46,7 +44,7 @@ do
 #        batch_size=1024
         echo "FOLD: $fold STAGE: 2 BS: $batch_size"
         retrieve_best $result_csv
-        python heartnet_v2.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
+        python train.py "$fold"_noFIR --batch_size "$batch_size" --epochs\
          450 --loadmodel "$model_dir/$run_name/weights.$epoch-$val_acc.hdf5"\
          --type $type --comment "FIR $type stage 2 " --lr 0.000009843784
     done

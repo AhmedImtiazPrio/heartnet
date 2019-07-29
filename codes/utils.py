@@ -55,7 +55,6 @@ def sessionLog(results_path,log_dir,log_name,activation_function,kernel_size,max
         l2_reg,l2_reg_dense,batch_size,optimizer.__name__,lr,bn_momentum,lr_decay,epoch,trainAcc,valAcc,sens,spec,
         macc,prec,F1,comment
              ]
-
     new_entry = dict(zip(keys,values))
     index, _ = df.shape
     new_entry = pd.DataFrame(new_entry, index=[index])
