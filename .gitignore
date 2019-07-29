@@ -27,6 +27,7 @@ baselines/models
 data/*
 !data/filterbankInit
 !data/filterbankInit/*
+!data/sample.mat
 models/*
 logs/*
 **/*.pyc
