@@ -8,6 +8,7 @@ from __future__ import print_function, division, absolute_import
 # import dill
 from AudioDataGenerator import BalancedAudioDataGenerator
 import os
+from collections import Counter
 import numpy as np
 np.random.seed(1)
 from tensorflow import set_random_seed
@@ -40,7 +41,7 @@ if __name__ == '__main__':
                         help="Number of epochs for training")
     parser.add_argument("--batch_size", type=int,
                         help="number of minibatches to take during each backwardpass preferably multiple of 2")
-    parser.add_argument("--verbose", type=int, choices=[1, 2],
+    parser.add_argument("--verbose", type=int, choices=[0, 1, 2],
                         help="Verbosity mode. 1 = progress bar, 2 = one line per epoch (default 2)")
     parser.add_argument("--comment",
                         help = "Add comments to the log files")
@@ -83,7 +84,7 @@ if __name__ == '__main__':
         batch_size = 64
         print("Training with %d minibatches" % (batch_size))
 
-    if args.verbose:
+    if args.verbose is not None:
         verbose = args.verbose
         print("Verbosity level %d" % (verbose))
     else:
