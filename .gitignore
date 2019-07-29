@@ -25,6 +25,8 @@ baselines/**/*.mat
 baselines/models
 **/.idea
 data/*
+!data/filterbankInit
+!data/filterbankInit/*
 models/*
 logs/*
 **/*.pyc
