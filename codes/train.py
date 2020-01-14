@@ -106,7 +106,7 @@ if __name__ == '__main__':
     #########################################################
 
     model_dir = os.path.join('..','models')
-    data_dir = os.path.join('..','data')
+    data_dir = os.path.join('..','data','feature','folds')
     log_name = HS + ' ' + str(datetime.now()).replace(':','-')
     log_dir = os.path.join('..','logs')
     if not os.path.exists(os.path.join(model_dir,log_name)):
