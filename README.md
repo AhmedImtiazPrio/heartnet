@@ -22,7 +22,7 @@ of heart diseases. While machine learning based systems can aid in automatically
 
 ## Experiment Setup
 #### Data Preparation:
- First download the *data* folder from https://drive.google.com/open?id=1MPBhemO6XeDfjIm5-SOQUGvmzIl0Hx03<br />
+ First download the *data* folder from this [GoogleDrive Link](https://drive.google.com/open?id=1MPBhemO6XeDfjIm5-SOQUGvmzIl0Hx03)<br />
 Place Physionet dataset(not included in the provided *data* folder) in the corresponding folders inside the *data/physionet/training* folder.
 The csv files containing the labels should be put inside the corresponding folders inside the *labels* folder and all of them should have the same name, currently 'REFERENCE_withSQI.csv'. 
 If you change the name you'll have to rename the variable *labelpath* in  *extract_segments.m* and *extract_segments_noFIR.m*<br /> 
