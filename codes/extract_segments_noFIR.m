@@ -15,12 +15,12 @@ states=[];
 
 %% Initialize paths
 
-datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
-labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
-savedir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/';
-exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
+datapath=['../data/Physionet/wav_files/training-' 'a'+folder_idx '/'];
+labelpath=['../data/Physionet/labels/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
+savedir='../data/feature/';
+exclude_text='../data/Physionet/Recordings need to be removed in training-e.txt';
 
-addpath(genpath('/media/taufiq/Data/heart_sound/Heart_Sound/codes/cristhian.potes-204/'));
+addpath(genpath('matlabUtils/'));
 d=dir([datapath,'*.wav']);
 num_files=size(d,1);
 
@@ -44,7 +44,7 @@ springer_options   = default_Springer_HSMM_options;
 springer_options.use_mex = 1;
 
 %% Importing labels
-labels=importlabel(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
+labels=readtable(labelpath); % first column normal(-1)/abnormal(1) second column good(1)/bad(0)
 label_pointer=1; % label saving index
 %% Import list of files to be excluded
 
