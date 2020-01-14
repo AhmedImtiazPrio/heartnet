@@ -2,7 +2,7 @@
 clearvars -except folder_idx
 clc
 %% Initialize Parameters
-folder_idx=0; %index for training folder [0 to 5]
+for folder_idx=0:5 %index for training folder [0 to 5]
 max_audio_length=60;    %seconds
 N=60;                   %order of filters
 sr=1000;                %resampling rate
@@ -14,12 +14,12 @@ states=[];
 
 %% Initialize paths
 
-datapath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/training/training-' 'a'+folder_idx '/'];
-labelpath=['/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/20160725_Reference with signal quality results for training set/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
-savedir='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/';
-exclude_text='/media/taufiq/Data/heart_sound/Heart_Sound/Physionet/2016-07-25_Updated files for Challenge 2016/Recordings need to be removed in training-e.txt';
+datapath=['../data/Physionet/wav_files/training-' 'a'+folder_idx '/'];
+labelpath=['../data/Physionet/labels/' 'training-' 'a'+folder_idx '/REFERENCE_withSQI.csv'];
+savedir='../data/feature/';
+exclude_text='../data/Physionet/Recordings need to be removed in training-e.txt';
 
-addpath(genpath('/media/taufiq/Data/heart_sound/Heart_Sound/codes/cristhian.potes-204/'));
+addpath(genpath('matlabUtils/'));
 d=dir([datapath,'*.wav']);
 num_files=size(d,1);
 
@@ -121,9 +121,9 @@ end
 
 %% Save Data
     sname=[savedir 'training-' 'a'+folder_idx '.mat'];
-    %save(sname, 'X', 'Y', 'states', 'file_name');
+    save(sname, 'X', 'Y', 'states', 'file_name');
 
-    
+end
 %% function to extract state index
 function [idx_states,last_idx] = get_states(assigned_states)
     indx = find(abs(diff(assigned_states))>0); % find the locations with changed states
