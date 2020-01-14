@@ -20,7 +20,7 @@ of heart diseases. While machine learning based systems can aid in automatically
 * Sklearn 0.19.1
 * Tensorboard
 
-## Experiment Setup
+## How To Run
 #### Data Preparation:
  First download the *data* folder from this [GoogleDrive Link](https://drive.google.com/open?id=1MPBhemO6XeDfjIm5-SOQUGvmzIl0Hx03)<br />
 Place Physionet dataset(not included in the provided *data* folder) in the corresponding folders inside the *data/physionet/training* folder.
