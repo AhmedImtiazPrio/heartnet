@@ -19,3 +19,20 @@ of heart diseases. While machine learning based systems can aid in automatically
 * Tensorflow 1.12.0
 * Sklearn 0.19.1
 * Tensorboard
+
+## Experiment Setup
+**Data Preparation:** First download the *data* folder from https://drive.google.com/open?id=1MPBhemO6XeDfjIm5-SOQUGvmzIl0Hx03<br />
+Place Physionet dataset(not included in the provide *data* folder) in the corresponding folders inside the *data/physionet/training* folder.
+The csv files containing the labels should be put inside the labels folder all of the should have the same name, currently 'REFERENCE_withSQI.csv'. 
+If you cange the name you'll have to rename the variable *labelpath* in  *extract_segments.m* and *extract_segments_noFIR.m* 
+Run it first then run *data_fold_noFIR.m* to create data fold in *mat* format which will be loaded by the model for training and testing.
+*fold0_noFIR.mat* in given in *data/feature/folds* 
+
+**Training:** For Training run the *trainer.py* and provide a dataset name (or fold name) i.e. *fold0_noFIR*. The command should be like **python trainer.py fold0_noFIR**
+
+**Re-Generate Results:** Run the *heartnet testbench.ipynb* on Jupyter Notebook from the beginning until the block named *Model.Predict* . 
+Select a *log_name* by uncommenting one from the **LOG name** block. 
+The trained models for *"heartnet type2 tconv"* and *"potes algorithm"* is given in the *log* and *model* directory. 
+These models are trained on *fold0_noFIR* which is included in the data folder.  
+Too do the McNemer test read the instruction given in the **LOG name** block of the notebook.
+To plot roc curve run the **ROC curve** block.
