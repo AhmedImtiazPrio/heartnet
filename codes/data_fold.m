@@ -2,13 +2,13 @@ clear
 clc
 rng('default')
 fold = 3; % number of normal/abnormals in new folds
-datapath='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/';
-fold_path='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/';
-fold_save='/media/taufiq/Data/heart_sound/feature/potes_1DCNN/balancedCV/folds/';
+datapath='../data/feature/';
+fold_text_path='../data/feature/folds/text/';
+fold_save='../data/feature/folds/';
 
 %% Accumulating all the data together / Loading data
 
-if ~(exist([datapath 'data_all_noFIR.mat'], 'file') == 2)
+if ~(exist([datapath 'data_all.mat'], 'file') == 2)
                                % checks if data has been accumulated before
     data=[];
     labels=[];
@@ -25,13 +25,13 @@ if ~(exist([datapath 'data_all_noFIR.mat'], 'file') == 2)
     cc_idx=[cc_idx;states];
     filenames=[filenames;file_name];
     end
-    save([datapath 'data_all_noFIR.mat'],'data','labels','cc_idx','filenames')%%%%%%%%%%%%%%
+    save([datapath 'data_all.mat'],'data','labels','cc_idx','filenames')%%%%%%%%%%%%%%
 else
-    load([datapath 'data_all_noFIR.mat'])%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    load([datapath 'data_all.mat'])%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
 
 %% Start creating folds
-for i=0:fold,
+for i=0:fold
     trainX=[];
     trainY=[];
     valX=[];
@@ -44,7 +44,8 @@ for i=0:fold,
     val_parts=[];
     
     %% Partition training data
-    loadfile=[fold_path 'train' num2str(i) '.txt'];
+    cwd = pwd;
+    loadfile=[cwd(1:end-5) fold_text_path(3:end) 'train' num2str(i) '.txt'];% creating full path to avoid file exception
     train=sort(strcat(importlist(loadfile),'.wav'));
     for idx=1:length(train)
         trainX = [trainX;data(filenames==train(idx),:,:)];
@@ -54,7 +55,8 @@ for i=0:fold,
           train_parts = [train_parts;sum(filenames==train(idx))];
     end
     %% Partition validation data
-    loadfile=[fold_path 'validation' num2str(i) '.txt'];
+    cwd = pwd;
+    loadfile=[cwd(1:end-5) fold_text_path(3:end) 'validation' num2str(i) '.txt'];
     val=sort(strcat(importlist(loadfile),'.wav'));
     for idx=1:length(val)
         valX = [valX;data(filenames==val(idx),:,:)];
@@ -64,7 +66,7 @@ for i=0:fold,
         val_parts = [val_parts;sum(filenames==val(idx))];
     end  
     
-    save_name = ['fold' num2str(i) '_noFIR' '.mat']; %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    save_name = ['fold' num2str(i) '.mat']; %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     disp(['saving' ' ' save_name])
 %     clearvars -except cc_train train_parts cc_val val_parts
     save([fold_save save_name], 'trainX', 'trainY', 'valX', 'valY', 'cc_train',...
