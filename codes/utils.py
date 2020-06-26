@@ -481,7 +481,7 @@ def predict_parts(model, data, labels, parts, filenames=None, verbose=1, soft=Fa
 
     if soft:
         pred = parts2rec(y_pred, parts)
-    return pred, true, files
+    return true, pred, files
 
 def eerPred(true,pred,verbose=1):
     '''
