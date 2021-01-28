@@ -1,5 +1,5 @@
 # Towards Stethoscope Invariant Heart Sound Abnormality Detection using Learnable Filterbanks
-### Submitted to *IEEE TBME*
+### *Published in IEEE JBHI*, [arXiv link](https://arxiv.org/abs/1910.00498)
 
 **Objective:** Cardiac auscultation is the most practiced non-invasive and cost-effective procedure for the early diagnosis
 of heart diseases. While machine learning based systems can aid in automatically screening patients, the robustness of these systems is affected by the phonocardiogram (PCG) acquisition device, i.e., the stethoscope. This paper studies the adverse effect of stethoscope/sensor variability on PCG signal classification and develops strategies to address this problem.
